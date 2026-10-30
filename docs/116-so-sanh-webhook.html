@@ -1,0 +1,595 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>JCN-116 - So sánh chia lead với bản webhook 24-10</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>:root{--bg:#fff;--ink:#1f2937;--line:#d1d5db;--soft:#f3f4f6}@media(prefers-color-scheme:dark){:root{--bg:#111827;--ink:#e5e7eb;--line:#374151;--soft:#1f2937}}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif;max-width:1100px;margin:0 auto;padding:16px}
+  table{border-collapse:collapse;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:6px 8px;vertical-align:top}th{background:var(--soft)}
+  code,pre{background:var(--soft);border-radius:4px;padding:1px 4px}pre{padding:8px;overflow-x:auto}blockquote{border-left:4px solid var(--line);margin:8px 0;padding:2px 12px;color:inherit;opacity:.9}a{color:#2563eb}</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">JCN-116 - So sánh chia lead với bản webhook 24-10</h1>
+</header>
+<h1
+id="so-sánh-phần-chia-lead-bản-j-connect-jcn-1162--1164-và-bản-wireframe-webhook-2410">So
+sánh phần chia lead: bản J-Connect (JCN-116.2 / 116.4) và bản wireframe
+webhook 24/10</h1>
+<ul>
+<li><strong>Ngày:</strong> 30/10/2026 · <strong>Người soạn:</strong>
+BA</li>
+<li><strong>Bản A (bản của BA):</strong> JCN-116.2 Phần A–B, JCN-116.4
+Phần A–B, JCN-116.5 (ca làm việc), đã cập nhật đến 30/10/2026 theo các
+quyết định gần nhất của bạn (bỏ Tôi nhận, giữ chế độ Thủ công,
+<code>w_loai</code> CSKH/WFCĐ/Support = 3, <code>t_xl</code> Sale 10 /
+CSKH 30, bỏ <code>w_tn</code>, bỏ <code>w_bp</code>, tự nhả 5′ cho cả
+bốn bộ phận, không cảnh báo CSKH).</li>
+<li><strong>Bản B (bản webhook):</strong>
+<code>raw/pancake-webhook-screens.html</code> — Màn 8 "Chia lead" + khối
+5 "Tham số chia lead" ở Màn 1 (khách chốt 24/10/2026).</li>
+<li><strong>Mục tiêu:</strong> chọn cách <strong>tối ưu, logic, dễ
+dùng</strong> cho từng điểm; chỗ nào đổi spec thì ghi rõ để bạn duyệt
+trước khi sửa.</li>
+</ul>
+<blockquote>
+<p>Bản B ghi giá trị theo khách chốt <strong>24/10</strong> (SLA
+CSKH/WFCĐ 30′, trọng số WFCĐ 1). Bạn đã đổi sau đó; trong bảng dưới,
+<strong>số liệu theo bạn</strong>, bản B chỉ dùng để so <strong>cách
+làm</strong>.</p>
+</blockquote>
+<hr />
+<h2 id="1-kết-luận-ngắn">1. Kết luận ngắn</h2>
+<ul>
+<li><strong>Giữ bản A</strong> ở: công thức chia (tính tải <em>sau khi
+nhận</em>, chia theo lô), chế độ Tự động/Thủ công theo bộ phận có lý do
+và lịch sử, tràn việc, trạng thái đi làm theo ca, và dải thẻ "Lead của
+tôi".</li>
+<li><strong>Lấy từ bản B</strong> 6 điều: (1) ngưỡng đầy theo
+<strong>tải có trọng số</strong> thay vì đếm lead; (2) lead nhả
+<strong>chỉ tự chia lại một lần</strong>; (3) nút <strong>"Đã liên
+hệ"</strong>; (4) nút <strong>"Không phải lead"</strong>; (5) bảng
+<strong>theo nhân viên</strong> cho Trưởng nhóm (chưa bắt đầu, chờ lâu
+nhất, nút Chia lại); (6) yêu cầu kỹ thuật <strong>một bộ chia tuần tự,
+một lead mở trên một hội thoại</strong>.</li>
+<li><strong>Không lấy</strong> từ bản B: "nhóm TB" trong thẻ Lead của
+tôi (tự mâu thuẫn), điểm danh bắt buộc, sắp hàng chờ theo tiềm năng làm
+mặc định.</li>
+<li><strong>Cần bạn chốt</strong> 3 điểm (mục 4).</li>
+</ul>
+<hr />
+<h2 id="2-bảng-so-sánh-và-chọn-hướng">2. Bảng so sánh và chọn hướng</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Chủ đề</th>
+<th>Bản A (BA)</th>
+<th>Bản B (webhook 24/10)</th>
+<th>Hướng chọn</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Phạm vi lead vào chia</strong></td>
+<td>Chỉ page Webhook; Polling chỉ lưu (AC 20)</td>
+<td>Giống (A1)</td>
+<td><strong>Giữ</strong></td>
+<td>Hai bên trùng nhau.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Chế độ chia</strong></td>
+<td>Tự động / Thủ công <strong>theo bộ phận</strong>, đổi phải ghi lý
+do, có lịch sử, có nút "Chia tự động các lead đang chờ"</td>
+<td>"Nhóm Thủ công → Hàng đợi" theo luật fanpage; không có lịch sử đổi
+chế độ</td>
+<td><strong>Giữ A</strong></td>
+<td>A rõ ai đổi, vì sao, khi nào; công tắc theo bộ phận dễ hiểu hơn theo
+fanpage.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Công thức chọn người</strong></td>
+<td>Chỉ số tải <strong>sau khi nhận</strong> = (tải hiện tại + tải lead
+này) ÷ <code>w_nv</code>; hòa → người nhận lâu nhất; tính lại sau mỗi
+lead</td>
+<td>Tải <strong>hiện tại</strong> ÷ <code>w_nv</code>, chọn thấp
+nhất</td>
+<td><strong>Giữ A</strong></td>
+<td>Khi nhiều lead đến cùng lúc, tính tải <em>trước khi nhận</em> làm
+nhiều lead dồn cho cùng một người; tính <em>sau khi nhận</em> chia đều
+hơn (ví dụ 7 lead: 3/3/1 thay vì 4/2/1).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Ngưỡng đầy</strong></td>
+<td><code>max_open_leads</code> = số lead tối đa (Sale 10)</td>
+<td><strong>Tải tối đa Σ trọng số</strong> (10): mỗi lead tính theo
+trọng số loại khách, chia cho <code>w_nv</code></td>
+<td><strong>Lấy B</strong> (xem mục 3.1)</td>
+<td>Cùng một đơn vị với công thức chia; 10 lead CSKH (mỗi lead ×3) không
+thể bằng 10 lead Sale. Hiển thị "tải 5/10".</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Lead bị nhả / quá giờ</strong></td>
+<td>Chế độ Tự động: <strong>chia lại ngay</strong>, loại người nhả 1
+lần; không giới hạn số lần</td>
+<td><strong>Không tự chia lại</strong>: về hàng chờ thủ công + báo
+Trưởng nhóm (A6)</td>
+<td><strong>Kết hợp</strong> (xem mục 3.2)</td>
+<td>Chia lại ngay giúp khách không phải chờ; nhưng không giới hạn thì
+lead "nảy" giữa nhiều người vắng.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Nút "Tôi nhận"</strong></td>
+<td>Đã bỏ (29/10)</td>
+<td>Không có (A5)</td>
+<td><strong>Giữ</strong></td>
+<td>Hai bên đã thống nhất.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Sắp xếp hàng chờ</strong></td>
+<td>Chờ lâu nhất trước</td>
+<td>Tiềm năng cao trước (cấp 2 &gt; cấp 1 &gt; nhấp quảng cáo), rồi cũ
+trước</td>
+<td><strong>Giữ A mặc định</strong>, thêm <strong>bộ lọc / sắp theo tiềm
+năng</strong> cho Trưởng nhóm</td>
+<td>Bạn đã bỏ <code>w_tn</code> khỏi công thức; ưu tiên theo tiềm năng
+làm mặc định sẽ làm khách "nhấp quảng cáo" chờ rất lâu. Trưởng nhóm tự
+chọn sắp xếp khi cần.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Thao tác của NV trên lead</strong></td>
+<td>Mở chat · Tôi nhả · Đổi tag · Không mua (kết thúc tư vấn, có lý
+do)</td>
+<td>+ <strong>Đã liên hệ</strong> · <strong>Không phải lead</strong> ·
+<strong>Đề xuất đóng</strong> (chờ Trưởng nhóm xác nhận)</td>
+<td><strong>Lấy "Đã liên hệ" và "Không phải lead"</strong> (mục 3.3,
+3.4); <strong>Đề xuất đóng</strong> → thay bằng "đóng trước, duyệt sau"
+(mục 3.5)</td>
+<td>Hai nút đầu giải quyết lỗi thực tế (liên hệ ngoài hệ thống, tin nhắn
+rác); xác nhận trước khi đóng làm chậm NV.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Dải thẻ "Lead của tôi"</strong></td>
+<td>6 thẻ (nhận hôm nay, đang giữ, chưa trả lời, đã tiếp nhận, đã lên
+đơn, đã nhả); chỉ số liệu của mình</td>
+<td>4 thẻ; có "tải 5 / nhóm TB 5.7" nhưng cùng màn lại ghi "không xem
+tải người khác"</td>
+<td><strong>Giữ A</strong></td>
+<td>Bản B tự mâu thuẫn; so với nhóm tạo áp lực và lộ số của người khác.
+Trưởng nhóm xem ở Dashboard.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Bảng theo nhân viên (Trưởng nhóm)</strong></td>
+<td>Màn 10 Dashboard + Màn 1; có số đang giữ, chưa trả lời, bị nhả</td>
+<td>Bảng D4: trọng số NV, trạng thái, <strong>tải Σ trọng số</strong>,
+nhận hôm nay, <strong>chưa bắt đầu</strong>, <strong>chờ lâu
+nhất</strong>, nút <strong>Chia lại</strong> từng dòng; banner "tất cả
+NV đầy tải"</td>
+<td><strong>Lấy B</strong> (bổ sung cột và nút)</td>
+<td>Trưởng nhóm thấy ngay ai quá tải, ai có khách chờ lâu, chia lại tại
+chỗ.</td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>Trạng thái làm việc</strong></td>
+<td>Theo ca (JCN-116.5) + online tự động + Tạm nghỉ; NV chọn Sẵn sàng /
+Đang tiếp khách / Ăn trưa / Đi vệ sinh / Hết ca</td>
+<td>Cùng danh sách trạng thái; <strong>bắt buộc điểm danh</strong> mới
+được chia; <strong>ngừng chia 15′ trước hết ca</strong></td>
+<td><strong>Giữ A</strong>, <strong>thêm tham số</strong> "ngừng chia
+trước hết ca X phút"</td>
+<td>Điểm danh thêm một bước thủ công trong khi ca và online đã cho biết
+ai đang làm. Ngừng chia trước hết ca thì nên có.</td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>Tự nhả quá giờ</strong></td>
+<td>5′ cho cả 4 bộ phận, bật; không cảnh báo CSKH</td>
+<td>Sale 5′; CSKH / WFCĐ 30′ (tạm)</td>
+<td><strong>Giữ A</strong> (theo bạn)</td>
+<td>Theo quyết định 30/10.</td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>Trọng số loại khách / thời gian xử lý</strong></td>
+<td><code>w_loai</code> Sale 1, CSKH/WFCĐ/Support 3; <code>t_xl</code>
+Sale 10, CSKH 30</td>
+<td><code>w_loai</code> Sale 1 / CSKH 3 / WFCĐ 1; không có
+<code>t_xl</code></td>
+<td><strong>Giữ A</strong></td>
+<td>Theo bạn.</td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>Cảnh báo</strong></td>
+<td>N11 (quá tải, tồn đọng) trong ứng dụng</td>
+<td>Phân <strong>P1/P2/P3</strong>; gửi email, Slack / Chatwork / Teams;
+nhắc lại 30′; ngoài giờ chỉ gửi P1</td>
+<td><strong>Lấy phân cấp P1/P2/P3, để kênh ngoài cho giai đoạn
+sau</strong></td>
+<td>P1/P2 là lỗi tích hợp (thuộc JCN-110/116.1, người nhận là IT); P3
+(hàng chờ &gt;5, khách chờ &gt;10′, lead bị nhả, NV đầy tải) là cảnh báo
+nghiệp vụ gửi Trưởng nhóm. Giai đoạn 1 chỉ in-app.</td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>Kiến trúc chia</strong></td>
+<td>Chia lô theo thứ tự đến</td>
+<td><strong>1 bộ chia tuần tự</strong> (<code>lead-dispatch</code>);
+<strong>ràng buộc duy nhất 1 lead mở / hội thoại</strong></td>
+<td><strong>Lấy B</strong> (yêu cầu phi chức năng)</td>
+<td>Chặn chia trùng khi nhiều tin đến cùng lúc.</td>
+</tr>
+<tr>
+<td>16</td>
+<td><strong>Hoàn thành / đóng lead</strong></td>
+<td><code>Không mua</code> + lý do → <code>LEAD_DONG</code> (TR16)</td>
+<td>"Đề xuất đóng" → chờ Trưởng nhóm</td>
+<td><strong>Kết hợp</strong> (mục 3.5)</td>
+<td>Đóng nhanh nhưng có kiểm soát.</td>
+</tr>
+<tr>
+<td>17</td>
+<td><strong>Quản lý tag</strong></td>
+<td>JCN-116.2 Phần C (mô hình, TR1–TR19)</td>
+<td>Màn 7 "Quy tắc tag" (catalog, nhóm, hướng đồng bộ, gợi ý, hoàn
+tác)</td>
+<td><strong>Gộp</strong> → <strong>JCN-116.6</strong></td>
+<td>Xem tài liệu mới.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-chi-tiết-các-điểm-đổi">3. Chi tiết các điểm đổi</h2>
+<h3 id="31-ngưỡng-đầy-theo-tải-có-trọng-số-điểm-4">3.1. Ngưỡng đầy theo
+tải có trọng số (điểm 4)</h3>
+<ul>
+<li><strong>Hiện tại (A):</strong> NV đủ ứng viên nếu số lead đang giữ
+&lt; <code>max_open_leads</code> (Sale = 10).</li>
+<li><strong>Đề xuất:</strong> đủ ứng viên nếu <strong>Tải hiện
+tại(NV)</strong> &lt; <strong>Tải tối đa</strong>, với <strong>Tải hiện
+tại(NV)</strong> = Σ(<code>w_loai</code> × <code>t_xl</code>) của lead
+đang giữ ÷ <code>w_nv</code> — cùng đơn vị với công thức chia (Rule
+A3).</li>
+<li><strong>Ví dụ</strong> (<code>w_loai</code> × <code>t_xl</code>:
+Sale 1 × 10 = 10; CSKH 3 × 30 = 90): vì hai đơn vị này lệch lớn, nên
+<strong>Tải tối đa</strong> nên đặt theo <strong>đơn vị đã chuẩn
+hóa</strong>: chia mọi tải cho tải của một lead Sale (10) để Sale = 1,
+CSKH = 9. <em>Cần bạn xem lại</em>: với <code>t_xl</code> CSKH = 30 và
+<code>w_loai</code> = 3 thì một lead CSKH nặng gấp 9 lần lead Sale — có
+đúng ý bạn không, hay <code>w_loai</code> đã hàm ý toàn bộ độ nặng (khi
+đó bỏ <code>t_xl</code> khỏi Tải)?</li>
+<li><strong>Hiển thị:</strong> "Tải 5/10" ở thanh tải; hover cho thấy "3
+Sale + 1 CSKH".</li>
+<li><strong>Việc phụ:</strong> giữ số lead đang giữ làm thông tin phụ
+("4 lead") để NV dễ hiểu.</li>
+<li>→ <em>Cần chốt #S1.</em></li>
+</ul>
+<h3 id="32-lead-bị-nhả-tự-chia-lại-một-lần-điểm-5">3.2. Lead bị nhả: tự
+chia lại một lần (điểm 5)</h3>
+<ul>
+<li>Lần nhả/quá giờ <strong>đầu tiên</strong>: chia lại ngay cho NV
+khác, loại người vừa nhả (như A hiện tại).</li>
+<li>Nếu lead <strong>bị nhả lần thứ hai</strong> (hoặc không có ứng
+viên): vào <strong>hàng chờ thủ công</strong>, báo Trưởng nhóm (như
+B).</li>
+<li>Tham số <code>max_auto_redistribute</code> = <strong>1</strong> (sửa
+được ở Màn 11). Đặt 0 thì giống hẳn bản B.</li>
+<li><strong>Lý do:</strong> vẫn giữ lợi ích của A (khách không chờ),
+tránh lỗi của việc không giới hạn (lead quay vòng giữa những người đều
+không kịp trả lời), và có người quyết khi đã nhả hai lần.</li>
+<li>→ <em>Cần chốt #S2.</em></li>
+</ul>
+<h3 id="33-nút-đã-liên-hệ-điểm-8">3.3. Nút "Đã liên hệ" (điểm 8)</h3>
+<ul>
+<li><strong>Vấn đề:</strong> NV liên hệ khách bằng cách khác (gọi điện,
+nhắn từ app Pancake) nên hệ thống không thấy tin trả lời → SLA vẫn đếm
+và lead tự nhả oan.</li>
+<li><strong>Đề xuất:</strong> nút <strong>Đã liên hệ</strong> trên lead
+New; bấm thì <strong>dừng SLA</strong>, ghi lịch sử (ai, lúc nào, kênh:
+Gọi điện / Nhắn ngoài hệ thống / Khác), trạng thái tiếp nhận thành
+<em>Đã tiếp nhận</em>. Có <strong>giới hạn</strong>: mỗi NV tối đa
+<em>x</em> lần/ngày hoặc ghi chú bắt buộc <em>(đề xuất)</em> để tránh
+dùng nút này để né SLA; Trưởng nhóm xem số lần dùng trong báo cáo.</li>
+<li>→ <em>Cần chốt #S3.</em></li>
+</ul>
+<h3 id="34-nút-không-phải-lead-điểm-8">3.4. Nút "Không phải lead" (điểm
+8)</h3>
+<ul>
+<li><strong>Vấn đề:</strong> tin spam, nhầm số, người bán hàng nhắn
+quảng cáo vẫn chiếm tải và làm xấu KPI.</li>
+<li><strong>Đề xuất:</strong> nút <strong>Không phải lead</strong> (lý
+do: Spam · Nhầm · Quảng cáo · Khác); lead <strong>rời tải và
+KPI</strong> của NV (không tính lỗi, không tính chốt), khách chuyển
+<code>LEAD_DONG</code> với <code>entry_reason</code> ghi rõ; Trưởng nhóm
+xem danh sách trong ngày và có thể <strong>mở lại</strong>.</li>
+<li>Khác "Không mua": "Không mua" là khách thật nhưng không chốt; "Không
+phải lead" là không phải khách.</li>
+</ul>
+<h3 id="35-đóng-lead-đóng-trước-duyệt-sau-điểm-8-16">3.5. Đóng lead:
+đóng trước, duyệt sau (điểm 8, 16)</h3>
+<ul>
+<li>NV chọn <strong>Không mua</strong> hoặc <strong>Không phải
+lead</strong> → <strong>đóng ngay</strong> (lead rời tải).</li>
+<li>Trưởng nhóm có mục <strong>"Lead đóng hôm nay"</strong> (số lượng,
+lý do, NV); bấm <strong>Mở lại</strong> nếu thấy đóng sai (ghi lịch sử;
+lead về NV cũ nếu đang Sẵn sàng, ngược lại chia mới).</li>
+<li>Báo cáo gắn cảnh báo khi một NV có tỷ lệ đóng cao bất thường <em>(đề
+xuất, ngưỡng cấu hình)</em>.</li>
+<li><strong>Lý do:</strong> bản B cần Trưởng nhóm xác nhận trước khi
+đóng, nghĩa là lead nằm "đã đề xuất nhưng chưa đóng" và vẫn tính tải;
+khi Trưởng nhóm bận lead tồn mãi.</li>
+</ul>
+<h3 id="36-cột-và-nút-bổ-sung-cho-trưởng-nhóm-điểm-10">3.6. Cột và nút
+bổ sung cho Trưởng nhóm (điểm 10)</h3>
+<p>Bảng theo nhân viên trong Màn 10 / Màn 1 (JCN-116.4) thêm:
+<strong>tải (Σ trọng số / Tải tối đa)</strong> · <strong>chưa bắt đầu
+(lead New)</strong> · <strong>chờ lâu nhất</strong> · <strong>trọng số
+NV</strong> · nút <strong>Chia lại</strong> trên từng dòng (mở popup
+chia các lead của NV đó); banner <strong>"Tất cả NV Sẵn sàng đã đầy tải
+— lead mới vào hàng chờ"</strong> kèm gợi ý nâng Tải tối đa hoặc thêm
+người Sẵn sàng.</p>
+<h3 id="37-yêu-cầu-phi-chức-năng-điểm-15">3.7. Yêu cầu phi chức năng
+(điểm 15)</h3>
+<ul>
+<li>Một <strong>bộ chia chạy tuần tự</strong> (một lead một lúc trong
+một hàng đợi) để tránh hai tiến trình cùng chia một lead.</li>
+<li><strong>Ràng buộc dữ liệu:</strong> mỗi hội thoại chỉ có <strong>một
+lead mở</strong> tại một thời điểm; tin nhắn đến khi đã có lead mở thì
+đi theo lead đó (không tạo lead mới).</li>
+<li>Mỗi lần chia ghi <strong>log giải thích</strong> (đã có ở Rule
+A3).</li>
+</ul>
+<hr />
+<h2 id="4-điểm-cần-bạn-chốt">4. Điểm cần bạn chốt</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Mức</th>
+<th>Câu hỏi</th>
+<th>Đề xuất (BA)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td>🟠</td>
+<td>Đổi ngưỡng đầy từ <strong>số lead</strong> sang <strong>tải có trọng
+số</strong> (mục 3.1)? Và độ nặng một lead CSKH có đúng 9 lần Sale (3 ×
+30/10) hay chỉ 3 lần?</td>
+<td>Đổi sang tải có trọng số; xác nhận lại cách tính độ nặng trước khi
+đặt Tải tối đa</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>🟠</td>
+<td>Lead nhả <strong>tự chia lại tối đa mấy lần</strong> (mục 3.2)?</td>
+<td>1 lần, sau đó hàng chờ thủ công</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>🟠</td>
+<td>Thêm nút <strong>Đã liên hệ</strong> và <strong>Không phải
+lead</strong> (mục 3.3, 3.4)? Giới hạn dùng "Đã liên hệ"?</td>
+<td>Thêm cả hai; "Đã liên hệ" bắt buộc chọn kênh + ghi nhận số lần</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>🟡</td>
+<td><strong>Ngừng chia trước hết ca</strong> bao nhiêu phút?</td>
+<td>15 phút (như bản B), cấu hình ở Màn 11</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>🟡</td>
+<td>Hàng chờ của Trưởng nhóm có thêm <strong>sắp theo tiềm
+năng</strong>?</td>
+<td>Có, mặc định vẫn theo chờ lâu nhất</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-việc-sẽ-làm-sau-khi-bạn-duyệt">5. Việc sẽ làm sau khi bạn
+duyệt</h2>
+<ol type="1">
+<li>JCN-116.2: sửa Rule A2, A3, A6, A7 (ngưỡng tải, chia lại một lần,
+ngừng chia trước hết ca); Màn 11 thêm
+<code>max_auto_redistribute</code>, <code>stop_before_shift_end</code>,
+Tải tối đa; thêm nút <strong>Đã liên hệ</strong>, <strong>Không phải
+lead</strong> vào Màn 3 (Lead của tôi).</li>
+<li>JCN-116.4: bảng theo nhân viên, nút Chia lại, mục "Lead đóng hôm
+nay", banner đầy tải.</li>
+<li>Wireframe 116.2/3/4 (HTML, xlsx, tsv) cập nhật cùng lúc.</li>
+<li>JCN-116 Rule 5, 6, 7, 9: đồng bộ tên và tham số.</li>
+</ol>
+<blockquote>
+<p>Tạm thời <strong>chưa sửa</strong> các spec trên để tránh đổi nhiều
+lần; bạn duyệt xong mình sửa một lượt.</p>
+</blockquote>
+<a href="index.html" style="position:fixed;bottom:18px;left:18px;z-index:99999;background:#10141a;color:#ffffff;padding:8px 14px;border-radius:999px;font:500 13px system-ui,-apple-system,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.25);display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);transition:all .15s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'">
+  <span style="font-size:14px">←</span> <span>Danh mục tài liệu M06</span>
+</a>
+</body>
+</html>

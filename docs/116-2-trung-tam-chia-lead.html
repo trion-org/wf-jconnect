@@ -1,0 +1,909 @@
+﻿<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JCN-116.2 Wireframe Trung tâm chia lead</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#1f2937;--mute:#6b7280;--line:#d1d5db;--soft:#eef0f3;--pri:#2563eb;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--mk:#e11d48;--hard:#7c3aed}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:22px;margin:8px 0}
+h2{font-size:18px;margin:36px 0 6px;padding-top:8px;border-top:2px solid var(--line)}
+.sub{color:var(--mute);margin:0 0 10px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.toc a{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 9px;color:var(--ink);text-decoration:none;font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0 4px;font-size:12px}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px}
+.flow i{color:var(--mute);font-style:normal}
+.frame{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative}
+.bar{background:var(--soft);padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.body{padding:12px;position:relative}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.grow{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:10px;flex-wrap:wrap}
+.tab{padding:7px 12px;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--ink);background:var(--soft)}
+.tab.on{background:color-mix(in srgb,var(--pri) 16%,var(--card));border-color:var(--pri);color:var(--pri);font-weight:700;margin-bottom:-1px;box-shadow:inset 0 3px 0 var(--pri)}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.btn.p{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.g{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.w{border-color:var(--warn);color:var(--warn)}
+.btn.d{border-color:var(--bad);color:var(--bad)}
+.btn.off{opacity:.45;border-style:dashed}
+.in{border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--mute);background:var(--card);min-width:120px;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.cd{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cd b{display:block;font-size:20px}
+.cd small{color:var(--mute)}
+.cd.sel{border-color:var(--pri,#1a6fd6);box-shadow:0 0 0 1px var(--pri,#1a6fd6)}.cd{cursor:pointer}
+.cd.warn{border-color:var(--warn)}.cd.bad{border-color:var(--bad)}
+.banner{border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:6px;padding:7px 10px;margin-bottom:10px}
+.banner.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.banner.info{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}
+.scroll{overflow-x:auto}
+.bd{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid var(--line);white-space:nowrap}
+.bd.new{border-color:var(--pri);color:var(--pri)}
+.bd.ok{border-color:var(--ok);color:var(--ok)}
+.bd.late{border-color:var(--bad);color:var(--bad)}
+.bd.wait{border-color:var(--warn);color:var(--warn)}
+.bd.hard{border-color:var(--hard);color:var(--hard);font-weight:600}
+.bd.tag{background:var(--soft)}
+.mk{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--mk);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin:0 3px;vertical-align:middle;flex:none}
+.notes{margin:8px 0 0;padding:10px 12px;background:var(--card);border:1px dashed var(--line);border-radius:8px}
+.notes ol{margin:4px 0 0;padding-left:0;list-style:none}
+.notes li{margin:3px 0;display:flex;gap:6px;align-items:flex-start}
+.ovl{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:14px;z-index:2}
+.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;width:min(560px,100%);padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.pop h4{margin:0 0 8px;font-size:15px}
+.fld{margin-bottom:8px}
+.fld label{display:block;font-size:12px;color:var(--mute);margin-bottom:2px}
+.fld .in{display:block;width:100%}
+.ta{min-height:58px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+.chat{display:grid;grid-template-columns:210px 1fr 200px;min-height:380px}
+@media(max-width:860px){.chat{grid-template-columns:1fr}}
+.chat>div{padding:10px;border-right:1px solid var(--line)}
+.chat>div:last-child{border-right:none}
+.msg{max-width:78%;padding:6px 10px;border-radius:10px;margin:6px 0;background:var(--soft)}
+.msg.me{margin-left:auto;background:color-mix(in srgb,var(--pri) 16%,transparent)}
+.sys{text-align:center;color:var(--mute);font-size:12px;margin:6px 0}
+.bar2{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.bar2 i{display:block;height:100%;background:var(--pri)}
+.chart{display:flex;align-items:flex-end;gap:6px;height:90px;border-bottom:1px solid var(--line);padding:4px}
+.chart b{flex:1;background:var(--pri);opacity:.75;border-radius:3px 3px 0 0}
+.chart b.y{background:var(--ok)}
+.bell{position:absolute;right:12px;top:42px;width:340px;max-width:calc(100% - 24px);background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.25);z-index:3}
+.bell div{padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px}
+.bell div:last-child{border-bottom:none}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl p{margin:0 0 9px;position:relative}
+.tl p:before{content:"";position:absolute;left:-18px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--pri)}
+code{background:var(--soft);padding:0 4px;border-radius:3px}
+.legend{font-size:12px;color:var(--mute)}
+
+a{color:var(--pri)}
+a.btn{text-decoration:none;color:var(--ink);box-shadow:0 0 0 2px color-mix(in srgb,var(--pri) 45%,transparent);cursor:pointer}
+a.btn.p,a.btn.g{color:#fff}a.btn.w{color:var(--warn)}a.btn.d{color:var(--bad)}
+a.btn:hover{box-shadow:0 0 0 3px var(--pri)}
+a.tab{text-decoration:none;box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--pri) 45%,transparent)}
+a.lk{color:var(--pri);text-decoration:underline dotted}
+.tnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tnav a{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px;color:var(--ink);text-decoration:none;font-size:13px}
+.tnav a.on{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;align-items:center;font-size:13px}
+.chips a,.chips span.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px;text-decoration:none;color:var(--ink)}
+.chips a{border-color:var(--pri)}
+.chips i{font-style:normal;color:var(--mute)}
+.pn{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:34px;padding-top:14px;border-top:2px solid var(--line)}
+.pn a{background:var(--card);border:1px solid var(--pri);border-radius:8px;padding:8px 12px;text-decoration:none;color:var(--ink)}
+.hint{background:color-mix(in srgb,var(--pri) 10%,transparent);border:1px solid var(--pri);border-radius:8px;padding:7px 10px;margin:8px 0;font-size:13px}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:10px 0}
+.cardgrid>div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.cardgrid h3{margin:0 0 4px;font-size:15px}
+
+.wrap{max-width:1400px}
+details.info{margin:6px 0 12px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+details.info summary{cursor:pointer;font-weight:600}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);min-height:700px}
+.side{background:#3a0d10;color:#f3dcdc;padding:10px 0 16px;font-size:13.5px}
+.side .logo{font-weight:800;font-size:20px;padding:6px 16px 12px;color:#fff}
+.side .grp{font-size:11px;letter-spacing:.07em;color:#c79a9a;padding:12px 16px 4px;text-transform:uppercase}
+.side a.it{display:flex;gap:10px;align-items:center;padding:8px 16px;color:#f3dcdc;text-decoration:none;cursor:pointer;border-left:3px solid transparent}
+.side a.it:hover{background:rgba(255,255,255,.08)}
+.side a.it.on{background:rgba(255,255,255,.14);border-left-color:#f59e0b;color:#fff;font-weight:600}
+.side a.dummy{opacity:.75}
+.main{display:flex;flex-direction:column;min-width:0}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.crumb{color:var(--mute);font-size:13px}.crumb b{color:var(--ink)}
+.top select,.chip{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:4px 8px;background:var(--card);color:var(--ink)}
+.chip{cursor:pointer;border-radius:14px}.chip:hover{border-color:var(--pri)}
+.content{padding:14px;flex:1;min-width:0}
+.mine{background:color-mix(in srgb,var(--pri) 10%,transparent);border:1px solid var(--pri);border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:13px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.mine a{background:var(--card);border:1px solid var(--pri);border-radius:12px;padding:2px 9px;text-decoration:none;color:var(--ink);font-size:12.5px}
+.mtabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+.mtabs button{font:inherit;background:none;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--mute);padding:8px 14px;cursor:pointer}
+.mtabs button:hover{color:var(--ink)}
+.mtabs button.on{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;margin-bottom:-1px}
+.mtabs button.lock{opacity:.5;cursor:not-allowed}
+.chatbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.chatbar[hidden],.mtabs[hidden]{display:none}
+button.seg,.chatbar button.btn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:4px 12px;cursor:pointer}
+button.seg.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.pg .mh,.mbox .mh{font-size:12px;color:var(--mute);margin:0 0 6px}
+.mbox .mh{margin-right:30px}
+.tk{display:inline-block;font-size:11px;border:1px solid var(--line);border-radius:10px;padding:0 7px;margin-right:4px;color:var(--mute)}
+.tk.mine1{background:var(--pri);color:#fff;border-color:var(--pri)}
+.mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:28px 12px;overflow:auto}
+.mdl[hidden],.pg[hidden]{display:none}
+.mbox{background:var(--bg);border-radius:12px;width:min(900px,100%);padding:14px;position:relative}
+.mbox .pop{width:100%;box-shadow:none;margin-bottom:8px}
+.mbox .x{position:absolute;right:10px;top:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer;padding:2px 8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:8px 14px;border-radius:8px;z-index:100;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1}
+.pg span.btn,.mbox span.btn,.tabs>div.tab{cursor:pointer}
+#ed-bar{top:auto!important;bottom:10px;right:10px;height:auto}
+.notes li{display:block}
+@media(max-width:820px){.app{grid-template-columns:1fr}.side{display:flex;overflow-x:auto;padding:6px}.side .logo,.side .grp,.side .dummy{display:none}.side a.it{border-left:none;white-space:nowrap}}
+</style><style id="ed-css">
+#ed-bar{position:fixed;top:10px;right:10px;z-index:99;display:flex;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 8px;box-shadow:0 4px 16px rgba(0,0,0,.25);font:13px system-ui,sans-serif;color:var(--ink)}
+#ed-bar button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit}
+#ed-bar button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+#ed-bar .ed-tools{display:none;gap:6px}
+body.editing #ed-bar .ed-tools{display:flex}
+body.editing .wrap{outline:2px dashed var(--pri);outline-offset:6px}
+@media print{#ed-bar{display:none}}
+</style><style id="css-s20">
+.hub{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:12px}
+@media(max-width:1100px){.hub{grid-template-columns:1fr}}
+.hub .box{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.hub .box>b.t{display:block;margin-bottom:6px}
+.ldbar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;min-width:70px}.ldbar i{display:block;height:100%;background:var(--ok)}.ldbar.hi i{background:var(--warn)}.ldbar.full i{background:var(--bad)}
+.nvrow{cursor:pointer}.nvrow:hover td{background:var(--soft)}.nvrow.sel td{background:color-mix(in srgb,var(--pri) 14%,transparent)}
+.chipf{display:inline-block;border:1px solid var(--pri);color:var(--pri);border-radius:12px;padding:1px 8px;font-size:12px;margin-left:6px}
+.seg2{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}.seg2 span{padding:3px 10px;cursor:pointer}.seg2 span.on{background:var(--pri);color:#fff}
+</style>
+<style id="css-wk">
+.wk{display:grid;grid-template-columns:230px minmax(0,1fr) 340px;height:640px;font-size:13px}.wk .rp{overflow:auto}
+.wk>div{min-width:0}
+@media(max-width:1000px){.wk{grid-template-columns:1fr}}
+.wk .lc{border-right:1px solid var(--line);padding:8px;overflow:auto}
+.wk .lc .sg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:6px}.wk .lc .sg span{flex:1;text-align:center;padding:3px;background:var(--soft)}.wk .lc .sg span.on{background:#5b1a1a;color:#fff;font-weight:600}
+.wk .chp{display:inline-block;border:1px solid var(--line);border-radius:12px;padding:0 8px;font-size:11.5px;margin:0 4px 6px 0;cursor:pointer}.wk .chp.on{border-color:var(--pri);color:var(--pri)}
+.wk .li{display:flex;gap:8px;padding:8px 6px;border-bottom:1px solid var(--line);cursor:pointer}.wk .li:hover{background:var(--soft)}.wk .li.on{background:color-mix(in srgb,var(--pri) 12%,transparent);border-left:3px solid var(--pri)}
+.wk .av{width:30px;height:30px;border-radius:50%;background:#2563eb;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none}
+.wk .li small{color:var(--mute)}
+.wk .cc{display:flex;flex-direction:column;min-width:0}
+.wk .ch{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;border-bottom:1px solid var(--line)}
+.wk .cm{flex:1;padding:8px 12px;overflow:auto}
+.wk .tb{display:flex;gap:6px;flex-wrap:wrap;padding:6px 10px;border-top:1px solid var(--line);background:var(--soft)}
+.wk .ci{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--line)}
+.wk .ft{text-align:center;color:var(--mute);font-size:12px;padding:6px;border-top:1px solid var(--line)}
+.wk .rp{border-left:4px solid var(--ok);padding:8px 10px}
+.wk .rt{display:flex;gap:4px;margin:6px 0}.wk .rt span{padding:5px 12px;border-radius:6px;cursor:pointer;color:var(--mute)}.wk .rt span.on{background:#5b1a1a;color:#fff;font-weight:600}
+.wk .sec{margin:10px 0 4px;font-size:11px;letter-spacing:.04em;color:var(--mute);font-weight:700;text-transform:uppercase}
+.wk .kv{background:var(--soft);border-radius:6px;padding:6px 10px}.wk .kv div{display:flex;gap:8px;padding:1px 0}.wk .kv div>span:first-child{color:var(--mute);min-width:84px}
+.wk .stp{display:flex;gap:4px;flex-wrap:wrap;margin:4px 0}.wk .stp span{border:1px solid var(--line);border-radius:10px;padding:1px 8px;font-size:11.5px}.wk .stp span.done{background:color-mix(in srgb,var(--ok) 18%,transparent);border-color:var(--ok)}.wk .stp span.cur{border-color:var(--pri);color:var(--pri);font-weight:600}
+.wk .pay{border:1px dashed var(--pri);border-radius:8px;padding:6px 10px;margin:6px 0 6px auto;max-width:82%;background:color-mix(in srgb,var(--pri) 8%,transparent)}
+.wk table{width:100%}
+.wk [data-rpb][hidden]{display:none}
+</style>
+<style id="css-cskh">
+.cskh-note{display:none;margin:6px 0;padding:6px 10px;border:1px dashed var(--pri);border-radius:8px;font-size:12.5px}
+body.role-cskh .cskh-note{display:block}
+</style>
+<style id="css-cskh2">
+.oc{display:none}
+body.role-cskh .os{display:none}
+body.role-cskh .oc{display:inline}
+body:not(.role-cskh) .only-cskh,body.role-cskh .only-sale{display:none!important}
+/* css-cskh3 */
+</style>
+<style id="css-wk2">
+.wk [data-opts],.wk .chp,.wk .li,.wk .bd.tag,.wk .bd.hard,.wk [data-rp],.wk .sg span{cursor:pointer}
+.wk [data-opts]:hover{border-color:var(--pri)}
+.wk-menu{position:absolute;z-index:100000;min-width:170px;background:var(--bg,#fff);color:var(--fg,#222);border:1px solid var(--line,#888);border-radius:8px;box-shadow:0 6px 20px #0006;padding:4px;font:13px system-ui}
+.wk-menu div{padding:6px 10px;border-radius:6px;cursor:pointer}.wk-menu div:hover{background:var(--soft,#eee)}.wk-menu div.on{font-weight:700}
+.wk .bd.hard.off{opacity:.45;text-decoration:line-through}
+</style>
+</head><body><div id="ed-bar"><button id="ed-toggle" type="button">✏️ Chỉnh sửa</button><span class="ed-tools"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="hiliteColor">Tô sáng</button><button type="button" data-cmd="undo">↶</button><button type="button" data-cmd="redo">↷</button></span><button id="ed-save" type="button">💾 Lưu file</button></div><div class="wrap">
+<nav class="tnav"><a href="JCN-116_Wireframe.html">Tổng quan</a><a href="JCN-116.1_Wireframe.html">116.1 Đồng bộ 2 chiều Pancake</a><a class="on" href="JCN-116.2_Wireframe.html">116.2 Trung tâm chia lead</a><a href="JCN-116.3_Wireframe.html">116.3 Lead của tôi & Khung chat</a><a href="JCN-116.5_Wireframe.html">116.5 Ca làm việc & Trạng thái đi làm</a><a href="JCN-116.6_Wireframe.html">116.6 Quản lý Tag</a></nav>
+<h1>JCN-116.2 — Trung tâm chia lead (chia tự động, hàng chờ, chia thủ công, theo dõi)</h1>
+<details class="info"><summary>ℹ Giới thiệu ticket JCN-116.2 (bấm để mở / đóng)</summary>
+
+
+<p class="sub">Một màn duy nhất cho Trưởng nhóm / Quản trị: tổng quan lead, hàng chờ, chia thủ công, theo dõi từng nhân viên và danh sách lead. Màn con: popup Chia, Lịch sử, Danh sách khách, Cài đặt chia việc.</p>
+<div class="hint">🔗 Nút/viền xanh là <b>bấm được</b>: chuyển sang màn kế tiếp (có thể ở ticket khác). Màn hình trong ticket này: <b>Màn 20 (Trung tâm chia lead — màn chính), 2 (Popup Chia), 9 (Danh sách khách), 11 (Cài đặt chia việc), 12 (Lịch sử)</b>.</div>
+<div class="chips"><span class="c">Đến từ:</span><a href="#s3a">116.2 Lead của tôi → Tôi nhả</a><a href="#s5">116.3 Khung chat → Tôi nhả</a><a href="#s8">116.3 Chuyển CSKH qua Tôi nhả</a><i>→ đi tới:</i><a href="#s3a">116.2 Lead của tôi (NV được giao)</a><a href="#s5">116.3 Khung chat</a></div>
+
+<div class="hint">🖱 <b>Trang chạy được:</b> đổi <b>vai trò</b> ở góc trên phải (tab không đủ quyền hiện 🔒), bấm menu <b>Pancake</b> và các tab, bấm <b>Mở chat / Tôi nhả / Chia cho nhân viên / chuông 🔔</b> để xem màn kế tiếp. Trang này chứa đủ các màn Pancake của 116.2–116.3; huy hiệu <span class="tk mine1">JCN-116.2</span> đánh dấu màn thuộc ticket này.</div></details>
+<div class="app"><aside class="side"><div class="logo">J-Connect</div><a class="it dummy" data-dummy="Quản lý thanh toán"><span>💳</span>Quản lý thanh toán</a><a class="it dummy" data-dummy="Quản lý hoàn tiền"><span>🧾</span>Quản lý hoàn tiền</a><a class="it dummy" data-dummy="Đối soát công nợ"><span>⇄</span>Đối soát công nợ</a><div class="grp">Đại lý / CTV</div><a class="it dummy" data-dummy="Đại lý / CTV"><span>🤝</span>Đại lý / CTV</a><div class="grp">Danh mục</div><a class="it dummy" data-dummy="Data Master"><span>☰</span>Data Master</a><div class="grp">Pancake</div><a class="it on" data-nav="pc"><span>💬</span>Pancake</a><div class="grp">Quản trị</div><a class="it" href="JCN-116.5_Wireframe.html#s17"><span>👥</span>Quản lý người dùng</a><a class="it dummy" data-dummy="Role &amp; Phân quyền"><span>🛡</span>Role &amp; Phân quyền</a><a class="it" href="JCN-116.5_Wireframe.html#s13"><span>🗓</span>Ca làm việc</a><a class="it dummy" data-dummy="Nhân viên"><span>👤</span>Nhân viên</a><div class="grp">Cài đặt</div><a class="it dummy" data-dummy="Cấu hình hệ thống"><span>⚙</span>Cấu hình hệ thống</a><a class="it dummy" data-dummy="Ngôn ngữ"><span>🌐</span>Ngôn ngữ</a><a class="it dummy" data-dummy="Hồ sơ"><span>📄</span>Hồ sơ</a><a class="it dummy" data-dummy="Đổi mật khẩu"><span>🔑</span>Đổi mật khẩu</a></aside><div class="main"><div class="top"><div class="crumb" id="crumb"></div><div class="row" style="margin:0">
+<label class="legend" for="role">Vai trò:</label>
+<select id="role"><option value="admin">Quản trị</option><option value="tn">Trưởng nhóm Sale (Hà)</option><option value="nv">Nhân viên Sale (Nam)</option><option value="cskh">Nhân viên CSKH (Linh)</option></select>
+<button class="chip" data-go="s4" title="Thông báo (Màn 4)">🔔 5</button>
+<a class="chip" href="JCN-116.5_Wireframe.html#s16" style="text-decoration:none;color:inherit">🟢 Đang làm · Ca Hành chính ▾</a></div></div><div class="content"><div class="mine"><b>Màn thuộc JCN-116.2:</b> <a href="#s20">Màn 20 · Trung tâm chia lead (màn chính, gộp Màn 10 + 1 + hàng chờ)</a><a href="#s2">Màn 2 · Popup Chia</a><a href="#s9">Màn 9 · Danh sách khách</a><a href="#s11">Màn 11 · Cài đặt chia việc</a><a href="#s12">Màn 12 · Lịch sử chia việc</a></div><div class="mtabs" id="pctabs"><button data-tab="lead">Lead của tôi</button><button data-tab="chia">Trung tâm chia lead</button><button data-tab="khach">Danh sách khách</button><button data-tab="set">Cài đặt chia việc</button></div>
+<div class="chatbar" id="chatbar" hidden><button class="btn" data-go="s3a">← Quay lại Lead của tôi</button><span class="grow"></span><span class="legend">Xem với tư cách:</span><button class="seg" data-go="s5">Người phụ trách (Màn 5)</button><button class="seg" data-go="s6">Người khác — chỉ đọc (Màn 6)</button></div><section class="pg" data-id="s3a" hidden><div class="mh"><span class="tk" data-tk="116.3">JCN-116.3</span> 3 (tab Của tôi) — Lead của tôi (Nhân viên)</div><p class="sub">Nhân viên Sale/WFCĐ/CSKH. Không có nút Chia.</p>
+<div class="frame"><div class="bar"><span>Lead của tôi — <span class="who">Nam (Sale)</span></span><span><a class="lk" href="JCN-116.5_Wireframe.html#s16">🟢 Online · Hành chính</a> · 🔔 2</span></div><div class="body">
+  <div class="cskh-note">👁 <b>Tài khoản CSKH</b> chỉ thấy lead có tag <b>CSKH</b> (Support, Support kỹ thuật, Thu cước, Upsale). Lead Sale / WFCĐ / chưa có tag không hiện.</div>
+<div class="cards"><span class="mk" style="position:absolute;margin:-8px 0 0 -4px">5</span>
+    <div class="cd"><small>Nhận hôm nay</small><b data-s="9" data-c="6">9</b></div>
+    <div class="cd"><small>Đang giữ</small><b data-s="4" data-c="3">4</b></div>
+    <div class="cd bad"><small>Chưa trả lời</small><b style="color:var(--bad)" data-s="1" data-c="1">1</b></div>
+    <div class="cd"><small>Đã tiếp nhận</small><b data-s="3" data-c="2">3</b></div>
+    <div class="cd"><small>Đã lên đơn hôm nay</small><b data-s="2" data-c="1">2</b></div>
+    <div class="cd warn"><small>Đã nhả hôm nay</small><b data-s="1" data-c="0">1</b></div>
+  </div>
+  <div class="tabs"><div class="tab on">Của tôi (<span data-s="4" data-c="3">4</span>)</div></div>
+  <div class="scroll"><table>
+    <tr><th>Khách</th><th>Trạng thái tiếp nhận</th><th>Trạng thái chốt đơn</th><th>Trạng thái tư vấn</th><th>Chờ</th><th>Thao tác</th></tr>
+    <tr><td><b>Lê Thu Hà</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span></td><td><span class="bd new">New</span><br><b style="color:var(--bad)">⏱ 01:40</b> <span class="mk">3</span></td><td>Đang tư vấn</td><td>Nhấp quảng cáo</td><td>3 phút</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+    <tr><td><b>Võ Minh Tuấn</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span></td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Chờ chốt</td><td>Cấp 1</td><td>—</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+    <tr><td><b>Trần Văn Hùng</b><br><small>👤 Nam đang xử lý</small><br><span class="bd hard">⚑ Khó tư vấn</span> <span class="mk">4</span></td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Chờ chốt</td><td>Cấp 2</td><td>—</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+    <tr class="cskh-only"><td><b>Phạm Quốc Bảo</b><br><small>👤 Linh đang xử lý</small><br><span class="bd tag">CSKH › Support</span></td><td><span class="bd new">New</span><br><b style="color:var(--bad)">⏱ 03:20</b></td><td>—</td><td>—</td><td>2 phút</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+    <tr class="cskh-only"><td><b>Nguyễn Thị Hoa</b><br><small>👤 Linh đang xử lý</small><br><span class="bd tag">CSKH › Upsale</span></td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Đang tư vấn</td><td>Cấp 1</td><td>—</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+    <tr class="cskh-only"><td><b>Đặng Văn Tài</b><br><small>👤 Linh đang xử lý</small><br><span class="bd tag">CSKH › Thu cước</span></td><td><span class="bd ok">Đã tiếp nhận</span></td><td>—</td><td>—</td><td>—</td><td><a class="btn p" href="#s5">Mở chat</a> <a class="btn w" href="#s7">Tôi nhả</a></td></tr>
+  </table></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">5</span>Dải thẻ thống kê chỉ tính lead của mình (không có số của người khác). Bấm thẻ để lọc lưới bên dưới, bấm lại để bỏ lọc. Chưa trả lời = lead New + lead gần hết giờ nhất; Đã nhả hôm nay = tự nhả quá giờ + Tôi nhả.</li>
+<li><span class="mk">3</span>Đếm ngược SLA 5 phút cho lead New mới được giao; hết giờ → tự nhả vào Hàng chờ. Nhắc "sắp quá giờ" khi còn 1 phút (N2).</li>
+<li><span class="mk">4</span>Cờ ⚑ Khó tư vấn hiện ở mọi danh sách; ghi chú hiện đầu khung chat (<a class="lk" href="#s5">JCN-116.3 màn 5</a>). <b>Mở chat</b> → màn 5; <b>Tôi nhả</b> → <a class="lk" href="#s7">JCN-116.3 màn 7</a>.</li>
+</ol></div></section><section class="pg" data-id="s3b" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 3 (tab Hàng chờ) — Hàng chờ (Trưởng nhóm / Quản trị)</div><p class="sub">Không còn nút Tôi nhận. Chế độ Tự động: hệ thống tự chia khi có NV Sẵn sàng; Trưởng nhóm chia tay hoặc <b>Chia đều</b> (<a class="lk" href="#s1">màn 1</a>).</p>
+<div class="frame"><div class="bar"><span>Hàng chờ (Chờ nhận) — Trưởng nhóm</span><span>bộ phận Sale</span></div><div class="body">
+  <div class="tabs"><a class="tab" href="#s3a">Của tôi (4)</a><div class="tab on">Hàng chờ (23)</div></div>
+  <div class="banner info" style="font-size:13px">Lead xếp theo chờ lâu nhất. Chưa có NV Sẵn sàng còn dưới Tải tối đa. <a class="btn" href="#s3b">Sắp theo tiềm năng</a></div>
+  <div class="scroll"><table>
+    <tr><th>Khách</th><th>Lý do vào hàng chờ</th><th>Chờ</th><th>Thao tác</th></tr>
+    <tr><td><b>KH0412</b> Nguyễn Thị Mai</td><td><span class="bd late">New — quá giờ</span><br><small>Lan nhả 09:12</small></td><td><b style="color:var(--bad)">14'</b></td><td><a class="btn g" href="#s2">Chia</a> <span class="mk">5</span></td></tr>
+    <tr><td><b>KH0415</b> Trần Văn Hùng<br><span class="bd hard">⚑ Khó tư vấn</span></td><td><small>Minh nhả 09:20</small><br><small>📝 "Khách hỏi gói DN 50 SIM…"</small></td><td>6'</td><td><a class="btn g" href="#s2">Chia</a><br><small>Minh (người nhả) bị loại 1 lần</small> <span class="mk">6</span></td></tr>
+    <tr><td><b>KH0430</b> Đỗ Thanh</td><td><span class="bd new">New</span><small> chưa chia</small></td><td>2'</td><td><a class="btn g" href="#s2">Chia</a></td></tr>
+  </table></div>
+  <p class="legend" style="margin-top:8px">Trường hợp mọi NV đạt Tải tối đa (100/100): lead nằm lại hàng chờ, N4 báo Trưởng nhóm <span class="mk">7</span></p>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">5</span><b>Chia</b> (Trưởng nhóm): mở popup chọn NV; hoặc hệ thống tự chia ngay khi có người Sẵn sàng. Có người nhận → tên NV gán lên lead, lead rời hàng chờ.</li>
+<li><span class="mk">6</span>Người vừa nhả lead đó bị loại khỏi lần chia lại ngay sau đó (1 lần).</li>
+<li><span class="mk">7</span>Đạt Tải tối đa → không được chia thêm; xuống dưới → được chia tiếp (không còn thông báo N8).</li>
+</ol></div></section><section class="pg" data-id="s20" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span></div>
+<p class="sub">Menu: Pancake ▸ <b>Trung tâm chia lead</b> · Quyền: Trưởng nhóm (bộ phận mình) / Quản trị (tất cả). Thay cho Màn 10 và Màn 1 cũ. <b>Tổng hợp toàn bộ lead đổ về từ các page</b> (đã giao và đang chờ nhận) để Trưởng nhóm / Quản trị theo dõi và chia.</p>
+<div class="frame"><div class="bar"><span>Pancake ▸ <b>Trung tâm chia lead</b></span><span>🔔 3 &nbsp;|&nbsp; Trưởng nhóm Sale: Hà</span></div><div class="body">
+<div class="row"><span class="mk">1</span><select class="in"><option selected>Bộ phận: Sale</option><option>Bộ phận: CSKH</option><option>Bộ phận: WFCĐ</option><option>Bộ phận: Support</option></select><select class="in"><option selected>Hôm nay</option><option>Hôm qua</option><option>7 ngày qua</option><option>Tháng này</option></select><select class="in"><option selected>Ca: Tất cả</option><option>Ca: Sáng</option><option>Ca: Chiều</option><option>Ca: Hành chính</option></select><span class="grow"></span><span class="legend">Chế độ chia:</span><span class="seg2" id="modeseg"><span class="on">Tự động</span><span>Thủ công</span></span></div>
+<div class="banner bad"><span class="mk">2</span> ⚠ Quá tải: <b>23 lead đang chờ</b> (ngưỡng 20) — nguyên nhân: <b>lead mới đổ về nhiều</b> (86 so với TB 60). <a class="btn" style="margin-left:6px" href="#s20-nv" data-toast="Cuộn tới bảng nhân viên bên phải">Xem NV còn rảnh</a></div>
+<div class="cards"><span class="mk">3</span>
+<div class="cd"><small>Lead mới hôm nay</small><b>86</b></div><div class="cd bad"><small>Đang chờ nhận</small><b>23</b></div><div class="cd warn"><small>Chờ lâu nhất</small><b>14′</b></div><div class="cd"><small>NV Sẵn sàng</small><b>3/5</b></div><div class="cd"><small>Đã lên đơn hôm nay</small><b>12</b></div><div class="cd warn"><small>Đã nhả / quá giờ hôm nay</small><b>7</b></div></div>
+<div class="tabs" style="margin-top:12px" id="hubtabs"><span class="mk">6</span><button class="tab on" data-hp="all">Tất cả lead đổ về</button><button class="tab" data-hp="queue">Hàng chờ (23)</button><button class="tab" data-hp="closed">Lead đóng hôm nay (9)</button><button class="tab" data-hp="hist">Lịch sử chia việc</button><span id="nvchip"></span></div>
+<div data-hpb="queue" hidden><div class="hub">
+<div class="box"><b class="t">Hàng chờ (23) <span class="mk">4</span></b>
+<div class="row"><span class="btn p" id="chiabtn" style="display:none" data-toast="Mở popup Chia cho nhân viên">Chia cho nhân viên (<span id="qn">0</span>)</span><span class="btn" style="display:none" data-toast="Bản xem trước chia lô: Nam 2, Linh 3 — Trưởng nhóm sửa từng dòng rồi xác nhận">Chia đều các lead đang chờ</span><span class="btn" style="display:none" data-toast="Sắp theo mức tiềm năng (cấp 2 > cấp 1 > nhấp quảng cáo)">Sắp theo tiềm năng</span><span class="grow"></span><span class="legend">mặc định: chờ lâu nhất trước</span></div>
+<div class="banner info" style="font-size:13px;margin:6px 0">ℹ Lead trong hàng chờ <b>vẫn được hệ thống tự chia</b> cho NV Sẵn sàng ngay khi có chỗ (kể cả lead <b>nhấp quảng cáo</b>); Trưởng nhóm chỉ chia tay khi cần.</div>
+<div class="scroll"><table><tr><th></th><th>Khách</th><th>Page</th><th>Bộ phận</th><th>Lý do vào hàng chờ</th><th>Trạng thái tư vấn</th><th>Chờ</th><th></th></tr>
+<tr><td><input type="checkbox" class="qck"></td><td>Đỗ Văn An</td><td>Fanpage BH</td><td>Sale</td><td>Chưa có ai Sẵn sàng</td><td>Cấp 1</td><td>9′</td><td><a class="btn" href="#s2">Chia</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr><td><input type="checkbox" class="qck"></td><td>Trần Mai</td><td>Zalo OA</td><td>Sale</td><td>Người nhả: Khó tư vấn ⚑</td><td>Cấp 2</td><td>6′</td><td><a class="btn" href="#s2">Chia</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr><td><input type="checkbox" class="qck"></td><td>Phạm Quốc Bảo</td><td>Fanpage CSKH</td><td>CSKH</td><td>Chưa có ai Sẵn sàng</td><td>—</td><td>4′</td><td><a class="btn" href="#s2">Chia</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+</table></div></div>
+<div class="box" id="s20-nv"><b class="t">Nhân viên đang trực <span class="mk">5</span> <span class="legend">(bấm một dòng để lọc lead của NV đó)</span></b>
+<div class="scroll"><table><tr><th>NV (w_nv)</th><th>Trạng thái</th><th>Số lead được chia</th><th>Chưa bắt đầu</th><th>Chờ lâu nhất</th><th></th></tr>
+<tr class="nvrow" data-nv="Nam"><td>Nam (×1,0)</td><td>🟢 Sẵn sàng</td><td>4</td><td>1</td><td>2′</td><td><a class="btn" href="#s2b">Chia lại</a></td></tr>
+<tr class="nvrow" data-nv="Lan"><td>Lan (×1,0)</td><td>🟢 Sẵn sàng</td><td>10</td><td>5</td><td>7′</td><td><a class="btn" href="#s2b">Chia lại</a></td></tr>
+<tr class="nvrow" data-nv="Linh"><td>Linh (×0,5)</td><td>🟢 Sẵn sàng</td><td>3</td><td>0</td><td>—</td><td><a class="btn" href="#s2b">Chia lại</a></td></tr>
+<tr class="nvrow" data-nv="Tuấn"><td>Tuấn (×1,0)</td><td>🟡 Ăn trưa</td><td>3</td><td>0</td><td>—</td><td><a class="btn" href="#s2b">Chia lại</a></td></tr>
+<tr class="nvrow" data-nv="Hoa"><td>Hoa (×1,0)</td><td>🔴 Nghỉ phép</td><td>0</td><td>0</td><td>—</td><td><a class="btn" href="#s2b">Chia lại</a></td></tr>
+</table></div>
+<div class="legend" style="margin-top:6px">Khi mọi NV Sẵn sàng đạt Tải tối đa: banner "Tất cả NV Sẵn sàng đã đầy tải — lead mới vào hàng chờ" kèm gợi ý nâng Tải tối đa hoặc thêm người.</div></div>
+</div></div>
+<div data-hpb="all"><div class="row"><input class="in" type="search" placeholder="🔍 Tên / SĐT / PSID"><select class="in"><option>Page: Tất cả</option><option>Fanpage JConnect</option><option>Fanpage BH</option><option>Fanpage CSKH</option><option>Zalo OA</option><option>TikTok</option></select><select class="in"><option>Tag: Tất cả</option><option>Sale</option><option>CSKH</option><option>WFCĐ</option></select><select class="in"><option>Trạng thái tiếp nhận: Tất cả</option><option>Chờ nhận</option><option>New</option><option>Đã tiếp nhận</option><option>Chưa trả lời</option></select><select class="in"><option>NV tiếp nhận xử lý: Tất cả</option><option>Nam</option><option>Lan</option><option>Linh</option><option>Tuấn</option><option>Hoa</option></select><select class="in"><option>Trạng thái đơn: Tất cả</option><option>Chốt đơn</option><option>Check TT</option><option>Xuất hàng</option></select></div>
+<div class="scroll"><table id="alltb"><tr><th>Khách</th><th>Page</th><th>Bộ phận</th><th>Giờ đổ về</th><th>Tag</th><th>NV tiếp nhận xử lý</th><th>Trạng thái tiếp nhận</th><th>Trạng thái chốt đơn</th><th>Trạng thái tư vấn</th><th>Cập nhật</th><th></th></tr>
+<tr data-o="Nam"><td>Võ Minh Tuấn<br><small>👤 Nam đang xử lý</small></td><td>Zalo OA</td><td>Sale</td><td>08:10</td><td>Sale</td><td>Nam · 08:10</td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Đã lên đơn</td><td>Cấp 2</td><td>09:12</td><td><a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr data-o="Lan"><td>Nguyễn Thị Hoa<br><small>👤 Lan đang xử lý</small></td><td>TikTok</td><td>Sale</td><td>07:55</td><td>Sale</td><td>Lan · 07:55</td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Chờ chốt</td><td>Cấp 1</td><td>09:05</td><td><a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr data-o="Lan"><td>Lê Văn Cường<br><small>👤 Lan đang xử lý</small></td><td>Fanpage BH</td><td>Sale</td><td>08:40</td><td>Sale</td><td>Lan · 08:40</td><td><span class="bd late">Chưa trả lời</span> quá 6′</td><td>Đang tư vấn</td><td>Cấp 1</td><td>08:50</td><td><a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr data-o="Linh"><td>Phạm Thị Mai<br><small>👤 Linh đang xử lý</small></td><td>Fanpage CSKH</td><td>CSKH</td><td>09:00</td><td>CSKH</td><td>Linh · 09:00</td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Đã chốt</td><td>Cấp 2</td><td>09:25</td><td><a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+<tr data-o=""><td>Đỗ Văn An</td><td>Fanpage BH</td><td>Sale</td><td>09:17</td><td>Sale</td><td>— (Chờ nhận)</td><td><span class="bd wait">Chờ nhận</span> 9′</td><td>—</td><td>Cấp 1</td><td>09:17</td><td><a class="btn" href="#s2">Chia</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+</table></div></div>
+<div data-hpb="warn" hidden><table><tr><td>🔴 Quá tải: 23 lead chờ &gt; 20</td><td>09:41</td></tr><tr><td>🟠 7 lead New — quá giờ</td><td>09:20</td></tr><tr><td>🟠 Lan đạt Tải tối đa (100/100)</td><td>09:15</td></tr></table></div>
+<div data-hpb="closed" hidden><table><tr><th>Khách</th><th>NV</th><th>Lý do</th><th>Giờ</th><th></th></tr><tr><td>Đặng Văn Sơn</td><td>Nam</td><td>Giá cao</td><td>09:02</td><td><span class="btn" data-toast="Đã mở lại — về Nam nếu đang Sẵn sàng, ngược lại chia mới">Mở lại</span></td></tr><tr><td>Bùi Thị Hà</td><td>Lan</td><td>Không còn nhu cầu</td><td>08:41</td><td><span class="btn" data-toast="Đã mở lại — về Lan nếu đang Sẵn sàng, ngược lại chia mới">Mở lại</span></td></tr><tr><td>Trần Văn Hùng</td><td>Nam</td><td>Nhấp quảng cáo — tự đóng</td><td>09:35</td><td><span class="btn" data-toast="Đã mở lại — về Nam nếu đang Sẵn sàng, ngược lại chia mới">Mở lại</span></td></tr><tr><td>Lê Thu Hà</td><td>— (chưa ai nhận)</td><td>Nhấp quảng cáo — tự đóng</td><td>09:36</td><td><span class="btn" data-toast="Đã mở lại — chia mới">Mở lại</span></td></tr><tr><td>Võ Thị Lan</td><td>— (chưa ai nhận)</td><td>Nhấp quảng cáo — tự đóng</td><td>09:37</td><td><span class="btn" data-toast="Đã mở lại — chia mới">Mở lại</span></td></tr></table></div>
+<div data-hpb="hist" hidden><table><tr><th>Giờ</th><th>Sự kiện</th><th>Khách</th><th>Từ → Sang</th><th>Lý do</th></tr><tr><td>09:33</td><td>Chia tự động</td><td>KH0415</td><td>— → Nam</td><td>Chỉ số tải thấp nhất</td></tr><tr><td>09:20</td><td>Tự nhả quá giờ</td><td>KH0420</td><td>Minh → hàng chờ</td><td>Quá 5′ chưa trả lời</td></tr><tr><td>09:18</td><td>Trưởng nhóm chia</td><td>KH0409</td><td>Hàng chờ → Linh</td><td>Hà chọn tay</td></tr></table><p><a class="lk" href="#s12">Mở lịch sử đầy đủ (Màn 12)</a></p></div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Một màn duy nhất cho Trưởng nhóm / Quản trị: lọc bộ phận, ngày, ca ở đầu. Công tắc <b>Chế độ chia Tự động / Thủ công</b> đặt ngay tại đây (ghi lý do, có lịch sử); Thủ công thì hiện thêm nút "Chia tự động các lead đang chờ".</li>
+<li><span class="mk">2</span>Banner cảnh báo hiện nguyên nhân (lead đổ về nhiều hay xử lý chậm); khi mọi NV đạt Tải tối đa hiện banner đầy tải kèm gợi ý.</li>
+<li><span class="mk">3</span>6 thẻ tổng quan; bấm thẻ lọc lưới bên dưới. Bỏ cảnh báo khách CSKH chậm (CSKH tự nhả 5′ như Sale).</li>
+<li><span class="mk">4</span><b>Hàng chờ</b> + <b>Chia thủ công</b>: tick nhiều lead → <b>Chia cho nhân viên</b> (popup Màn 2, có ★ gợi ý theo chỉ số tải). Từng dòng có nút <b>Chia</b>. Mặc định chờ lâu nhất trước; <b>Sắp theo tiềm năng</b> là tùy chọn.</li>
+<li><span class="mk">5</span><b>Theo dõi nhân viên</b>: trạng thái đi làm (116.5), tải / Tải tối đa, chưa bắt đầu, chờ lâu nhất, nút <b>Chia lại</b>. Bấm một dòng → lưới bên dưới chỉ hiện lead của NV đó.</li>
+<li><span class="mk">6</span>Dải tab ngay dưới thẻ tổng quan, mỗi tab một nội dung riêng: <b>Tất cả lead đổ về</b> (mặc định; thay Màn 9 cho Trưởng nhóm, bộ lọc như Màn 9; mỗi lead hiện rõ <b>tên NV tiếp nhận xử lý</b> kèm giờ nhận, lead chưa ai nhận ghi "Chờ nhận") · <b>Hàng chờ</b> ·<b>Lead đóng hôm nay</b> (nút Mở lại) · <b>Lịch sử chia việc</b>.</li>
+<li><span class="mk">7</span>Nhân viên không có màn này; chỉ dùng "Lead của tôi" (Màn 3). Màn 10 và Màn 1 cũ gộp vào đây.</li>
+<li><span class="mk">8</span>Trưởng nhóm / Quản trị có thêm nút <b>Mở chat</b> ở mỗi lead (hàng chờ và Tất cả lead) để tự xử lý khi không có nhân viên nhận.</li>
+</ol></div></section>
+<section class="pg" data-id="s10" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 10 — Tổng quan tồn đọng &amp; cảnh báo <small>(nửa trên của tab Chia việc &amp; Tồn đọng)</small></div><p class="sub">Menu: Pancake ▸ tab Chia việc &amp; Tồn đọng · Quyền xem tab: Trưởng nhóm / Quản trị. Rule 9–10.</p>
+<div class="frame"><div class="bar"><span>Pancake ▸ <b>Chia việc &amp; Tồn đọng</b></span><span>Hôm nay ▾</span></div><div class="body">
+  <div class="cards"><span class="mk">1</span>
+    <div class="cd bad"><small>Tồn đọng tổng hợp</small><b>41</b></div>
+    <div class="cd"><small>Sale</small><b>28</b></div><div class="cd"><small>WFCĐ</small><b>4</b></div><div class="cd warn"><small>CSKH</small><b>9</b></div>
+    <div class="cd"><small>Thời gian chờ nhận TB</small><b>6'20"</b></div></div>
+  <div class="split">
+    <div><b>Lead mới đổ về vs đã xử lý theo giờ</b> <span class="mk">2</span>
+      <div class="chart"><b style="height:30%"></b><b style="height:45%"></b><b style="height:90%"></b><b style="height:80%"></b><b style="height:50%"></b><b style="height:40%"></b></div>
+      <div class="chart" style="height:70px"><b class="y" style="height:35%"></b><b class="y" style="height:40%"></b><b class="y" style="height:42%"></b><b class="y" style="height:44%"></b><b class="y" style="height:40%"></b><b class="y" style="height:38%"></b></div>
+      <small class="legend">Xanh dương: lead mới · Xanh lá: lead đã xử lý · 8h–13h</small>
+      <div class="banner" style="margin-top:8px">Nguyên nhân tồn: <b>Lead mới đổ về nhiều</b> (gấp 2,6 lần TB) <span class="mk">3</span></div></div>
+    <div><b>Cảnh báo đang mở</b> <span class="mk">4</span>
+      <table><tr><td><a class="lk" href="#s1">🔴 Quá tải: 23 lead chờ &gt; 20</a></td><td>09:41</td></tr><tr><td><a class="lk" href="#s3b">🟠 7 lead New — quá giờ</a></td><td>09:20</td></tr></table></div>
+  </div>
+  <p></p>
+  <b>Tồn đọng cá nhân</b> <span class="mk">5</span>
+  <div class="scroll"><table>
+    <tr><th>NV (w_nv)</th><th>Tải / Tải tối đa</th><th>Chưa bắt đầu</th><th>Chờ lâu nhất</th><th>Bị nhả</th><th>Nhả (Khó tư vấn)</th><th>Phản hồi đầu TB</th><th>Đã lên đơn</th><th>Tỷ lệ lên đơn</th><th></th></tr>
+    <tr><td>Nam (×1,0)</td><td>40/100</td><td>1</td><td>2'</td><td>0</td><td>1</td><td>2'10"</td><td>3</td><td>21%</td><td><a class="btn" href="#s2">Chia lại</a></td></tr>
+    <tr><td>Lan (×1,0)</td><td><b style="color:var(--bad)">100/100</b></td><td>5</td><td>7'</td><td>3</td><td>0</td><td>6'40"</td><td>1</td><td>8%</td><td><a class="btn" href="#s2">Chia lại</a></td></tr>
+    <tr><td>Linh (×0,5)</td><td>60/100</td><td>0</td><td>—</td><td>0</td><td>2</td><td>1'55"</td><td>2</td><td>25%</td><td><a class="btn" href="#s2">Chia lại</a></td></tr>
+  </table></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Tồn đọng tổng hợp theo bộ phận (so với ngưỡng).</li>
+<li><span class="mk">2</span>Biểu đồ so sánh lead mới đổ về với lead đã xử lý theo giờ/ngày.</li>
+<li><span class="mk">3</span>Quy tắc kết luận nguyên nhân (Rule 10): lead mới vượt ngưỡng TB ⇒ "dữ liệu đổ về nhiều"; bình thường mà tồn tăng ⇒ "tiến độ xử lý chậm".</li>
+<li><span class="mk">4</span>Danh sách cảnh báo mở (quá tải, tồn đọng, quá giờ).</li>
+<li><span class="mk">5</span>Bảng theo nhân viên: trọng số, tải so với Tải tối đa, chưa bắt đầu, chờ lâu nhất, nút Chia lại. Banner "Tất cả NV Sẵn sàng đã đạt Tải tối đa" hiện khi không còn ứng viên. Thẻ "Lead đóng hôm nay" mở danh sách kèm nút Mở lại. Bảng theo nhân viên: trọng số, tải so với Tải tối đa, chưa bắt đầu, chờ lâu nhất, nút Chia lại. Banner "Tất cả NV Sẵn sàng đã đạt Tải tối đa" hiện khi không còn ứng viên. Thẻ "Lead đóng hôm nay" mở danh sách kèm nút Mở lại. Tồn đọng cá nhân để đánh giá năng lực NV; cột "Nhả (Khó tư vấn)" tách khỏi "Bị nhả" quá giờ vì không bị tính là lỗi.</li>
+</ol></div></section><section class="pg" data-id="s1" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 1 — Hàng chờ &amp; Chia việc lead <small>(nửa dưới của cùng tab, cuộn xuống từ phần tổng quan)</small></div><p class="sub">Menu: Pancake ▸ tab Chia việc &amp; Tồn đọng · Quyền xem tab: Trưởng nhóm / Quản trị.</p>
+<div class="frame">
+  <div class="bar"><span>Pancake ▸ <b>Chia việc &amp; Tồn đọng</b></span><span>🔔 3 &nbsp;|&nbsp; Trưởng nhóm Sale: Hà</span></div>
+  <div class="body">
+    <div class="banner bad"><span class="mk">1</span> ⚠ Quá tải: <b>23 lead đang chờ nhận</b> (ngưỡng 20). Gợi ý điều NV từ team khác hỗ trợ. <a class="btn" style="margin-left:6px" href="#s2">Xem NV rảnh</a></div>
+    <div class="cards"><span class="mk">2</span>
+      <div class="cd"><small>Lead mới hôm nay</small><b>86</b></div>
+      <div class="cd bad"><small>Chờ nhận</small><b>23</b></div>
+      <div class="cd warn"><small>New — quá giờ</small><b>7</b></div>
+      <div class="cd"><small>Đang chờ NV trả lời</small><b>11</b></div>
+      <div class="cd"><small>Lead đóng hôm nay</small><b>6</b></div>
+      <div class="cd"><small>Tỷ lệ lên đơn tháng</small><b>18%</b></div>
+    </div>
+    <div class="tabs"><span class="mk">3</span>
+      <div class="tab on">Hàng chờ (23)</div><div class="tab">Tất cả lead</div><div class="tab">Lead của tôi</div>
+    </div>
+    <div class="row"><span class="mk">4</span>
+      <div class="in">🔍 Tên / SĐT / PSID</div><div class="in">Fanpage Bán Hàng ▾</div><div class="in">Tag ▾</div><div class="in">Trạng thái tiếp nhận ▾</div><div class="in">Trạng thái đơn hàng ▾</div><div class="in">Trạng thái vận chuyển ▾</div><div class="in">Mức tiềm năng ▾</div><div class="in">NV phụ trách ▾</div><div class="in">☐ Khó tư vấn</div><div class="in">Ngày đổ về ▾</div>
+    </div>
+    <div class="row"><span class="mk">5</span><a class="btn p" href="#s2">Chia cho nhân viên (2)</a><a class="btn" href="#s2">Chia đều các lead đang chờ</a><a class="btn" href="#s1">Sắp theo tiềm năng</a><a class="btn" href="#s1">Sắp theo tiềm năng</a><span class="grow"></span><span class="legend">Đã chọn 2 lead</span></div>
+    <div class="scroll"><table>
+      <tr><th>☐</th><th>Khách hàng</th><th>Fanpage / Nguồn</th><th>Tag</th><th>Trạng thái tiếp nhận</th><th>NV tiếp nhận xử lý <span class="mk">6</span></th><th>Tiềm năng / Chốt đơn</th><th>Chờ phản hồi</th><th>Thao tác</th></tr>
+      <tr><td>☑</td><td><b>KH0412</b> Nguyễn Thị Mai<br><small><a class="lk" href="#s5">🔗 Mở hội thoại</a></small></td><td>Fanpage JConnect<br><small>Facebook</small></td><td><span class="bd tag">Sale</span></td><td><span class="bd late">New — quá giờ</span><br><small>Lan nhả lúc 09:12</small></td><td><span class="bd wait">Chờ nhận</span></td><td>nhấp quảng cáo<br>Đang tư vấn</td><td><b style="color:var(--bad)">14 phút</b></td><td><a class="btn" href="#s2">Chia</a> <a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+      <tr><td>☑</td><td><b>KH0415</b> Trần Văn Hùng<br><small><a class="lk" href="#s5">🔗 Mở hội thoại</a></small></td><td>Fanpage JConnect<br><small>Facebook</small></td><td><span class="bd tag">Sale</span> <span class="bd hard">⚑ Khó tư vấn</span></td><td><span class="bd late">New — quá giờ</span><br><small>Minh nhả lúc 09:20 (Khó tư vấn)</small></td><td><span class="bd wait">Chờ nhận</span></td><td>cấp 2 tiềm năng<br>Chờ chốt</td><td><b style="color:var(--bad)">6 phút</b></td><td><a class="btn" href="#s2">Chia</a> <a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+      <tr><td>☐</td><td><b>KH0420</b> Lê Thu Hà</td><td>Fanpage TikTok<br><small>TikTok</small></td><td>—</td><td><span class="bd new">New</span></td><td><b>Nam</b> · nhận 09:31<br><small>Chờ NV trả lời — còn 03:20</small></td><td>nhấp quảng cáo<br>Đang tư vấn</td><td>1 phút</td><td><a class="btn" href="#s2">Chia lại</a> <a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+      <tr><td>☐</td><td><b>KH0388</b> Phạm Quốc Bảo</td><td>Fanpage JConnect</td><td><span class="bd tag">CSKH Support</span></td><td><span class="bd ok">Đã tiếp nhận</span></td><td><b>Hoa</b> · 08:50</td><td>— / —</td><td><b style="color:var(--warn)">18 phút</b> 🔴</td><td><a class="btn" href="#s2">Chia lại</a> <a class="btn" href="#s12">Lịch sử</a> <a class="btn p" href="#s5">Mở chat</a></td></tr>
+    </table></div>
+  </div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Banner quá tải khi hàng chờ vượt ngưỡng (Rule 9). Nút "Xem NV rảnh" mở danh sách NV các team khác đang ít ca.</li>
+<li><span class="mk">2</span>Thẻ số đầu trang (mục 6.1). Bấm thẻ = lọc nhanh lưới bên dưới.</li>
+<li><span class="mk">3</span>Tab: <b>Hàng chờ</b> (Chờ nhận + New — quá giờ) · Tất cả lead · Lead của tôi.</li>
+<li><span class="mk">4</span>Bộ lọc, gồm 2 bộ lọc mới theo họp 23/10: Trạng thái đơn hàng, Trạng thái vận chuyển; thêm lọc cờ Khó tư vấn.</li>
+<li><span class="mk">5</span>Chia cho nhân viên (mở popup ②) · "Chia đều các lead đang chờ" = áp thuật toán chia lô (JCN-116.2 Rule A7), hiện bản xem trước, Trưởng nhóm sửa từng dòng rồi xác nhận.</li>
+<li><span class="mk">6</span>Cột NV phụ trách: <b>tên + giờ nhận</b> khi đã có người; nhãn <b>"Chờ nhận"</b> khi chưa — để người khác nhìn vào biết đã có người xử lý. Lead bị nhả hiện thêm người nhả + lý do. Cờ ⚑ Khó tư vấn nổi bật. Thời gian chờ &gt; ngưỡng thì tô đỏ.</li>
+</ol></div></section><section class="pg" data-id="s9" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 9. Danh sách khách Pancake — bộ lọc mới</div><p class="sub">Menu: Pancake ▸ tab Danh sách khách. Thêm bộ lọc Trạng thái đơn hàng, Trạng thái vận chuyển (họp 23/10).</p>
+<div class="frame"><div class="bar"><span>Pancake ▸ <b>Danh sách khách</b></span><span>Xem tất cả</span></div><div class="body">
+  <div class="cskh-note">👁 <b>Tài khoản CSKH</b> chỉ thấy lead có tag <b>CSKH</b> (Support, Support kỹ thuật, Thu cước, Upsale). Lead Sale / WFCĐ / chưa có tag không hiện.</div>
+<div class="row"><div class="in">🔍 Tên / SĐT / PSID</div><div class="in">Fanpage ▾</div><div class="in">Tag ▾</div><div class="in">NV tiếp nhận xử lý ▾</div>
+    <div class="in" style="border-color:var(--mk)">Trạng thái đơn hàng ▾ <span class="mk">1</span></div>
+    <div class="in" style="border-color:var(--mk)">Trạng thái vận chuyển ▾ <span class="mk">1</span></div><span class="btn">Xoá lọc</span></div>
+  <div class="scroll"><table>
+    <tr><th>Khách</th><th>Fanpage</th><th>Tag</th><th>NV phụ trách</th><th>Đơn hàng</th><th>Vận chuyển</th><th>Cập nhật</th></tr>
+    <tr><td><a class="lk" href="#s5">Lê Thu Hà</a></td><td>TikTok</td><td><span class="bd tag">Sale</span></td><td>Nam <small>09:31</small></td><td>Đang tư vấn</td><td>chưa cập nhật</td><td>09:33</td></tr>
+    <tr><td><a class="lk" href="#s5">Võ Minh Tuấn</a></td><td>JConnect</td><td><span class="bd tag">Sale</span></td><td>Nam <small>08:10</small></td><td>Đã lên đơn · check: chờ check</td><td>chưa cập nhật</td><td>09:12</td></tr>
+    <tr><td><a class="lk" href="#s5">Phạm Quốc Bảo</a></td><td>JConnect</td><td><span class="bd tag">CSKH Support</span></td><td>Hoa <small>08:50</small></td><td>—</td><td>Lỗi VC — sai địa chỉ</td><td>09:05</td></tr>
+    <tr><td><a class="lk" href="#s5">Đỗ Thanh</a></td><td>JConnect</td><td>—</td><td><span class="bd wait">Chờ nhận</span></td><td>—</td><td>—</td><td>09:40</td></tr>
+    <tr class="cskh-only"><td><a class="lk" href="#s5">Nguyễn Thị Hoa</a></td><td>JConnect</td><td><span class="bd tag">CSKH › Upsale</span></td><td>Linh <small>09:10</small></td><td>Đang tư vấn</td><td>—</td><td>09:12</td></tr>
+    <tr class="cskh-only"><td><a class="lk" href="#s5">Đặng Văn Tài</a></td><td>JConnect</td><td><span class="bd tag">CSKH › Thu cước</span></td><td>Linh <small>08:55</small></td><td>—</td><td>—</td><td>08:57</td></tr>
+  </table></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Hai bộ lọc mới: Trạng thái đơn hàng (chốt đơn · check TT · xuất hàng) và Trạng thái vận chuyển (chưa cập nhật · đang vận chuyển · đã gửi thành công · Lỗi VC…). Cột NV phụ trách ở đây cũng hiện tên hoặc "Chờ nhận".</li>
+</ol></div></section><section class="pg" data-id="s11" hidden><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 11. Cài đặt chia việc</div><p class="sub">Chỉ Quản trị. Mọi tham số cấu hình được, có lịch sử thay đổi.</p>
+<div class="frame"><div class="bar"><span>Pancake ▸ <b>Cài đặt chia việc</b></span><span><span class="btn p">Lưu</span></span></div><div class="body">
+  <div class="split">
+    <div>
+      <b>Thời gian &amp; ngưỡng</b> <span class="mk">1</span>
+      <table>
+        <tr><td>Phút trả lời tối đa — Sale *</td><td><span class="in">5</span></td></tr>
+        <tr><td>Nhắc "sắp quá giờ" trước (phút)</td><td><span class="in">1</span></td></tr>
+        <tr><td>Ngưỡng quá tải (lead chờ nhận) *</td><td><span class="in">20</span> <small>chờ Nguyệt</small></td></tr>
+        <tr><td>Tải tối đa mỗi NV (phút xử lý) *</td><td><span class="in">100</span> <small>≈ 10 lead Sale · chờ Nguyệt</small></td></tr>
+        <tr><td>Số lần tự chia lại lead bị nhả *</td><td><span class="in">1</span></td></tr>
+        <tr><td>Ngừng chia trước hết ca (phút) *</td><td><span class="in">15</span></td></tr>
+        <tr><td>N ngày gắn tag Upsale trước khi SIM hết hạn *</td><td><span class="in">30</span> <small>chờ Nguyệt</small></td></tr>
+        <tr><td>Chu kỳ nhắc cảnh báo (phút)</td><td><span class="in">15</span></td></tr>
+      </table>
+      <b>Chế độ chia lead &amp; tự nhả — theo bộ phận</b> <span class="mk">4</span>
+      <table>
+        <tr><th>Bộ phận</th><th>Chế độ chia</th><th>Tự nhả</th><th>Phút</th></tr>
+        <tr><td>Sale</td><td><span class="in">◉ Tự động ○ Thủ công</span></td><td>☑ Bật</td><td><span class="in">5</span></td></tr>
+        <tr><td>CSKH</td><td><span class="in">◉ Tự động ○ Thủ công</span></td><td>☑ Bật</td><td><span class="in">5</span></td></tr>
+        <tr><td>WFCĐ</td><td><span class="in">◉ Tự động ○ Thủ công</span></td><td>☑ Bật</td><td><span class="in">5</span></td></tr>
+        <tr><td>Support</td><td><span class="in">◉ Tự động ○ Thủ công</span></td><td>☑ Bật</td><td><span class="in">5</span></td></tr>
+      </table>
+      <p class="legend">Đổi chế độ chia: <span class="in">Lý do *</span> (bắt buộc, ghi lịch sử) · <span class="btn">Chia tự động các lead đang chờ</span> (chỉ hiện khi chế độ Tự động và hàng chờ còn lead)</p>
+    </div>
+    <div>
+      <b>Trọng số chia việc</b> <span class="mk">2</span>
+      <table>
+        <tr><th>Nhân viên</th><th>w_nv</th></tr>
+        <tr><td>Chính thức</td><td>1,0</td></tr><tr><td>Thử việc</td><td>0,5</td></tr>
+        <tr><th>Loại khách</th><th>w_loai</th></tr>
+        <tr><td>Khách mới (Sale)</td><td>1</td></tr><tr><td>CSKH</td><td>1</td></tr><tr><td>WFCĐ</td><td>1</td></tr><tr><td>Support</td><td>1</td></tr>
+        <tr><td>cấp 1</td><td>1,5</td></tr><tr><td>cấp 2</td><td>2,0</td></tr>
+        <tr><th>Thời gian xử lý TB</th><th>t_xl (phút)</th></tr>
+        <tr><td>Sale</td><td>10</td></tr><tr><td>CSKH / WFCĐ / Support</td><td>30</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="legend"><span class="mk">3</span> Xem "Lịch sử thay đổi cấu hình" · đặt mọi trọng số = 1 để chia đều thuần theo đầu người.</p>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Các giá trị chờ Nguyệt đang là giá trị tạm để Dev test.</li>
+<li><span class="mk">2</span>Công thức: Chỉ số tải = Σ(w_loai × t_xl) ÷ w_nv — chọn NV thấp nhất (Rule 5). Công thức do BA đề xuất, chờ team duyệt.</li>
+<li><span class="mk">3</span>Mọi thay đổi ghi lịch sử (ai, khi nào, giá trị cũ → mới).</li>
+<li><span class="mk">4</span>Chế độ chia lead (Rule A5): <b>Tự động</b> (mặc định) hoặc <b>Thủ công</b> — theo từng bộ phận; Thủ công thì lead mới vào Hàng chờ, chưa chạy SLA. Đổi chế độ không ảnh hưởng lead đã giao và không tự chia hàng loạt lead đang chờ. Tự nhả và số phút đặt riêng từng bộ phận (#49).</li>
+</ol></div></section><section class="pg" data-id="s5" hidden><div class="mh"><span class="tk mine1" data-tk="116.3">JCN-116.3</span> 5. Khung làm việc với khách — người đang phụ trách</div><p class="sub">Màn làm việc chính của nhân viên: danh sách khách · chat · hồ sơ + tạo đơn + đơn hàng. Chỉ người phụ trách nhắn tin và đổi tag.</p>
+<div class="frame"><div class="bar"><span>CSKH &amp; Support / Pancake / <b>Khách hàng</b></span><span class="who">Nam (Sale)</span></div><div class="wk"><div class="lc"><div class="sg"><span class="on">Khách hàng</span><span>Nhân viên</span></div><div class="in" style="margin-bottom:6px">🔍 Tìm tên, SĐT, PSID (từ 2 ký tự)</div><span class="chp on">Của tôi <span data-s="4" data-c="3">4</span></span><span class="chp">Chờ trả lời 1</span><span class="chp">Mới (24h) 2</span><div class="in" style="margin-bottom:6px">Lọc theo tag ▾</div><div class="in" style="margin-bottom:6px">Tất cả xử lý ▾ <small style="float:right"><span data-s="4" data-c="3">4</span> / <span data-s="4" data-c="3">4</span></small></div><div class="li on" data-toast="Mở hội thoại KH0415 Trần Văn Hùng"><div class="av" style="background:#2563eb">KT</div><div style="min-width:0"><b>Trần Văn Hùng</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:33</small><br><small>Anh cần báo giá gói cho 50 SIM…</small> <span class=&quot;bd late&quot;>⏱ 03:20</span></div></div><div class="li" data-toast="Mở hội thoại KH0398 Võ Minh Tuấn"><div class="av" style="background:#16a34a">VT</div><div style="min-width:0"><b>Võ Minh Tuấn</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:12</small><br><small>Đã chuyển khoản rồi nhé</small></div></div><div class="li" data-toast="Mở hội thoại KH0377 Nguyễn Thị Hoa"><div class="av" style="background:#d97706">NH</div><div style="min-width:0"><b>Nguyễn Thị Hoa</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:05</small><br><small>Em suy nghĩ thêm</small></div></div><div class="li" data-toast="Mở hội thoại KH0402 Lê Văn Cường"><div class="av" style="background:#7c3aed">LC</div><div style="min-width:0"><b>Lê Văn Cường</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>08:50</small><br><small>[Sticker]</small> <span class=&quot;bd late&quot;>⏱ quá 6′</span></div></div></div><div class="cc"><div class="ch only-sale"><b>KH0415 Trần Văn Hùng</b> <span class="bd tag"><span class="os">Sale</span><span class="oc">CSKH</span></span> <span class="bd">Facebook · Fanpage JConnect</span><span class="grow" style="flex:1"></span><span class="btn" data-toast="Tải lại hội thoại">⟳ Tải lại</span></div><div class="ch only-cskh"><b>KH0420 Phạm Quốc Bảo</b> <span class="bd tag">CSKH › Support</span> <span class="bd">Facebook · Fanpage JConnect</span><span class="grow" style="flex:1"></span><span class="btn" data-toast="Tải lại hội thoại">⟳ Tải lại</span></div><div class="cm only-sale" id="chatlog"><div class="banner" style="border-color:var(--warn)"><span class="mk">2</span> Khách này đang <b>chờ bạn trả lời</b> — còn 03:20 trước khi lead tự nhả.</div><div class="sys">— Hôm nay 09:20 —</div>
+<div class="msg">Anh cần báo giá gói cho 50 SIM công ty ạ.</div>
+<div class="msg me">Chào anh, em là Nam, em sẽ hỗ trợ anh tiếp ạ.<br><small style="color:var(--mute)">👤 Nam · 09:32</small></div>
+<div class="sys">⏱ 09:35 Đơn đã đóng gói — hệ thống tự gửi thông tin xuất kho + ảnh <span class="mk">8</span></div></div><div class="cm only-cskh"><div class="banner" style="border-color:var(--warn)"><span class="mk">2</span> Khách này đang <b>chờ bạn trả lời</b> — còn 03:20 trước khi lead tự nhả.</div><div class="sys">— Hôm nay 08:40 —</div>
+<div class="msg">Chào shop, SIM của em không có sóng từ hôm qua, em đã khởi động lại máy mà vẫn không được.</div>
+<div class="msg me">Chào anh, em là Linh bên CSKH J-Connect ạ. Anh cho em xin số SIM và dòng máy anh đang dùng để em kiểm tra nhé.</div>
+<div class="msg">SIM 090-xxxx-123, iPhone 13 ạ.</div>
+<div class="sys">ℹ Lịch sử: đơn NEW-20261001-011 SIM bán đứt giao thành công 05/10 · đang sử dụng · đã support 1 lần</div></div><div class="tb"><span class="btn" data-toast="Chọn hình báo giá từ thư viện hoặc tải lên">🖼 Gửi hình báo giá</span><span class="btn" data-toast="Đính kèm file">📎 File</span><span class="btn" data-toast="Chọn mẫu tin nhắn (tab Mẫu tin nhắn)">📋 Mẫu tin</span><span class="btn p" data-act="sendpay">💳 Gửi thông tin thanh toán</span><span class="btn" data-toast="Gửi tóm tắt đơn / báo giá cho khách">🧾 Gửi tóm tắt đơn</span></div><div class="ci"><div class="in grow" style="flex:1">Nhập tin nhắn…</div><span class="btn p" data-toast="Đã gửi tin (mô phỏng)">Gửi</span></div><div class="ft">Ngoài cửa sổ nhắn tin (24 giờ / 7 ngày): ô nhập khóa — "Không gửi được, liên hệ khách kênh khác" <span class="mk">3</span></div></div><div class="rp"><span class="bd ok">Đã liên kết</span><div class="rt"><span class="on" data-rp="info">Thông tin</span><span data-rp="new">Tạo đơn</span><span data-rp="orders">Đơn hàng</span></div><div data-rpb="info" class="only-sale">
+<div class="sec">Người phụ trách</div><div class="kv"><div><span>Phụ trách</span><b>Nam</b> <small>· nhận 09:31</small></div><div><span>Tiếp nhận</span><span class="bd new">New</span> <b style="color:var(--bad)">⏱ 03:20 / 5′</b></div></div>
+<div class="sec">Thông tin khách</div><div class="kv"><div><span>Mã KH</span>KH0415</div><div><span>Tên</span>Trần Văn Hùng</div><div><span>SĐT</span>09xx xxx 123</div><div><span>Hạng SMP</span>—</div><div><span>Nguồn</span>facebook · Fanpage JConnect</div><div><span>Mã giới thiệu</span>—</div></div>
+<div class="sec">Tag &amp; trạng thái <span class="mk">3</span></div><div class="kv"><div><span>Tag</span><span class="bd tag"><span class="os">Sale</span><span class="oc">CSKH</span></span> <span class="bd hard">⚑ Khó tư vấn</span></div><div><span>Tư vấn</span><div class="in">Cấp 2 tiềm năng ▾</div></div><div><span>Chốt đơn</span><div class="in">Chờ chốt ▾</div></div></div>
+<p style="margin:6px 0"><a class="btn p" href="#s8">Đổi tag / Bàn giao</a> <a class="btn w" href="#s7">Tôi nhả</a> <a class="btn" href="#s12">Lịch sử chia việc</a></p>
+<div class="sec">Đơn gần đây</div><div class="kv"><div><b>NEW-20261021-002</b></div><div><small>SIM SOFTBANK 10GB/12月 · 11.200¥ · 21/10 14:34</small></div><div><span class="bd wait">Chờ check TT</span> <span class="bd">Chờ đóng gói</span> <a class="lk" data-rp="orders">Xem chi tiết ›</a></div></div>
+<div class="sec">Giao hàng đang xử lý</div><div class="kv"><div>NEW-20261021-002 <span class="bd">READY_TO_SHIP</span></div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở hồ sơ CRM (JCN-5) ở tab mới">Mở hồ sơ CRM ↗</a></p>
+<div class="sec">Ghi chú Khó tư vấn</div><div class="banner" style="border-color:var(--hard)"><span class="mk">4</span> <b>⚑ Minh nhả 09:20</b>: "Khách hỏi gói doanh nghiệp 50 SIM, cần báo giá riêng… Đã tư vấn gói cá nhân, khách chưa đồng ý." <small>▸ Xem ghi chú trước (1)</small></div>
+<div class="sec">Hoạt động</div><div class="kv"><div>09:35 Đơn đã đóng gói — hệ thống gửi tin xuất kho</div><div>09:31 Hệ thống chia cho Nam (chỉ số tải thấp nhất)</div><div>09:20 Minh nhả (Khó tư vấn)</div></div>
+<div class="sec">Ghi chú nội bộ</div><div class="in" style="height:48px">Ghi chú nội bộ (lưu J-Connect)</div><p style="text-align:right;margin:4px 0"><span class="btn" data-toast="Đã lưu ghi chú nội bộ">Lưu</span></p>
+<div class="sec">Thông tin Pancake</div><div class="kv"><div><span>PSID</span><small>28819349361048039</small></div><div><span>Page</span>Fanpage JConnect</div><div><span>Ngày sync</span>21/10/2026 13:20</div></div>
+</div><div data-rpb="info" class="only-cskh">
+<div class="sec">Người phụ trách</div><div class="kv"><div><span>Phụ trách</span><b>Linh</b> <small>· nhận 09:31</small></div><div><span>Tiếp nhận</span><span class="bd new">New</span> <b style="color:var(--bad)">⏱ 03:20 / 5′</b></div></div>
+<div class="sec">Thông tin khách</div><div class="kv"><div><span>Mã KH</span>KH0420</div><div><span>Tên</span>Phạm Quốc Bảo</div><div><span>SĐT</span>090xxxx123</div><div><span>Hạng SMP</span>—</div><div><span>Nguồn</span>facebook · Fanpage JConnect</div><div><span>Dịch vụ</span>Đang sử dụng · SIM bán đứt</div></div>
+<div class="sec">Tag &amp; trạng thái <span class="mk">3</span></div><div class="kv"><div><span>Tag</span><span class="bd tag">CSKH › Support</span></div><div><span>Xử lý</span><div class="in">Chờ xử lý ▾</div></div><div><span>Số lần support</span><div class="in">Lần 2 ▾</div></div><div><span>Vấn đề</span><div class="in">SIM không có sóng từ 29/10</div></div><div><span>Sản phẩm</span><div class="in">SIM SOFTBANK 10GB ▾</div></div></div>
+<p style="margin:6px 0"><a class="btn p" href="#s8">Đổi tag / Bàn giao</a> <a class="btn w" href="#s7">Tôi nhả</a> <a class="btn" href="#s12">Lịch sử chia việc</a></p>
+<div class="sec">Đơn gần đây</div><div class="kv"><div><b>NEW-20261001-011</b></div><div><small>SIM SOFTBANK 10GB/12月 · 11.200¥ · 01/10</small></div><div><span class="bd ok">Đã gửi thành công</span> <a class="lk" data-rp="orders">Xem chi tiết ›</a></div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở hồ sơ CRM (JCN-5) ở tab mới">Mở hồ sơ CRM ↗</a></p>
+<div class="sec">Hoạt động</div><div class="kv"><div>09:31 Hệ thống chia cho Linh (hàng chờ CSKH)</div><div>08:40 Khách nhắn tin — lead CSKH, đang dùng dịch vụ</div></div>
+<div class="sec">Ghi chú nội bộ</div><div class="in" style="height:48px">Ghi chú nội bộ (lưu J-Connect)</div><p style="text-align:right;margin:4px 0"><span class="btn" data-toast="Đã lưu ghi chú nội bộ">Lưu</span></p>
+</div>
+<div data-rpb="new" hidden>
+<div class="banner info" style="font-size:12.5px"><span class="mk">5</span> Tạo đơn ngay trong khung chat; thông tin khách và địa chỉ tự điền từ hồ sơ. Quy tắc chi tiết của đơn: JCN-84 (Lên đơn).</div>
+<div class="sec">Sản phẩm</div><table><tr><th>Sản phẩm</th><th>SL</th><th>Đơn giá</th><th></th></tr><tr><td>SIM SOFTBANK 10GB/12月</td><td><div class="in">1</div></td><td>11.200¥</td><td>✕</td></tr></table><p style="margin:4px 0"><span class="btn" data-toast="Tìm sản phẩm / SIM (JCN-84)">+ Thêm sản phẩm</span> <span class="btn" data-toast="Áp mã giảm giá / đại lý">Mã giảm giá</span></p>
+<div class="sec">Người nhận &amp; giao hàng</div><div class="kv"><div><span>Người nhận</span><div class="in">Trần Văn Hùng</div></div><div><span>SĐT</span><div class="in">09xx xxx 123</div></div><div><span>Địa chỉ</span><div class="in">〒160-0023 Tokyo, Shinjuku…</div></div><div><span>Giao hàng</span><div class="in">Yamato ▾</div></div></div>
+<div class="sec">Thanh toán</div><div class="kv"><div><span>Hình thức</span><div class="in">Chuyển khoản ▾</div></div><div><span>Tổng</span><b>11.200¥</b> <small>(+ phí ship 0¥)</small></div></div>
+<p style="margin:8px 0"><span class="btn" data-toast="Đã lưu đơn nháp NEW-…-DRAFT">Lưu nháp</span> <span class="btn p" data-act="mkorder">Tạo đơn</span></p>
+<div id="afterorder" hidden><div class="banner" style="border-color:var(--ok)">✔ Đã tạo đơn <b>NEW-20261030-007</b> — trạng thái <span class="bd wait">Chờ check TT</span></div>
+<p><span class="btn p" data-act="sendpay">💳 Gửi thông tin thanh toán vào chat</span> <span class="btn" data-rp="orders">Xem đơn</span></p></div>
+</div><div data-rpb="orders" hidden>
+<div class="sec">Lịch sử đơn hàng</div>
+<div class="kv"><div><b>NEW-20261021-002</b> <span style="margin-left:auto"><b>11.200¥</b></span></div><div><small>21/10/2026 14:34 · SIM SOFTBANK 10GB/12月 × 1</small></div></div>
+<div class="sec">Chi tiết đơn <span class="mk">6</span></div>
+<div class="kv"><div><span>Sản phẩm</span>SIM SOFTBANK 10GB/12月 × 1 — 11.200¥</div><div><span>Người nhận</span>Trần Văn Hùng · 09xx xxx 123</div><div><span>Địa chỉ</span>〒160-0023 Tokyo, Shinjuku…</div><div><span>Người tạo</span>Nam (Sale)</div></div>
+<div class="sec">Thanh toán</div><div class="stp"><span class="done">Đã lên đơn</span><span class="cur">Chờ check TT</span><span>Đã check</span></div>
+<p style="margin:4px 0"><span class="btn" data-act="sendpay">💳 Gửi (lại) thông tin thanh toán</span></p>
+<div class="sec">Đóng gói <span class="mk">7</span></div><div class="stp"><span class="done">Chờ đóng gói</span><span class="cur">Đang đóng gói</span><span>Đã đóng gói</span></div><div class="kv"><div><span>Người đóng gói</span>—</div><div><span>Giờ đóng gói</span>—</div><div><span>Ảnh đơn</span>chưa có</div></div>
+<div class="sec">Vận chuyển</div><div class="stp"><span class="cur">Chờ xuất</span><span>Đã xuất</span><span>Đang giao</span><span>Giao thành công</span></div><div class="kv"><div><span>Hãng</span>Yamato</div><div><span>Mã vận đơn</span>chưa có</div><div><span>Cập nhật</span>chưa cập nhật</div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở trang tra cứu hãng vận chuyển">Tra cứu vận đơn ↗</a> · <a class="lk" href="#" data-toast="Mở chi tiết đơn trong Lên đơn (JCN-84)">Mở đơn đầy đủ ↗</a></p>
+<small class="legend">Chỉ xem: Kế toán cập nhật check TT, Kho cập nhật đóng gói / xuất hàng, hãng vận chuyển cập nhật vận đơn.</small>
+</div></div></div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Ba cột: <b>danh sách khách</b> (mặc định "Của tôi", lọc tag / xử lý), <b>khung chat</b>, <b>panel bên phải</b> có 3 tab: Thông tin · Tạo đơn · Đơn hàng.</li>
+<li><span class="mk">2</span>Banner nhắc SLA khi lead còn New; ghi chú Khó tư vấn hiện ở panel Thông tin (và đầu chat).</li>
+<li><span class="mk">3</span>Ngoài cửa sổ nhắn tin: ô nhập khóa; Gửi hình báo giá, File, Mẫu tin, Gửi thông tin thanh toán đặt ở thanh công cụ trên ô nhập. Mỗi tin là chữ HOẶC file.</li>
+<li><span class="mk">4</span>Tag, trạng thái tư vấn, chốt đơn, nút <b>Đổi tag / Bàn giao</b> (Màn 8), <b>Tôi nhả</b> (Màn 7), Lịch sử chia việc nằm ở tab Thông tin.</li>
+<li><span class="mk">5</span>Tab <b>Tạo đơn</b>: form rút gọn, tự điền khách, địa chỉ; sau khi tạo hiện nút <b>Gửi thông tin thanh toán vào chat</b>. Chi tiết quy tắc đơn: JCN-84.</li>
+<li><span class="mk">6</span>Tab <b>Đơn hàng</b>: danh sách đơn của khách + chi tiết, trạng thái <b>thanh toán</b>, <b>đóng gói</b>, <b>vận chuyển</b> (chỉ xem; do Kế toán / Kho / hãng VC cập nhật).</li>
+<li><span class="mk">7</span>Đóng gói: Chờ → Đang → Đã đóng gói (người, giờ, ảnh). Khi Đã đóng gói hệ thống tự gửi tin xuất kho (JCN-116.1).</li>
+<li><span class="mk">8</span>Tin hệ thống hiện trong chat với biểu tượng ⏱.</li>
+</ol></div></section>
+<section class="pg" data-id="s6" hidden><div class="mh"><span class="tk mine1" data-tk="116.3">JCN-116.3</span> 6. Khung làm việc với khách — người khác xem (chỉ đọc)</div><p class="sub">Ai cũng xem được hội thoại; chỉ người phụ trách nhắn tin, đổi tag, tạo đơn.</p>
+<div class="frame"><div class="bar"><span>CSKH &amp; Support / Pancake / <b>Khách hàng</b></span><span>Người xem: Linh (Sale)</span></div><div class="wk"><div class="lc"><div class="sg"><span class="on">Khách hàng</span><span>Nhân viên</span></div><div class="in" style="margin-bottom:6px">🔍 Tìm tên, SĐT, PSID (từ 2 ký tự)</div><span class="chp on">Của tôi <span data-s="4" data-c="3">4</span></span><span class="chp">Chờ trả lời 1</span><span class="chp">Mới (24h) 2</span><div class="in" style="margin-bottom:6px">Lọc theo tag ▾</div><div class="in" style="margin-bottom:6px">Tất cả xử lý ▾ <small style="float:right"><span data-s="4" data-c="3">4</span> / <span data-s="4" data-c="3">4</span></small></div><div class="li on" data-toast="Mở hội thoại KH0415 Trần Văn Hùng"><div class="av" style="background:#2563eb">KT</div><div style="min-width:0"><b>Trần Văn Hùng</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:33</small><br><small>Anh cần báo giá gói cho 50 SIM…</small> <span class=&quot;bd late&quot;>⏱ 03:20</span></div></div><div class="li" data-toast="Mở hội thoại KH0398 Võ Minh Tuấn"><div class="av" style="background:#16a34a">VT</div><div style="min-width:0"><b>Võ Minh Tuấn</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:12</small><br><small>Đã chuyển khoản rồi nhé</small></div></div><div class="li" data-toast="Mở hội thoại KH0377 Nguyễn Thị Hoa"><div class="av" style="background:#d97706">NH</div><div style="min-width:0"><b>Nguyễn Thị Hoa</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>09:05</small><br><small>Em suy nghĩ thêm</small></div></div><div class="li" data-toast="Mở hội thoại KH0402 Lê Văn Cường"><div class="av" style="background:#7c3aed">LC</div><div style="min-width:0"><b>Lê Văn Cường</b><br><small>👤 Nam đang xử lý</small><br><span class="bd tag">Sale</span> <small>08:50</small><br><small>[Sticker]</small> <span class=&quot;bd late&quot;>⏱ quá 6′</span></div></div></div><div class="cc"><div class="ch only-sale"><b>KH0415 Trần Văn Hùng</b> <span class="bd tag"><span class="os">Sale</span><span class="oc">CSKH</span></span> <span class="bd">Facebook · Fanpage JConnect</span><span class="grow" style="flex:1"></span><span class="btn" data-toast="Tải lại hội thoại">⟳ Tải lại</span></div><div class="ch only-cskh"><b>KH0420 Phạm Quốc Bảo</b> <span class="bd tag">CSKH › Support</span> <span class="bd">Facebook · Fanpage JConnect</span><span class="grow" style="flex:1"></span><span class="btn" data-toast="Tải lại hội thoại">⟳ Tải lại</span></div><div class="cm only-sale" id="chatlog-ro"><div class="banner info"><span class="mk">1</span> 🔒 Lead đang do <b>Nam</b> phụ trách (nhận 09:31). Bạn chỉ có thể xem.</div><div class="sys">— Hôm nay 09:20 —</div>
+<div class="msg">Anh cần báo giá gói cho 50 SIM công ty ạ.</div>
+<div class="msg me">Chào anh, em là Nam, em sẽ hỗ trợ anh tiếp ạ.<br><small style="color:var(--mute)">👤 Nam · 09:32</small></div>
+<div class="sys">⏱ 09:35 Đơn đã đóng gói — hệ thống tự gửi thông tin xuất kho + ảnh <span class="mk">8</span></div></div><div class="cm only-cskh"><div class="banner info"><span class="mk">1</span> 🔒 Lead đang do <b>Linh</b> phụ trách (nhận 09:31). Bạn chỉ có thể xem.</div><div class="sys">— Hôm nay 08:40 —</div>
+<div class="msg">Chào shop, SIM của em không có sóng từ hôm qua, em đã khởi động lại máy mà vẫn không được.</div>
+<div class="msg me">Chào anh, em là Linh bên CSKH J-Connect ạ. Anh cho em xin số SIM và dòng máy anh đang dùng để em kiểm tra nhé.</div>
+<div class="msg">SIM 090-xxxx-123, iPhone 13 ạ.</div>
+<div class="sys">ℹ Lịch sử: đơn NEW-20261001-011 SIM bán đứt giao thành công 05/10 · đang sử dụng · đã support 1 lần</div></div><div class="tb"><span class="btn off">🖼 Gửi hình báo giá</span><span class="btn off">📎 File</span><span class="btn off">📋 Mẫu tin</span><span class="btn off">💳 Gửi thông tin thanh toán</span></div><div class="ci"><div class="in grow" style="opacity:.5;flex:1">Chỉ người phụ trách được nhắn tin</div><span class="btn off">Gửi</span><span class="mk">2</span></div><div class="ft">Ngoài cửa sổ nhắn tin (24 giờ / 7 ngày): ô nhập khóa — "Không gửi được, liên hệ khách kênh khác" <span class="mk">3</span></div></div><div class="rp"><span class="bd ok">Đã liên kết</span><div class="rt"><span class="on" data-rp="info">Thông tin</span><span data-rp="orders">Đơn hàng</span></div><div data-rpb="info" class="only-sale">
+<div class="sec">Người phụ trách</div><div class="kv"><div><span>Phụ trách</span><b>Nam</b> <small>· nhận 09:31</small></div><div><span>Tiếp nhận</span><span class="bd new">New</span> <b style="color:var(--bad)">⏱ 03:20 / 5′</b></div></div>
+<div class="sec">Thông tin khách</div><div class="kv"><div><span>Mã KH</span>KH0415</div><div><span>Tên</span>Trần Văn Hùng</div><div><span>SĐT</span>09xx xxx 123</div><div><span>Hạng SMP</span>—</div><div><span>Nguồn</span>facebook · Fanpage JConnect</div><div><span>Mã giới thiệu</span>—</div></div>
+<div class="sec">Tag &amp; trạng thái <span class="mk">3</span></div><div class="kv"><div><span>Tag</span><span class="bd tag"><span class="os">Sale</span><span class="oc">CSKH</span></span> <span class="bd hard">⚑ Khó tư vấn</span></div><div><span>Tư vấn</span><div class="in">Cấp 2 tiềm năng ▾</div></div><div><span>Chốt đơn</span><div class="in">Chờ chốt ▾</div></div></div>
+<p style="margin:6px 0"><a class="btn p off" href="#s8">Đổi tag / Bàn giao</a> <a class="btn w off" href="#s7">Tôi nhả</a> <a class="btn" href="#s12">Lịch sử chia việc</a></p>
+<div class="sec">Đơn gần đây</div><div class="kv"><div><b>NEW-20261021-002</b></div><div><small>SIM SOFTBANK 10GB/12月 · 11.200¥ · 21/10 14:34</small></div><div><span class="bd wait">Chờ check TT</span> <span class="bd">Chờ đóng gói</span> <a class="lk" data-rp="orders">Xem chi tiết ›</a></div></div>
+<div class="sec">Giao hàng đang xử lý</div><div class="kv"><div>NEW-20261021-002 <span class="bd">READY_TO_SHIP</span></div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở hồ sơ CRM (JCN-5) ở tab mới">Mở hồ sơ CRM ↗</a></p>
+<div class="sec">Ghi chú Khó tư vấn</div><div class="banner" style="border-color:var(--hard)"><span class="mk">4</span> <b>⚑ Minh nhả 09:20</b>: "Khách hỏi gói doanh nghiệp 50 SIM, cần báo giá riêng… Đã tư vấn gói cá nhân, khách chưa đồng ý." <small>▸ Xem ghi chú trước (1)</small></div>
+<div class="sec">Hoạt động</div><div class="kv"><div>09:35 Đơn đã đóng gói — hệ thống gửi tin xuất kho</div><div>09:31 Hệ thống chia cho Nam (chỉ số tải thấp nhất)</div><div>09:20 Minh nhả (Khó tư vấn)</div></div>
+<div class="sec">Ghi chú nội bộ</div><div class="in" style="height:48px">Ghi chú nội bộ (lưu J-Connect)</div><p style="text-align:right;margin:4px 0"><span class="btn" data-toast="Đã lưu ghi chú nội bộ">Lưu</span></p>
+<div class="sec">Thông tin Pancake</div><div class="kv"><div><span>PSID</span><small>28819349361048039</small></div><div><span>Page</span>Fanpage JConnect</div><div><span>Ngày sync</span>21/10/2026 13:20</div></div>
+</div><div data-rpb="info" class="only-cskh">
+<div class="sec">Người phụ trách</div><div class="kv"><div><span>Phụ trách</span><b>Linh</b> <small>· nhận 09:31</small></div><div><span>Tiếp nhận</span><span class="bd new">New</span> <b style="color:var(--bad)">⏱ 03:20 / 5′</b></div></div>
+<div class="sec">Thông tin khách</div><div class="kv"><div><span>Mã KH</span>KH0420</div><div><span>Tên</span>Phạm Quốc Bảo</div><div><span>SĐT</span>090xxxx123</div><div><span>Hạng SMP</span>—</div><div><span>Nguồn</span>facebook · Fanpage JConnect</div><div><span>Dịch vụ</span>Đang sử dụng · SIM bán đứt</div></div>
+<div class="sec">Tag &amp; trạng thái <span class="mk">3</span></div><div class="kv"><div><span>Tag</span><span class="bd tag">CSKH › Support</span></div><div><span>Xử lý</span><div class="in">Chờ xử lý ▾</div></div><div><span>Số lần support</span><div class="in">Lần 2 ▾</div></div><div><span>Vấn đề</span><div class="in">SIM không có sóng từ 29/10</div></div><div><span>Sản phẩm</span><div class="in">SIM SOFTBANK 10GB ▾</div></div></div>
+<p style="margin:6px 0"><a class="btn p" href="#s8">Đổi tag / Bàn giao</a> <a class="btn w" href="#s7">Tôi nhả</a> <a class="btn" href="#s12">Lịch sử chia việc</a></p>
+<div class="sec">Đơn gần đây</div><div class="kv"><div><b>NEW-20261001-011</b></div><div><small>SIM SOFTBANK 10GB/12月 · 11.200¥ · 01/10</small></div><div><span class="bd ok">Đã gửi thành công</span> <a class="lk" data-rp="orders">Xem chi tiết ›</a></div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở hồ sơ CRM (JCN-5) ở tab mới">Mở hồ sơ CRM ↗</a></p>
+<div class="sec">Hoạt động</div><div class="kv"><div>09:31 Hệ thống chia cho Linh (hàng chờ CSKH)</div><div>08:40 Khách nhắn tin — lead CSKH, đang dùng dịch vụ</div></div>
+<div class="sec">Ghi chú nội bộ</div><div class="in" style="height:48px">Ghi chú nội bộ (lưu J-Connect)</div><p style="text-align:right;margin:4px 0"><span class="btn" data-toast="Đã lưu ghi chú nội bộ">Lưu</span></p>
+</div>
+<div data-rpb="orders" hidden>
+<div class="sec">Lịch sử đơn hàng</div>
+<div class="kv"><div><b>NEW-20261021-002</b> <span style="margin-left:auto"><b>11.200¥</b></span></div><div><small>21/10/2026 14:34 · SIM SOFTBANK 10GB/12月 × 1</small></div></div>
+<div class="sec">Chi tiết đơn <span class="mk">6</span></div>
+<div class="kv"><div><span>Sản phẩm</span>SIM SOFTBANK 10GB/12月 × 1 — 11.200¥</div><div><span>Người nhận</span>Trần Văn Hùng · 09xx xxx 123</div><div><span>Địa chỉ</span>〒160-0023 Tokyo, Shinjuku…</div><div><span>Người tạo</span>Nam (Sale)</div></div>
+<div class="sec">Thanh toán</div><div class="stp"><span class="done">Đã lên đơn</span><span class="cur">Chờ check TT</span><span>Đã check</span></div>
+<p style="margin:4px 0"><span class="btn" data-act="sendpay">💳 Gửi (lại) thông tin thanh toán</span></p>
+<div class="sec">Đóng gói <span class="mk">7</span></div><div class="stp"><span class="done">Chờ đóng gói</span><span class="cur">Đang đóng gói</span><span>Đã đóng gói</span></div><div class="kv"><div><span>Người đóng gói</span>—</div><div><span>Giờ đóng gói</span>—</div><div><span>Ảnh đơn</span>chưa có</div></div>
+<div class="sec">Vận chuyển</div><div class="stp"><span class="cur">Chờ xuất</span><span>Đã xuất</span><span>Đang giao</span><span>Giao thành công</span></div><div class="kv"><div><span>Hãng</span>Yamato</div><div><span>Mã vận đơn</span>chưa có</div><div><span>Cập nhật</span>chưa cập nhật</div></div>
+<p style="margin:6px 0"><a class="lk" href="#" data-toast="Mở trang tra cứu hãng vận chuyển">Tra cứu vận đơn ↗</a> · <a class="lk" href="#" data-toast="Mở chi tiết đơn trong Lên đơn (JCN-84)">Mở đơn đầy đủ ↗</a></p>
+<small class="legend">Chỉ xem: Kế toán cập nhật check TT, Kho cập nhật đóng gói / xuất hàng, hãng vận chuyển cập nhật vận đơn.</small>
+</div></div></div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Banner cho biết ai đang xử lý — người khác biết đã có người nhận.</li>
+<li><span class="mk">2</span>Ô nhập, gửi hình, gửi thông tin thanh toán, đổi tag, tạo đơn khóa với người không phụ trách. Vẫn xem được tab Thông tin và Đơn hàng.</li>
+<li><span class="mk">3</span>Lead "Chờ nhận": Trưởng nhóm thấy nút <a class="btn g" href="#s20">Chia</a> (Trung tâm chia lead); nhân viên chỉ xem.</li>
+</ol></div></section>
+</div></div></div><div class="mdl" data-id="s7" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk" data-tk="116.3">JCN-116.3</span> 7. Popup "Tôi nhả"</div><p class="sub">Mở từ ③ hoặc ⑤. Lý do "Khó tư vấn" / "Khác" bắt buộc ghi chú.</p>
+<div class="pop">
+  <h4>Nhả lead — Trần Văn Hùng (KH0415)</h4>
+  <div class="fld"><label>Lý do nhả *</label>
+    <div class="in">◉ Khó tư vấn &nbsp; ○ Sai bộ phận &nbsp; ○ Quá tải &nbsp; ○ Nghỉ / đột xuất &nbsp; ○ Khác</div></div>
+  <div class="fld"><label>Ghi chú * <span class="mk">1</span> (gợi ý: khách cần gì · đã tư vấn gì · vướng ở đâu · hướng xử lý)</label>
+    <div class="in ta">Khách hỏi gói doanh nghiệp 50 SIM, cần báo giá riêng, mình chưa nắm bảng giá. Đã tư vấn gói cá nhân, khách chưa đồng ý.</div></div>
+  <div class="banner" style="font-size:12px"><span class="mk">2</span> Sau khi nhả, lead về <b>Hàng chờ (Chờ nhận)</b> và gắn cờ ⚑ Khó tư vấn. Bạn sẽ không nhắn được cho khách. Trưởng nhóm được thông báo; hệ thống chia lại cho NV khác (chế độ Tự động).</div>
+  <p class="legend">Lead đã lên đơn / đang có đơn chưa hoàn tất: nút Tôi nhả bị khoá, nhờ Trưởng nhóm chia lại.</p>
+  <div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn d" href="#s3b">Xác nhận nhả</a></div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Không nhập ghi chú thì không bấm được "Xác nhận nhả" (khi lý do là Khó tư vấn / Khác).</li>
+<li><span class="mk">2</span>Hệ quả hiển thị rõ cho NV trước khi xác nhận; hệ thống không tự chia lại.</li>
+</ol></div></div></div><div class="mdl" data-id="s8" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk" data-tk="116.3">JCN-116.3</span> 8. Popup "Đổi tag / Bàn giao bộ phận"</div><p class="sub"><span class="os">Sale</span><span class="oc">CSKH</span> tư vấn xong gắn tag bàn giao. Chỉ người phụ trách mới thấy.</p>
+<div class="pop">
+  <h4>Bàn giao bộ phận — Võ Minh Tuấn (KH0391)</h4>
+  <div class="only-sale"><div class="fld"><label>Tag hiện tại</label><div class="in"><span class="bd tag">Sale</span></div></div>
+  <div class="fld"><label>Chuyển sang * <span class="mk">1</span></label>
+    <div class="in">◉ Sale — khách mới (mặc định)<br>○ WFCĐ — khách đăng ký WiFi cố định<br>○ CSKH — chỉ gắn tay khi cần <small>(khách giới thiệu có mã thì hệ thống tự gắn)</small></div></div>
+  <div class="fld"><label>Mã giới thiệu (nếu có → hệ thống tự gắn tag CSKH khi lưu) <span class="mk">2</span></label><div class="in">VD: GT-00123</div></div>
+  <div class="fld"><label>Ghi chú bàn giao</label><div class="in ta">Khách giới thiệu từ anh Bình, quan tâm gói thu cước.</div></div>
+  <div class="banner info" style="font-size:12px"><span class="mk">3</span> Sau khi xác nhận: lead <b>tự nhả khỏi bạn</b> và được <b>chia tự động</b> cho NV Upsale CSKH đang đi làm (Rule 5). Bạn sẽ <b>không còn nhắn được</b>. Muốn đẩy về hàng chờ Upsale thay vì chia tự động: dùng nút <b>Tôi nhả</b>.</div>
+  </div><div class="only-cskh"><div class="fld"><label>Tag hiện tại</label><div class="in"><span class="bd tag">CSKH</span></div></div>
+  <div class="fld"><label>Chuyển sang * <span class="mk">1</span></label>
+    <div class="in">◉ CSKH — giữ nguyên (khách đang dùng, mặc định)<br>○ CSKH Support — khách cần hỗ trợ <small>(+ Support kỹ thuật khi có sự cố)</small><br>○ CSKH WFCĐ — khách đăng ký WiFi cố định<br><small style="color:var(--mute)">Tag con khác của CSKH: Upsale (khách mua thêm), Thu cước — chọn ở danh sách tag con</small></div></div>
+  <div class="fld"><label>Vấn đề / yêu cầu của khách (ghi chú tự do)</label><div class="in ta">Khách báo SIM không có sóng từ hôm qua, đã thử khởi động lại.</div></div>
+  <div class="banner info" style="font-size:12px"><span class="mk">3</span> Sau khi xác nhận: lead <b>tự nhả khỏi bạn</b> và được <b>chia tự động</b> cho NV của tag mới đang đi làm. Bạn sẽ <b>không còn nhắn được</b>. Muốn đẩy về hàng chờ của tag mới thay vì chia tự động: dùng nút <b>Tôi nhả</b>.</div></div>
+  <div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn p" href="#s3a">Xác nhận</a></div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>3 tag bàn giao theo Tag.xlsx. Chỉ có tag CSKH ⇒ khách giới thiệu → Upsale; chỉ có tag WFCĐ ⇒ NV WFCĐ (Rule 3).</li>
+<li><span class="mk">2</span>Có mã giới thiệu hợp lệ (mã của khách cũ) → <b>hệ thống tự gắn tag CSKH</b> và chia cho Upsale, Sale không phải chọn tay (#19).</li>
+<li><span class="mk">3</span>Hệ quả hiển thị trước khi xác nhận. Đơn Sale giao thành công → <b>tự</b> đổi tag CSKH, không qua popup này.</li>
+</ol></div></div></div><div class="mdl" data-id="s2" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 2. Popup "Chia cho nhân viên"</div><p class="sub">Mở từ ① khi bấm Chia / Chia lại. Chọn được mọi nhân viên (kể cả Kế toán, CSKH).</p>
+<div class="pop">
+    <h4>Chia cho nhân viên</h4>
+    <div class="fld"><label>Lead đã chọn</label><div class="in">2 lead: KH0412 Nguyễn Thị Mai · KH0415 Trần Văn Hùng <span class="bd hard">⚑ Khó tư vấn</span></div></div>
+    <div class="banner info" style="margin:6px 0"><span class="mk">1</span> Ghi chú khi nhả (KH0415 — Minh): "Khách hỏi gói doanh nghiệp 50 SIM, cần báo giá riêng, mình chưa nắm bảng giá."</div>
+    <div class="fld"><label>Nhân viên nhận * <span class="mk">2</span></label>
+    <div class="scroll"><table>
+      <tr><th></th><th>Nhân viên</th><th>Bộ phận</th><th><a class="lk" href="JCN-116.5_Wireframe.html#s17">Hôm nay</a></th><th>Đang giữ</th><th>Chỉ số tải</th></tr>
+      <tr><td>◉</td><td><b>Nam</b> (chính thức)</td><td>Sale</td><td>🟢 Đi làm</td><td>4 ca</td><td>8,0 ★ gợi ý</td></tr>
+      <tr><td>○</td><td>Linh (thử việc)</td><td>Sale</td><td>🟢 Đi làm</td><td>3 ca</td><td>12,0</td></tr>
+      <tr><td>○</td><td>Lan</td><td>Sale</td><td>🟢 Đi làm</td><td>10 ca <span class="bd late">Quá ngưỡng</span></td><td>25,0</td></tr>
+      <tr><td>○</td><td>Hoa</td><td>Kế toán</td><td>🟢 Đi làm</td><td>0</td><td>0 <span class="bd wait">Khác bộ phận</span></td></tr>
+      <tr><td></td><td style="color:var(--mute)"><s>Minh</s></td><td>Sale</td><td></td><td></td><td><small>Ẩn: đã nhả lead này <span class="mk">3</span></small></td></tr>
+      <tr><td></td><td style="color:var(--mute)">Tuấn</td><td>Sale</td><td>⚪ Nghỉ hôm nay</td><td></td><td></td></tr>
+    </table></div></div>
+    <div class="fld"><label>Lý do chia lại (bắt buộc khi lead đã có người)</label><div class="in">Chọn ▾</div></div>
+    <div class="fld"><label>Ghi chú cho nhân viên (≤ 500 ký tự)</label><div class="in ta">Khách VIP, ưu tiên báo giá trong hôm nay.</div></div>
+    <div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn p" href="#close">Chia</a></div>
+  </div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Với lead gắn cờ Khó tư vấn, hiện sẵn ghi chú của người nhả để Trưởng nhóm chọn NV phù hợp.</li>
+<li><span class="mk">2</span>Danh sách hiện bộ phận, trạng thái đi làm, số ca đang giữ, chỉ số tải (Rule 5), ★ gợi ý = người có chỉ số tải thấp nhất. NV quá ngưỡng ca và NV khác bộ phận có cảnh báo nhưng <b>vẫn chọn được</b>.</li>
+<li><span class="mk">3</span>NV đã nhả / để quá giờ đúng lead này bị <b>ẩn 1 lần</b> (lần chia lại ngay sau khi nhả).</li>
+</ol></div></div></div><div class="mdl" data-id="s2b" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 2b. Popup "Chia lại lead của nhân viên"</div><p class="sub">Mở từ nút <b>Chia lại</b> ở bảng "Nhân viên đang trực" (Màn 20). Chuyển các lead đang có người nhận sang nhân viên khác.</p>
+<div class="pop">
+    <h4>Chia lại lead</h4>
+    <div class="fld"><label>Nhân viên đang giữ lead <span class="mk">1</span></label><select class="in"><option>Nam</option><option selected>Lan (10 lead được chia)</option><option>Linh</option><option>Tuấn</option><option>Hoa</option></select></div>
+    <div class="fld"><label>Lead cần chia lại * <span class="mk">2</span> <span class="legend">(tick một hoặc nhiều lead)</span></label>
+    <div class="scroll"><table>
+      <tr><th><input type="checkbox" checked></th><th>Khách</th><th>Trạng thái tiếp nhận</th><th>Trạng thái chốt đơn</th><th>Chờ</th></tr>
+      <tr><td><input type="checkbox" checked></td><td>Lê Văn Cường</td><td><span class="bd late">Chưa trả lời</span> quá 6′</td><td>Đang tư vấn</td><td>8′</td></tr>
+      <tr><td><input type="checkbox" checked></td><td>Nguyễn Thị Hoa</td><td><span class="bd ok">Đã tiếp nhận</span></td><td>Chờ chốt</td><td>—</td></tr>
+      <tr><td><input type="checkbox"></td><td>Phạm Văn Đức</td><td><span class="bd new">New</span> còn 02:10</td><td>Đang tư vấn</td><td>3′</td></tr>
+    </table></div></div>
+    <div class="fld"><label>Nhân viên nhận * <span class="mk">3</span></label>
+    <div class="scroll"><table>
+      <tr><th></th><th>Nhân viên</th><th>Bộ phận</th><th>Hôm nay</th><th>Số lead được chia</th></tr>
+      <tr><td><input type="radio" name="s2b-nv" checked></td><td><b>Nam</b> (chính thức)</td><td>Sale</td><td>🟢 Đi làm</td><td>4 <span class="bd ok">★ gợi ý</span></td></tr>
+      <tr><td><input type="radio" name="s2b-nv"></td><td>Linh (thử việc)</td><td>Sale</td><td>🟢 Đi làm</td><td>3</td></tr>
+      <tr><td><input type="radio" name="s2b-nv"></td><td>Hoa</td><td>Kế toán</td><td>🟢 Đi làm</td><td>0 <span class="bd wait">Khác bộ phận</span></td></tr>
+      <tr><td></td><td style="color:var(--mute)">Lan</td><td>Sale</td><td></td><td><small>Ẩn: đang giữ lead</small></td></tr>
+      <tr><td></td><td style="color:var(--mute)">Tuấn</td><td>Sale</td><td>🟡 Ăn trưa</td><td></td></tr>
+    </table></div></div>
+    <div class="fld"><label>Lý do chia lại * <span class="mk">4</span></label><select class="in"><option>— Chọn —</option><option>NV quá tải</option><option>NV nghỉ đột xuất / vắng mặt</option><option>Xử lý chậm / chưa bắt đầu</option><option>Chuyển đúng chuyên môn</option><option>Khác (bắt buộc ghi chú)</option></select></div>
+    <div class="fld"><label>Ghi chú cho nhân viên nhận (≤ 500 ký tự)</label><textarea class="in ta" placeholder="Ví dụ: Khách đang chờ báo giá, ưu tiên trả lời hôm nay."></textarea></div>
+    <div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn p" href="#close">Chia lại</a></div>
+  </div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Mở từ dòng nhân viên nào thì chọn sẵn nhân viên đó; đổi được ở ô chọn.</li>
+<li><span class="mk">2</span>Chọn một hoặc nhiều lead đang có người nhận (mặc định tick hết). Lead đã đóng không có trong danh sách.</li>
+<li><span class="mk">3</span>Danh sách nhân viên nhận giống popup Chia: ẩn người đang giữ lead; NV khác bộ phận có cảnh báo nhưng vẫn chọn được; ★ gợi ý = người có tải thấp nhất.</li>
+<li><span class="mk">4</span>Lý do bắt buộc khi lead đã có người nhận; chọn "Khác" thì phải ghi chú. Lịch sử lưu: thời điểm, người chia, từ → sang, lý do (xem Lịch sử Màn 12). NV cũ không bị tính nhả / quá giờ.</li>
+</ol></div></div></div><div class="mdl" data-id="s12" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk mine1" data-tk="116.2">JCN-116.2</span> 12. Lịch sử chia việc (drawer trên lead)</div><p class="sub">Mở từ nút "Lịch sử" ở ① ③ hoặc ⑤. Phục vụ KPI (Rule 15) và tra cứu khiếu nại.</p>
+<div class="frame"><div class="bar"><span>Lịch sử — KH0415 Trần Văn Hùng</span><span>drawer</span></div><div class="body">
+  <div class="tl">
+    <p><b>09:05</b> Khách nhắn Fanpage JConnect → hệ thống tạo KH, <i>chia tự động</i> cho <b>Minh</b> <small>(chỉ số tải 6,0; ứng viên: Minh 6,0 · Lan 25,0 · Linh 12,0)</small> <span class="mk">1</span></p>
+    <p><b>09:20</b> <b>Minh</b> bấm <i>Tôi nhả</i> — lý do <span class="bd hard">Khó tư vấn</span> — 📝 "Khách hỏi gói DN 50 SIM…"</p>
+    <p><b>09:20</b> Lead về <b>Hàng chờ</b> (Chờ nhận). Thông báo Trưởng nhóm; hệ thống chia lại ngay</p>
+    <p><b>09:31</b> <b>Hệ thống</b> tự chia cho <b>Nam</b> <small>(Minh bị loại ở lần này)</small> <span class="mk">2</span></p>
+    <p><b>09:33</b> Nam trả lời khách → <span class="bd ok">Đã tiếp nhận</span></p>
+    <p><b>10:10</b> Đơn đã chốt, lên đơn → <b>KPI tính cho Nam</b> <span class="mk">3</span></p>
+  </div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Mỗi lần chia tự động lưu log giải thích (ứng viên, chỉ số tải) để Trưởng nhóm/BA kiểm tra công thức.</li>
+<li><span class="mk">2</span>Ghi rõ đường đi: tự chia / chia lô / tràn việc hay Trưởng nhóm chia (kèm tên người chia).</li>
+<li><span class="mk">3</span>Dòng KPI lấy theo người phụ trách tại thời điểm chốt đơn (Rule 15).</li>
+</ol></div></div></div><div class="mdl" data-id="s4" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh"><span class="tk" data-tk="116.3">JCN-116.3</span> 4. Thông báo cho nhân viên (chuông + toast)</div><p class="sub">Rule 16 (N1–N12). Phase 1 chỉ in-app.</p>
+<div class="frame" style="min-height:430px"><div class="bar"><span>Bất kỳ màn nào</span><span>🔔 <b>5</b> <span class="mk">1</span></span></div>
+<div class="body" style="min-height:400px">
+  <div class="bell">
+    <div style="background:var(--soft)"><b>Thông báo</b> <small style="float:right">Đánh dấu đã đọc</small></div>
+    <div><b>N1</b> Bạn được giao lead <b>Lê Thu Hà</b> — trả lời trong 5 phút. <small>vừa xong</small></div>
+    <div><b>N2</b> ⏱ Lead <b>Lê Thu Hà</b> sắp quá giờ, còn 00:59. <small>1 phút trước</small></div>
+    <div><b>N4</b> Có lead chờ chia: <b>Trần Văn Hùng</b> <span class="bd hard">⚑ Khó tư vấn</span> — "Khách hỏi gói DN 50 SIM…" <a class="btn g" href="#s3b">Chia</a> <small>(chỉ Trưởng nhóm)</small></div>
+    <div><b>N7</b> Lead <b>Võ Minh Tuấn</b> đã chuyển cho Linh. <small>5 phút trước</small></div>
+  </div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Chuông có badge số chưa đọc; mỗi thông báo bấm vào mở thẳng hội thoại/lead. Có âm báo cho N1, N4.</li>
+<li><span class="mk">2</span>Đã bỏ N5, N6, N8 (không còn Tôi nhận). N4 chỉ gửi Trưởng nhóm. Gom nhóm khi nhiều lead cùng lúc: "Có 5 lead chờ nhận".</li>
+</ol></div></div></div><div class="toast" id="toast"></div>
+<div class="pn"><a href="JCN-116.3_Wireframe.html">← JCN-116.3 Khung chat & Bàn giao bộ phận</a><a href="JCN-116.5_Wireframe.html">JCN-116.5 Ca làm việc & Trạng thái đi làm →</a></div>
+<p class="legend" style="margin-top:20px">Wireframe BA 23/10/2026 · Số liệu, tên người là dữ liệu minh hoạ · Đối chiếu file <code>JCN-116.2 - ….md</code></p>
+</div><script id="ed-js">
+(function(){
+var page=document.querySelector('.wrap'),btn=document.getElementById('ed-toggle'),dirty=false;
+function editing(){return document.body.classList.contains('editing')}
+function setEdit(on){
+  document.body.classList.toggle('editing',on);btn.classList.toggle('on',on);
+  btn.textContent=on?'✅ Xong chỉnh sửa':'✏️ Chỉnh sửa';
+  page.contentEditable=on?'true':'false';
+}
+btn.onclick=function(){setEdit(!editing())};
+page.addEventListener('input',function(){dirty=true});
+page.addEventListener('click',function(e){if(editing()&&e.target.closest('a')){e.preventDefault()}},true);
+document.querySelectorAll('#ed-bar [data-cmd]').forEach(function(b){
+  b.onmousedown=function(e){e.preventDefault()};
+  b.onclick=function(){var c=b.dataset.cmd;document.execCommand(c,false,c==='hiliteColor'?'#fde68a':null)};
+});
+document.getElementById('ed-save').onclick=function(){
+  var was=editing();setEdit(false);
+  var bar=document.getElementById('ed-bar'),next=bar.nextSibling,par=bar.parentNode;par.removeChild(bar);
+  page.removeAttribute('contenteditable');
+  var html='<!doctype html>\n'+document.documentElement.outerHTML;
+  par.insertBefore(bar,next);if(was)setEdit(true);
+  var name=decodeURIComponent(location.pathname.split('/').pop())||'wireframe.html';
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();dirty=false;
+};
+window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue=''}});
+})();
+</script><script>var DEFAULT="s20";</script>
+<script id="hub-js">
+(function(){
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2800)}
+document.addEventListener('click',function(e){
+  if(document.body.classList.contains('editing'))return;
+  var t=e.target;
+  var d=t.closest('[data-toast]');if(d&&d.closest('[data-id="s20"]')){toast(d.dataset.toast);e.stopPropagation();return}
+  var ck=t.closest('.qck');if(ck){var n=$$('.qck:checked').length;document.getElementById('qn').textContent=n;return}
+  var sg=t.closest('#modeseg span');if(sg){$$('#modeseg span').forEach(function(x){x.classList.toggle('on',x===sg)});toast(sg.textContent==='Thủ công'?'Chuyển sang Thủ công — bắt buộc ghi lý do; lead mới vào hàng chờ':'Chuyển về Tự động — có nút Chia tự động các lead đang chờ');e.stopPropagation();return}
+  var hp=t.closest('#hubtabs button');if(hp){$$('#hubtabs button').forEach(function(b){b.classList.toggle('on',b===hp)});$$('[data-hpb]').forEach(function(p){p.hidden=p.dataset.hpb!==hp.dataset.hp});e.stopPropagation();return}
+  var nr=t.closest('.nvrow');if(nr&&!t.closest('.btn')){var on=nr.classList.contains('sel');$$('.nvrow').forEach(function(r){r.classList.remove('sel')});
+    var chip=document.getElementById('nvchip');
+    if(on){chip.innerHTML='';$$('#alltb tr[data-o]').forEach(function(r){r.hidden=false})}
+    else{nr.classList.add('sel');var nm=nr.dataset.nv;chip.innerHTML='<span class="chipf">Đang lọc: lead của '+nm+' ✕</span>';$$('#alltb tr[data-o]').forEach(function(r){r.hidden=r.dataset.o!==nm});
+      $$('#hubtabs button').forEach(function(b){b.classList.toggle('on',b.dataset.hp==='all')});$$('[data-hpb]').forEach(function(p){p.hidden=p.dataset.hpb!=='all'})}
+    e.stopPropagation();return}
+  var ch=t.closest('.chipf');if(ch){document.getElementById('nvchip').innerHTML='';$$('.nvrow').forEach(function(r){r.classList.remove('sel')});$$('#alltb tr[data-o]').forEach(function(r){r.hidden=false});e.stopPropagation()}
+},true);
+})();
+</script>
+<script id="wk-js">
+(function(){
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2800)}
+document.addEventListener('click',function(e){
+  var wk=e.target.closest('.wk');if(!wk||document.body.classList.contains('editing'))return;
+  var t=e.target;
+  var rp=t.closest('[data-rp]');if(rp){var k=rp.dataset.rp;$$('[data-rpb]',wk).forEach(function(p){p.hidden=p.dataset.rpb!==k});$$('.rt span',wk).forEach(function(s){s.classList.toggle('on',s.dataset.rp===k)});e.preventDefault();e.stopPropagation();return}
+  var a=t.closest('[data-act]');if(a){
+    if(a.dataset.act==='mkorder'){var x=wk.querySelector('#afterorder');if(x)x.hidden=false;toast('✔ Đã tạo đơn NEW-20261030-007 (mô phỏng)')}
+    if(a.dataset.act==='sendpay'){var log=$$('.cm',wk).filter(function(x){return x.offsetParent})[0];if(log){var d=document.createElement('div');d.className='pay';d.innerHTML='<b>💳 Thông tin thanh toán</b><br>Đơn NEW-20261030-007 · 11.200¥<br>Ngân hàng: ○○○ · STK: ○○○○ · Chủ TK: J-CONNECT<br><small>Nội dung CK: NEW-20261030-007 · [QR]</small>';log.appendChild(d);log.scrollTop=log.scrollHeight}toast('✔ Đã gửi thông tin thanh toán vào chat (mô phỏng)')}
+    e.preventDefault();e.stopPropagation();return}
+  var d=t.closest('[data-toast]');if(d){toast(d.dataset.toast);e.preventDefault();e.stopPropagation()}
+},true);
+})();
+</script>
+<script id="wk-js2">
+(function(){
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function toast(m){var t=document.getElementById('toast');if(!t)return;t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},2600)}
+var OPTS={'Tư vấn':['Nhấp quảng cáo','Cấp 1 tiềm năng','Cấp 2 tiềm năng','Bổ sung thông tin','Xong'],
+'Chốt đơn':['Đang tư vấn','Chờ chốt','Đã chốt','Đã lên đơn'],
+'Xử lý':['Tiếp nhận','Chờ xử lý','Đã xử lý','Theo dõi','Xong','Lên đơn đổi'],
+'Số lần support':['Lần 1','Lần 2','Lần 3','Lần 4','Lần 5'],
+'Sản phẩm':['SIM SOFTBANK 10GB','SIM SOFTBANK 20GB','Pocket WiFi'],
+'Hình thức':['Chuyển khoản','COD','Thẻ'],
+'Hãng giao':['Yamato','Sagawa','Japan Post'],
+'Lọc theo tag':['Tất cả tag','Sale','CSKH › Support','CSKH › Upsale','CSKH › Thu cước','CSKH › WFCĐ'],
+'Tất cả xử lý':['Tất cả xử lý','Chưa trả lời','Đang xử lý','Đã xong']};
+function prep(){
+  $$('.wk .kv > div').forEach(function(r){var l=r.firstElementChild,inn=r.querySelector('.in');
+    if(!l||!inn)return;var k=l.textContent.trim();var key=k==='Hình thức'?'Hình thức':k==='Giao hàng'?'Hãng giao':k;
+    if(OPTS[key]&&!inn.hasAttribute('data-opts'))inn.setAttribute('data-opts',key)});
+  $$('.wk .lc .in').forEach(function(i){var t=i.textContent.replace(/[▾\d\/\s]+$/,'').trim();
+    Object.keys(OPTS).forEach(function(k){if(t.indexOf(k)===0&&!i.hasAttribute('data-opts'))i.setAttribute('data-opts',k)})});
+  $$('.wk .rp .bd').forEach(function(b){var t=b.textContent;if(/check TT|đóng gói|Đã gửi thành công/i.test(t)&&!b.hasAttribute('data-rp'))b.setAttribute('data-rp','orders')});
+}
+prep();
+
+var CUST={
+'KH0415':{n:'Trần Văn Hùng',s:'09xx xxx 123',m:[['k','Anh cần báo giá gói cho 50 SIM công ty ạ.'],['n','Chào anh, em là Nam, em sẽ hỗ trợ anh tiếp ạ.'],['s','⏱ 09:35 Đơn đã đóng gói — hệ thống tự gửi thông tin xuất kho + ảnh']]},
+'KH0398':{n:'Võ Minh Tuấn',s:'08x xxx 456',m:[['k','Em muốn lấy SIM 20GB, em chuyển khoản rồi nhé.'],['n','Dạ em nhận được rồi ạ, em lên đơn cho anh ngay.'],['k','Đã chuyển khoản rồi nhé']]},
+'KH0377':{n:'Nguyễn Thị Hoa',s:'07x xxx 789',m:[['k','SIM của em sắp hết hạn một năm, bên mình có gói nào ưu đãi không ạ?'],['n','Dạ chị, em gửi chị các gói gia hạn đang có ưu đãi nhé.'],['k','Em suy nghĩ thêm']]},
+'KH0402':{n:'Lê Văn Cường',s:'09x xxx 012',m:[['k','[Sticker]'],['s','⏱ Khách chưa được trả lời quá 6 phút']]},
+'KH0361':{n:'Đặng Văn Tài',s:'08x xxx 345',m:[['n','Anh ơi kỳ cước tháng này anh thanh toán giúp em nhé, em gửi mã thanh toán bên dưới ạ.'],['k','Em chuyển khoản rồi ạ'],['n','Dạ em ghi nhận, chờ kế toán xác nhận thanh toán ạ.']]},
+'KH0420':{n:'Phạm Quốc Bảo',s:'090xxxx123',m:[['k','Chào shop, SIM của em không có sóng từ hôm qua, em đã khởi động lại máy mà vẫn không được.'],['n','Chào anh, em là Linh bên CSKH J-Connect ạ. Anh cho em xin số SIM và dòng máy anh đang dùng để em kiểm tra nhé.'],['k','SIM 090-xxxx-123, iPhone 13 ạ.']]}
+};
+function showCust(li){
+  var bt=((li.querySelector('b')||{}).textContent||'').trim(),code=bt.match(/KH\d+/),c=null;
+  if(code){c=CUST[code[0]]}else{Object.keys(CUST).forEach(function(k){if(bt.indexOf(CUST[k].n)>-1){c=CUST[k];code=[k]}})}
+  if(!c||!code)return;
+  var tg=li.querySelector('.bd.tag'),tag=tg?tg.textContent.trim():'';
+  var wk=li.closest('.wk');
+  var vis=function(sel){return $$(sel,wk).filter(function(x){return x.offsetParent})[0]};
+  var ch=vis('.ch'),cm=vis('.cm'),rp=vis('[data-rpb="info"]');
+  if(ch){var b=ch.querySelector('b');if(b)b.textContent=code[0]+' '+c.n;var t=ch.querySelector('.bd.tag');if(t)t.textContent=tag}
+  if(cm){var keep=[];$$('.banner',cm).forEach(function(x){keep.push(x)});cm.innerHTML='';keep.forEach(function(x){cm.appendChild(x)});
+    c.m.forEach(function(x){var d=document.createElement('div');if(x[0]==='s'){d.className='sys';d.textContent=x[1]}else{d.className='msg'+(x[0]==='n'?' me':'');d.textContent=x[1]}cm.appendChild(d)})}
+  if(rp){$$('.kv > div',rp).forEach(function(r){var l=r.firstElementChild;if(!l)return;var k=l.textContent.trim();
+    var set=function(v){var n=l.nextSibling;if(n&&n.nodeType===3)n.nodeValue=v;else if(l.nextElementSibling)l.nextElementSibling.textContent=v};
+    if(k==='Mã KH')set(code[0]);else if(k==='Tên')set(c.n);else if(k==='SĐT')set(c.s)});
+    var tg2=rp.querySelector('.bd.tag');if(tg2&&tag)tg2.textContent=tag}
+}
+var menu=null;function closeMenu(){if(menu){menu.remove();menu=null}}
+document.addEventListener('click',function(e){
+  var wk=e.target.closest('.wk');
+  if(menu&&!(e.target.closest('.wk-menu')))closeMenu();
+  if(!wk||document.body.classList.contains('editing'))return;
+  var t=e.target;
+  var o=t.closest('[data-opts]');
+  if(o){e.preventDefault();e.stopPropagation();closeMenu();
+    var list=OPTS[o.dataset.opts],cur=o.textContent.replace('▾','').trim();
+    menu=document.createElement('div');menu.className='wk-menu';
+    list.forEach(function(x){var d=document.createElement('div');d.textContent=x;if(cur.indexOf(x)===0)d.className='on';
+      d.onclick=function(ev){ev.stopPropagation();var isF=!!o.closest('.lc');var sm=o.querySelector('small');
+        o.firstChild&&o.firstChild.nodeType===3?o.firstChild.nodeValue=x+(isF?' ':' ▾ '):o.textContent=x+' ▾';
+        toast('Đã chọn «'+x+'» (mô phỏng)');closeMenu()};menu.appendChild(d)});
+    var r=o.getBoundingClientRect();menu.style.left=(r.left+window.scrollX)+'px';menu.style.top=(r.bottom+window.scrollY+4)+'px';
+    document.body.appendChild(menu);return}
+  var ch=t.closest('.chp');
+  if(ch){e.preventDefault();e.stopPropagation();$$('.chp',ch.parentNode).forEach(function(x){x.classList.toggle('on',x===ch)});toast('Lọc «'+ch.textContent.trim()+'» (mô phỏng)');return}
+  var sg=t.closest('.sg span');
+  if(sg){e.preventDefault();e.stopPropagation();$$('span',sg.parentNode).forEach(function(x){x.classList.toggle('on',x===sg)});toast('Tab «'+sg.textContent.trim()+'» (mô phỏng)');return}
+  var li=t.closest('.li');
+  if(li){e.preventDefault();e.stopPropagation();$$('.li',li.parentNode).forEach(function(x){x.classList.toggle('on',x===li)});showCust(li);toast('Mở hội thoại «'+(li.querySelector('b')||li).textContent.trim()+'»');return}
+  var tg=t.closest('.rp .bd.tag,.cc .ch .bd.tag');
+  if(tg){e.preventDefault();e.stopPropagation();location.hash='#s8';return}
+  var hd=t.closest('.bd.hard');
+  if(hd&&hd.closest('.rp')){e.preventDefault();e.stopPropagation();hd.classList.toggle('off');toast(hd.classList.contains('off')?'Đã gỡ cờ Khó tư vấn (mô phỏng)':'Đã đánh dấu Khó tư vấn (mô phỏng)');return}
+  var stp=t.closest('.stp span');
+  if(stp){e.preventDefault();e.stopPropagation();toast('Trạng thái chỉ xem: do Kế toán / Kho / hãng vận chuyển cập nhật');return}
+},true);
+})();
+</script>
+<script id="app-js">
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var ROLES={admin:'Quản trị',tn:'Trưởng nhóm Sale',nv:'Nhân viên Sale',cskh:'Nhân viên CSKH'},ORDER=['nv','cskh','tn','admin'];
+var TABNAME={lead:'Lead của tôi',chia:'Trung tâm chia lead',khach:'Danh sách khách',set:'Cài đặt chia việc'};
+var TABNEED={lead:'nv',chia:'tn',khach:'nv',set:'admin'};
+var SCR={s3a:{tab:'lead'},s3b:{tab:'lead'},s10:{tab:'chia'},s1:{tab:'chia'},s20:{tab:'chia'},s9:{tab:'khach'},s11:{tab:'set'},s5:{chat:1},s6:{chat:1}};
+var MOD={s7:{need:'nv',base:'s3a'},s8:{need:'nv',base:'s5'},s2:{need:'tn',base:'s1'},s2b:{need:'tn',base:'s20'},s12:{need:'tn',base:'s1'},s4:{need:'nv',base:null}};
+var st={role:'admin',tab:'chia',lead:'s3a',chat:null};
+var toastT;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('on')},2800)}
+function can(t){return ORDER.indexOf(st.role)>=ORDER.indexOf(TABNEED[t])}
+function closeModals(){$$('.mdl').forEach(function(m){m.hidden=true})}
+
+function applyRole(){
+  var c=st.role==='cskh';document.body.classList.toggle('role-cskh',c);
+  var who=$$('.who');who.forEach(function(w){w.textContent=c?'Linh (CSKH)':'Nam (Sale)'});
+  $$('[data-s]').forEach(function(e){e.textContent=c?e.dataset.c:e.dataset.s});
+  var li=$$('.wk .lc');li.forEach(function(lc){
+    if(!lc.querySelector('.li.cskh-only')){
+      [['TH','KH0377 Nguyễn Thị Hoa','CSKH › Upsale','09:10','SIM bán đứt sắp hết hạn','#d97706'],['DT','KH0361 Đặng Văn Tài','CSKH › Thu cước','08:55','Em chuyển khoản rồi ạ','#16a34a'],['PB','KH0420 Phạm Quốc Bảo','CSKH › Support','08:40','SIM không có sóng','#2563eb']].forEach(function(x){
+        var d=document.createElement('div');d.className='li cskh-only';d.setAttribute('data-toast','Mở hội thoại '+x[1]);
+        d.innerHTML='<div class="av" style="background:'+x[5]+'">'+x[0]+'</div><div style="min-width:0"><b>'+x[1]+'</b><br><span class="bd ok">Đã liên kết</span> <span class="bd tag">'+x[2]+'</span> <small>'+x[3]+'</small><br><small>'+x[4]+'</small></div>';
+        lc.appendChild(d)})}});
+  $$('.pg[data-id="s3a"] tr,.pg[data-id="s9"] tr,.wk .li').forEach(function(r){
+    if(r.querySelector('th'))return;
+    var tg=r.querySelector('.bd.tag'),t=tg?tg.textContent.trim():'';
+    var isC=/^CSKH/.test(t),only=r.classList.contains('cskh-only');
+    r.style.display=c?((isC||only)?'':'none'):(only?'none':'');
+  });
+}
+function render(){
+  $('#role').value=st.role;applyRole();
+  $$('#pctabs button').forEach(function(b){var t=b.dataset.tab,ok=can(t);
+    b.classList.toggle('on',!st.chat&&t===st.tab);b.classList.toggle('lock',!ok);
+    b.textContent=(ok?'':'🔒 ')+TABNAME[t];b.title=ok?'':'Cần quyền: '+ROLES[TABNEED[t]]});
+  $('#pctabs').hidden=!!st.chat;$('#chatbar').hidden=!st.chat;
+  $$('#chatbar .seg').forEach(function(b){b.classList.toggle('on',b.dataset.go===st.chat)});
+  var vis={};
+  if(st.chat)vis[st.chat]=1;
+  else if(st.tab==='lead')vis[st.lead]=1;
+  else if(st.tab==='chia'){vis.s20=1}
+  else if(st.tab==='khach')vis.s9=1;else vis.s11=1;
+  $$('.pg').forEach(function(p){p.hidden=!vis[p.dataset.id]});
+  $('#crumb').innerHTML=st.chat?'Pancake ▸ Lead ▸ <b>Hội thoại — Trần Văn Hùng (KH0415)</b>':'Pancake ▸ <b>'+TABNAME[st.tab]+'</b>'+(st.tab==='lead'?' ▸ '+(st.lead==='s3a'?'Của tôi':'Hàng chờ'):'');
+}
+function need(r){if(ORDER.indexOf(st.role)<ORDER.indexOf(r)){st.role=r;toast('Đã chuyển vai trò sang «'+ROLES[r]+'» để xem màn này')}}
+function go(id,fromHash){
+  id=(id||'').replace('#','');
+  if(id==='close'){closeModals();return}
+  if(MOD[id]){var m=MOD[id];need(m.need);
+    if(fromHash&&m.base){go(m.base,true)}
+    closeModals();var el=$('.mdl[data-id="'+id+'"]');if(el){el.hidden=false;el.scrollTop=0}render();return}
+  var s=SCR[id];if(!s)return;
+  closeModals();
+  if(s.chat){st.chat=id}
+  else{st.chat=null;st.tab=s.tab;need(TABNEED[s.tab]);if(s.tab==='lead')st.lead=id}
+  render();
+  if(id==='s1'){var e=$('.pg[data-id="s1"]');if(e)e.scrollIntoView({behavior:'smooth',block:'start'})}else window.scrollTo(0,0);
+}
+document.addEventListener('click',function(e){
+  if(document.body.classList.contains('editing'))return;
+  var t=e.target;
+  if(t.closest('[data-close]')||(t.classList&&t.classList.contains('mdl'))){closeModals();return}
+  var nv=t.closest('[data-nav]');if(nv){e.preventDefault();go(DEFAULT);return}
+  var dm=t.closest('[data-dummy]');if(dm){e.preventDefault();toast('«'+dm.dataset.dummy+'» nằm ngoài phạm vi wireframe 116.x');return}
+  var tb=t.closest('#pctabs button');if(tb){var k=tb.dataset.tab;if(!can(k))toast('🔒 Cần quyền «'+ROLES[TABNEED[k]]+'» để xem tab này — đổi vai trò ở góc trên phải');else{st.tab=k;go({lead:st.lead,chia:'s20',khach:'s9',set:'s11'}[k])}return}
+  var g=t.closest('[data-go]');if(g){go(g.dataset.go);return}
+  var a=t.closest('a[href]');
+  if(a){var h=a.getAttribute('href');
+    if(h&&h.charAt(0)==='#'&&h.length>1){e.preventDefault();var txt=a.textContent.trim();
+      if(a.closest('.mdl')&&/^(Lưu|Nhập|Chia|Xác nhận)/.test(txt))toast('✔ '+txt+' (mô phỏng)');
+      else if(/^Tôi nhận/.test(txt))toast('✔ Bạn đã nhận lead — mở khung chat');
+      go(h);return}
+    return}
+  var tabEl=t.closest('.tabs>div.tab');
+  if(tabEl){$$('.tab',tabEl.parentNode).forEach(function(x){x.classList.toggle('on',x===tabEl)});toast('Mô phỏng: lọc «'+tabEl.textContent.trim()+'»');return}
+  var b=t.closest('.btn');if(!b)return;
+  var tx=b.textContent.trim();
+  if(tx==='Huỷ'){if(b.closest('.mdl'))closeModals();else toast('Huỷ (mô phỏng)');return}
+  if(b.classList.contains('off')){toast('Nút đang bị khoá theo điều kiện (xem ghi chú)');return}
+  toast('Mô phỏng: «'+tx+'»');
+});
+$('#role').addEventListener('change',function(e){st.role=e.target.value;
+  if(st.chat===null&&!can(st.tab)){st.tab='lead';st.lead='s3a'}
+  render();toast('Vai trò: '+ROLES[st.role])});
+window.addEventListener('hashchange',function(){if(location.hash)go(location.hash,true)});
+if(location.hash&&(SCR[location.hash.slice(1)]||MOD[location.hash.slice(1)]))go(location.hash,true);else go(DEFAULT,true);
+})();
+</script><a href="index.html" style="position:fixed;bottom:18px;left:18px;z-index:99999;background:#10141a;color:#ffffff;padding:8px 14px;border-radius:999px;font:500 13px system-ui,-apple-system,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.25);display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);transition:all .15s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'">
+  <span style="font-size:14px">←</span> <span>Danh mục tài liệu M06</span>
+</a>
+</body></html>

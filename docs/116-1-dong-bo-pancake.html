@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JCN-116.1 Wireframe Đồng bộ 2 chiều Pancake (nền tảng)</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#1f2937;--mute:#6b7280;--line:#d1d5db;--soft:#eef0f3;--pri:#2563eb;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--mk:#e11d48;--hard:#7c3aed}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:22px;margin:8px 0}
+h2{font-size:18px;margin:36px 0 6px;padding-top:8px;border-top:2px solid var(--line)}
+.sub{color:var(--mute);margin:0 0 10px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.toc a{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 9px;color:var(--ink);text-decoration:none;font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0 4px;font-size:12px}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px}
+.flow i{color:var(--mute);font-style:normal}
+.frame{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative}
+.bar{background:var(--soft);padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.body{padding:12px;position:relative}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.grow{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:10px;flex-wrap:wrap}
+.tab{padding:7px 12px;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--mute)}
+.tab.on{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;margin-bottom:-1px}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.btn.p{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.g{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.w{border-color:var(--warn);color:var(--warn)}
+.btn.d{border-color:var(--bad);color:var(--bad)}
+.btn.off{opacity:.45;border-style:dashed}
+.in{border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--mute);background:var(--card);min-width:120px;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.cd{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cd b{display:block;font-size:20px}
+.cd small{color:var(--mute)}
+.cd.warn{border-color:var(--warn)}.cd.bad{border-color:var(--bad)}
+.banner{border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:6px;padding:7px 10px;margin-bottom:10px}
+.banner.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.banner.info{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}
+.scroll{overflow-x:auto}
+.bd{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid var(--line);white-space:nowrap}
+.bd.new{border-color:var(--pri);color:var(--pri)}
+.bd.ok{border-color:var(--ok);color:var(--ok)}
+.bd.late{border-color:var(--bad);color:var(--bad)}
+.bd.wait{border-color:var(--warn);color:var(--warn)}
+.bd.hard{border-color:var(--hard);color:var(--hard);font-weight:600}
+.bd.tag{background:var(--soft)}
+.mk{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--mk);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin:0 3px;vertical-align:middle;flex:none}
+.notes{margin:8px 0 0;padding:10px 12px;background:var(--card);border:1px dashed var(--line);border-radius:8px}
+.notes ol{margin:4px 0 0;padding-left:0;list-style:none}
+.notes li{margin:3px 0;display:flex;gap:6px;align-items:flex-start}
+.ovl{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:14px;z-index:2}
+.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;width:min(560px,100%);padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.pop h4{margin:0 0 8px;font-size:15px}
+.fld{margin-bottom:8px}
+.fld label{display:block;font-size:12px;color:var(--mute);margin-bottom:2px}
+.fld .in{display:block;width:100%}
+.ta{min-height:58px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+.chat{display:grid;grid-template-columns:210px 1fr 200px;min-height:380px}
+@media(max-width:860px){.chat{grid-template-columns:1fr}}
+.chat>div{padding:10px;border-right:1px solid var(--line)}
+.chat>div:last-child{border-right:none}
+.msg{max-width:78%;padding:6px 10px;border-radius:10px;margin:6px 0;background:var(--soft)}
+.msg.me{margin-left:auto;background:color-mix(in srgb,var(--pri) 16%,transparent)}
+.sys{text-align:center;color:var(--mute);font-size:12px;margin:6px 0}
+.bar2{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.bar2 i{display:block;height:100%;background:var(--pri)}
+.chart{display:flex;align-items:flex-end;gap:6px;height:90px;border-bottom:1px solid var(--line);padding:4px}
+.chart b{flex:1;background:var(--pri);opacity:.75;border-radius:3px 3px 0 0}
+.chart b.y{background:var(--ok)}
+.bell{position:absolute;right:12px;top:42px;width:340px;max-width:calc(100% - 24px);background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.25);z-index:3}
+.bell div{padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px}
+.bell div:last-child{border-bottom:none}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl p{margin:0 0 9px;position:relative}
+.tl p:before{content:"";position:absolute;left:-18px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--pri)}
+code{background:var(--soft);padding:0 4px;border-radius:3px}
+.legend{font-size:12px;color:var(--mute)}
+
+a{color:var(--pri)}
+a.btn{text-decoration:none;color:var(--ink);box-shadow:0 0 0 2px color-mix(in srgb,var(--pri) 45%,transparent);cursor:pointer}
+a.btn.p,a.btn.g{color:#fff}a.btn.w{color:var(--warn)}a.btn.d{color:var(--bad)}
+a.btn:hover{box-shadow:0 0 0 3px var(--pri)}
+a.tab{text-decoration:none;box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--pri) 45%,transparent)}
+a.lk{color:var(--pri);text-decoration:underline dotted}
+.tnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tnav a{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px;color:var(--ink);text-decoration:none;font-size:13px}
+.tnav a.on{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;align-items:center;font-size:13px}
+.chips a,.chips span.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px;text-decoration:none;color:var(--ink)}
+.chips a{border-color:var(--pri)}
+.chips i{font-style:normal;color:var(--mute)}
+.pn{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:34px;padding-top:14px;border-top:2px solid var(--line)}
+.pn a{background:var(--card);border:1px solid var(--pri);border-radius:8px;padding:8px 12px;text-decoration:none;color:var(--ink)}
+.hint{background:color-mix(in srgb,var(--pri) 10%,transparent);border:1px solid var(--pri);border-radius:8px;padding:7px 10px;margin:8px 0;font-size:13px}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:10px 0}
+.cardgrid>div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.cardgrid h3{margin:0 0 4px;font-size:15px}
+</style><style id="ed-css">
+#ed-bar{position:fixed;top:10px;right:10px;z-index:99;display:flex;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 8px;box-shadow:0 4px 16px rgba(0,0,0,.25);font:13px system-ui,sans-serif;color:var(--ink)}
+#ed-bar button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit}
+#ed-bar button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+#ed-bar .ed-tools{display:none;gap:6px}
+body.editing #ed-bar .ed-tools{display:flex}
+body.editing .wrap{outline:2px dashed var(--pri);outline-offset:6px}
+@media print{#ed-bar{display:none}}
+</style></head><body><div id="ed-bar"><button id="ed-toggle" type="button">✏️ Chỉnh sửa</button><span class="ed-tools"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="hiliteColor">Tô sáng</button><button type="button" data-cmd="undo">↶</button><button type="button" data-cmd="redo">↷</button></span><button id="ed-save" type="button">💾 Lưu file</button></div><div class="wrap">
+<nav class="tnav"><a href="JCN-116_Wireframe.html">Tổng quan</a><a class="on" href="JCN-116.1_Wireframe.html">116.1 Đồng bộ 2 chiều Pancake</a><a href="JCN-116.2_Wireframe.html">116.2 Trung tâm chia lead</a><a href="JCN-116.3_Wireframe.html">116.3 Lead của tôi & Khung chat</a><a href="JCN-116.5_Wireframe.html">116.5 Ca làm việc & Trạng thái đi làm</a><a href="JCN-116.6_Wireframe.html">116.6 Quản lý Tag</a></nav>
+<h1>JCN-116.1 — Đồng bộ 2 chiều Pancake (nền tảng)</h1>
+<p class="sub">Nền tảng: đồng bộ khách và trạng thái đơn giữa J-Connect và Pancake, tin xuất kho tự động. Không có màn hình mới nhưng quyết định dữ liệu hiển thị ở mọi ticket sau.</p>
+<div class="hint">🔗 Nút/viền xanh là <b>bấm được</b>: chuyển sang màn kế tiếp (có thể ở ticket khác). Màn hình trong ticket này: <b>Không có màn hình riêng (bản đồ dữ liệu, ánh xạ trạng thái, xem trước tin tự động, nhật ký)</b>.</div>
+<div class="chips"><span class="c">Phát sự kiện cho:</span><a href="JCN-116.2_Wireframe.html#s11">116.2 Chia tự động</a><a href="JCN-116.3_Wireframe.html#s5">116.3 Khung chat</a><a href="JCN-116.2_Wireframe.html#s9">116.2 Danh sách khách</a></div>
+
+<h2 id="s0">Không có màn hình riêng — dữ liệu và sự kiện hiện ở đâu</h2>
+<p class="sub">Ticket nền tảng, làm trước (spike Pancake API). Bảng cho biết mỗi dữ liệu/sự kiện của 116.1 xuất hiện ở màn nào của ticket khác — bấm để xem.</p>
+<div class="frame"><div class="bar"><span>Bản đồ dữ liệu → màn hình</span><span>tham chiếu</span></div><div class="body"><div class="scroll"><table>
+<tr><th>Sự kiện / dữ liệu từ 116.1</th><th>Dùng để</th><th>Hiện ở màn</th></tr>
+<tr><td><code>lead.created</code> (khách mới / khớp KH)</td><td>Kích hoạt chia tự động</td><td><a class="lk" href="JCN-116.2_Wireframe.html#s11">116.2 màn 11</a> · <a class="lk" href="JCN-116.3_Wireframe.html#s3a">116.2 màn 3a</a> (lead xuất hiện)</td></tr>
+<tr><td><code>customer.message.received</code></td><td>Đếm SLA, thông báo N9</td><td><a class="lk" href="JCN-116.3_Wireframe.html#s4">116.2 màn 4</a></td></tr>
+<tr><td><code>order.status.changed</code></td><td>Trạng thái đơn trên lead</td><td><a class="lk" href="JCN-116.3_Wireframe.html#s5">116.3 màn 5</a> (cột trái) · <a class="lk" href="JCN-116.2_Wireframe.html#s9">116.2 màn 9</a> (bộ lọc)</td></tr>
+<tr><td><code>order.delivered</code></td><td>Tự đổi tag CSKH</td><td><a class="lk" href="JCN-116.3_Wireframe.html#s8">116.3 màn 8</a> (bàn giao / tag)</td></tr>
+<tr><td><code>message.autosend.failed</code></td><td>Cảnh báo người phụ trách</td><td><a class="lk" href="JCN-116.3_Wireframe.html#s5">116.3 màn 5</a> (cảnh báo ngoài cửa sổ)</td></tr>
+<tr><td>Tin xuất kho tự động</td><td>Báo khách khi Đã đóng gói</td><td><a class="lk" href="#s14">xem trước bên dưới</a> · <a class="lk" href="JCN-116.3_Wireframe.html#s5">116.3 màn 5</a></td></tr>
+</table></div></div></div>
+
+<h2 id="s13">Bảng ánh xạ trạng thái đồng bộ J-Connect ⇄ Pancake</h2>
+<div class="frame"><div class="bar"><span>Trạng thái đồng bộ 2 chiều</span><span>quy tắc</span></div><div class="body"><div class="scroll"><table>
+<tr><th>Trạng thái</th><th>Giá trị</th><th>Nguồn chủ</th><th>Chiều</th></tr>
+<tr><td>Tiếp nhận · Tag · Người phụ trách</td><td>New · Đã tiếp nhận · New — quá giờ</td><td>J-Connect</td><td>→ Pancake</td></tr>
+<tr><td>Tư vấn</td><td>nhấp quảng cáo · cấp 1 · cấp 2 · bổ sung thông tin · xong</td><td>Cả hai (bản mới hơn thắng)</td><td>⇄</td></tr>
+<tr><td>Chốt đơn</td><td>Đang tư vấn · Chờ chốt · Đã chốt · Đã lên đơn</td><td>Cả hai (bản mới hơn thắng)</td><td>⇄</td></tr>
+<tr><td>Check thanh toán</td><td>chờ check · đã check · từ chối</td><td>J-Connect (Kế toán)</td><td>→ Pancake</td></tr>
+<tr><td>Xuất hàng</td><td>chờ xuất · Đã đóng gói · đã gửi hàng</td><td>J-Connect (Kho)</td><td>→ Pancake</td></tr>
+<tr><td>Vận chuyển</td><td>chưa cập nhật · đang vận chuyển · đã gửi thành công · Lỗi VC</td><td>J-Connect (ĐVVC)</td><td>→ Pancake</td></tr>
+<tr><td>Nội dung hội thoại</td><td>tin nhắn, ảnh</td><td>Pancake</td><td>→ J-Connect</td></tr>
+</table></div>
+<p class="legend">Xung đột (hai bên cùng sửa): bản <b>mới hơn</b> thắng, ghi nhật ký. Nguồn chủ còn cần chốt (#12).</p></div></div>
+
+<h2 id="s14">Xem trước: tin xuất kho tự động</h2>
+<p class="sub">Khi Xuất hàng = Đã đóng gói, hệ thống tự gửi vào hội thoại. Hiển thị trong <a class="lk" href="JCN-116.3_Wireframe.html#s5">khung chat (116.3 màn 5)</a>.</p>
+<div class="frame"><div class="bar"><span>Hội thoại Pancake — Trần Văn Hùng</span><span>tin hệ thống</span></div><div class="body">
+<div class="sys">⏱ 09:35 — tin tự động (đơn #DH1042 Đã đóng gói)</div>
+<div class="msg me">📦 Đơn #DH1042 của anh đã được đóng gói và sẵn sàng gửi. Đơn vị vận chuyển: GHN. Em sẽ báo anh mã vận đơn khi bàn giao nhé.</div>
+<div class="msg me">🖼 [Ảnh đơn hàng đã đóng gói]</div>
+<div class="banner" style="margin-top:10px"><span class="mk">1</span> Ngoài cửa sổ nhắn tin (24 giờ / 7 ngày — chờ Dev xác nhận): <b>không gửi</b>, báo người phụ trách "Không gửi được — liên hệ khách kênh khác".</div>
+</div></div>
+
+<h2 id="s15">Nhật ký đồng bộ &amp; lỗi (tham khảo JCN-110)</h2>
+<div class="frame"><div class="bar"><span>Tích hợp ▸ Pancake ▸ Cài đặt ▸ Nhật ký</span><span>mô phỏng</span></div><div class="body"><div class="scroll"><table>
+<tr><th>Thời điểm</th><th>Loại</th><th>Kết quả</th><th>Chi tiết</th></tr>
+<tr><td>09:40</td><td>Khách mới</td><td><span class="bd ok">OK</span></td><td>3 khách mới, 12 khớp khách cũ</td></tr>
+<tr><td>09:35</td><td>Trạng thái đơn</td><td><span class="bd ok">OK</span></td><td>DH1042: xuất hàng → Đã đóng gói; tin tự động đã gửi</td></tr>
+<tr><td>09:20</td><td>Xung đột</td><td><span class="bd wait">Ghi nhận</span></td><td>Tư vấn: Pancake "cấp 1" ↔ J-Connect "cấp 2" → giữ bản mới hơn (J-Connect)</td></tr>
+<tr><td>09:05</td><td>Tin tự động</td><td><span class="bd late">Lỗi</span></td><td>DH1039: ngoài cửa sổ nhắn tin → báo người phụ trách</td></tr>
+</table></div></div></div>
+
+<div class="pn"><a href="JCN-116_Wireframe.html">← Tổng quan</a><a href="JCN-116.2_Wireframe.html">JCN-116.2 Chia tự động, Thông báo & Lead của tôi →</a></div>
+<p class="legend" style="margin-top:20px">Wireframe BA 23/10/2026 · Số liệu, tên người là dữ liệu minh hoạ · Đối chiếu file <code>JCN-116.1 - ….md</code></p>
+</div><script id="ed-js">
+(function(){
+var page=document.querySelector('.wrap'),btn=document.getElementById('ed-toggle'),dirty=false;
+function editing(){return document.body.classList.contains('editing')}
+function setEdit(on){
+  document.body.classList.toggle('editing',on);btn.classList.toggle('on',on);
+  btn.textContent=on?'✅ Xong chỉnh sửa':'✏️ Chỉnh sửa';
+  page.contentEditable=on?'true':'false';
+}
+btn.onclick=function(){setEdit(!editing())};
+page.addEventListener('input',function(){dirty=true});
+page.addEventListener('click',function(e){if(editing()&&e.target.closest('a')){e.preventDefault()}},true);
+document.querySelectorAll('#ed-bar [data-cmd]').forEach(function(b){
+  b.onmousedown=function(e){e.preventDefault()};
+  b.onclick=function(){var c=b.dataset.cmd;document.execCommand(c,false,c==='hiliteColor'?'#fde68a':null)};
+});
+document.getElementById('ed-save').onclick=function(){
+  var was=editing();setEdit(false);
+  var bar=document.getElementById('ed-bar'),next=bar.nextSibling,par=bar.parentNode;par.removeChild(bar);
+  page.removeAttribute('contenteditable');
+  var html='<!doctype html>\n'+document.documentElement.outerHTML;
+  par.insertBefore(bar,next);if(was)setEdit(true);
+  var name=decodeURIComponent(location.pathname.split('/').pop())||'wireframe.html';
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();dirty=false;
+};
+window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue=''}});
+})();
+</script><a href="index.html" style="position:fixed;bottom:18px;left:18px;z-index:99999;background:#10141a;color:#ffffff;padding:8px 14px;border-radius:999px;font:500 13px system-ui,-apple-system,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.25);display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);transition:all .15s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'">
+  <span style="font-size:14px">←</span> <span>Danh mục tài liệu M06</span>
+</a>
+</body></html>

@@ -1,0 +1,659 @@
+﻿<!doctype html>
+<html lang="vi" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JCN-116.5 Wireframe Ca làm việc & Trạng thái đi làm</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--ink:#1f2937;--mute:#6b7280;--line:#d1d5db;--soft:#eef0f3;--pri:#2563eb;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--mk:#e11d48;--hard:#7c3aed}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111827;--card:#1f2937;--ink:#e5e7eb;--mute:#9ca3af;--line:#374151;--soft:#273244;--pri:#60a5fa;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;--mk:#fb7185;--hard:#a78bfa;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:22px;margin:8px 0}
+h2{font-size:18px;margin:36px 0 6px;padding-top:8px;border-top:2px solid var(--line)}
+.sub{color:var(--mute);margin:0 0 10px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.toc a{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 9px;color:var(--ink);text-decoration:none;font-size:13px}
+.flow{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0 4px;font-size:12px}
+.flow span{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px}
+.flow i{color:var(--mute);font-style:normal}
+.frame{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;position:relative}
+.bar{background:var(--soft);padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px;color:var(--mute);flex-wrap:wrap}
+.body{padding:12px;position:relative}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.grow{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:10px;flex-wrap:wrap}
+.tab{padding:7px 12px;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--mute)}
+.tab.on{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;margin-bottom:-1px}
+.btn{display:inline-block;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:4px 10px;font-size:13px;white-space:nowrap}
+.btn.p{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn.g{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.w{border-color:var(--warn);color:var(--warn)}
+.btn.d{border-color:var(--bad);color:var(--bad)}
+.btn.off{opacity:.45;border-style:dashed}
+.in{border:1px solid var(--line);border-radius:6px;padding:4px 8px;color:var(--mute);background:var(--card);min-width:120px;font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}
+.cd{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cd b{display:block;font-size:20px}
+.cd small{color:var(--mute)}
+.cd.warn{border-color:var(--warn)}.cd.bad{border-color:var(--bad)}
+.banner{border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 14%,transparent);border-radius:6px;padding:7px 10px;margin-bottom:10px}
+.banner.bad{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.banner.info{border-color:var(--pri);background:color-mix(in srgb,var(--pri) 10%,transparent)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}
+.scroll{overflow-x:auto}
+.bd{display:inline-block;border-radius:10px;padding:1px 8px;font-size:12px;border:1px solid var(--line);white-space:nowrap}
+.bd.new{border-color:var(--pri);color:var(--pri)}
+.bd.ok{border-color:var(--ok);color:var(--ok)}
+.bd.late{border-color:var(--bad);color:var(--bad)}
+.bd.wait{border-color:var(--warn);color:var(--warn)}
+.bd.hard{border-color:var(--hard);color:var(--hard);font-weight:600}
+.bd.tag{background:var(--soft)}
+.mk{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--mk);color:#fff;font-size:11px;font-weight:700;align-items:center;justify-content:center;margin:0 3px;vertical-align:middle;flex:none}
+.notes{margin:8px 0 0;padding:10px 12px;background:var(--card);border:1px dashed var(--line);border-radius:8px}
+.notes ol{margin:4px 0 0;padding-left:0;list-style:none}
+.notes li{margin:3px 0;display:flex;gap:6px;align-items:flex-start}
+.ovl{position:absolute;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;padding:14px;z-index:2}
+.pop{background:var(--card);border:1px solid var(--line);border-radius:10px;width:min(560px,100%);padding:14px;box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.pop h4{margin:0 0 8px;font-size:15px}
+.fld{margin-bottom:8px}
+.fld label{display:block;font-size:12px;color:var(--mute);margin-bottom:2px}
+.fld .in{display:block;width:100%}
+.ta{min-height:58px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:760px){.split{grid-template-columns:1fr}}
+.chat{display:grid;grid-template-columns:210px 1fr 200px;min-height:380px}
+@media(max-width:860px){.chat{grid-template-columns:1fr}}
+.chat>div{padding:10px;border-right:1px solid var(--line)}
+.chat>div:last-child{border-right:none}
+.msg{max-width:78%;padding:6px 10px;border-radius:10px;margin:6px 0;background:var(--soft)}
+.msg.me{margin-left:auto;background:color-mix(in srgb,var(--pri) 16%,transparent)}
+.sys{text-align:center;color:var(--mute);font-size:12px;margin:6px 0}
+.bar2{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}
+.bar2 i{display:block;height:100%;background:var(--pri)}
+.chart{display:flex;align-items:flex-end;gap:6px;height:90px;border-bottom:1px solid var(--line);padding:4px}
+.chart b{flex:1;background:var(--pri);opacity:.75;border-radius:3px 3px 0 0}
+.chart b.y{background:var(--ok)}
+.bell{position:absolute;right:12px;top:42px;width:340px;max-width:calc(100% - 24px);background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.25);z-index:3}
+.bell div{padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px}
+.bell div:last-child{border-bottom:none}
+.tl{border-left:2px solid var(--line);margin-left:6px;padding-left:12px}
+.tl p{margin:0 0 9px;position:relative}
+.tl p:before{content:"";position:absolute;left:-18px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--pri)}
+code{background:var(--soft);padding:0 4px;border-radius:3px}
+.legend{font-size:12px;color:var(--mute)}
+
+a{color:var(--pri)}
+a.btn{text-decoration:none;color:var(--ink);box-shadow:0 0 0 2px color-mix(in srgb,var(--pri) 45%,transparent);cursor:pointer}
+a.btn.p,a.btn.g{color:#fff}a.btn.w{color:var(--warn)}a.btn.d{color:var(--bad)}
+a.btn:hover{box-shadow:0 0 0 3px var(--pri)}
+a.tab{text-decoration:none;box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--pri) 45%,transparent)}
+a.lk{color:var(--pri);text-decoration:underline dotted}
+.tnav{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px}
+.tnav a{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 10px;color:var(--ink);text-decoration:none;font-size:13px}
+.tnav a.on{background:var(--pri);color:#fff;border-color:var(--pri);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px;align-items:center;font-size:13px}
+.chips a,.chips span.c{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:3px 10px;text-decoration:none;color:var(--ink)}
+.chips a{border-color:var(--pri)}
+.chips i{font-style:normal;color:var(--mute)}
+.pn{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:34px;padding-top:14px;border-top:2px solid var(--line)}
+.pn a{background:var(--card);border:1px solid var(--pri);border-radius:8px;padding:8px 12px;text-decoration:none;color:var(--ink)}
+.hint{background:color-mix(in srgb,var(--pri) 10%,transparent);border:1px solid var(--pri);border-radius:8px;padding:7px 10px;margin:8px 0;font-size:13px}
+.cardgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:10px 0}
+.cardgrid>div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px}
+.cardgrid h3{margin:0 0 4px;font-size:15px}
+
+.wrap{max-width:1400px}
+details.info{margin:6px 0 12px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+details.info summary{cursor:pointer;font-weight:600}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg);min-height:700px}
+.side{background:#3a0d10;color:#f3dcdc;padding:10px 0 16px;font-size:13.5px}
+.side .logo{font-weight:800;font-size:20px;padding:6px 16px 12px;color:#fff}
+.side .grp{font-size:11px;letter-spacing:.07em;color:#c79a9a;padding:12px 16px 4px;text-transform:uppercase}
+.side a.it{display:flex;gap:10px;align-items:center;padding:8px 16px;color:#f3dcdc;text-decoration:none;cursor:pointer;border-left:3px solid transparent}
+.side a.it:hover{background:rgba(255,255,255,.08)}
+.side a.it.on{background:rgba(255,255,255,.14);border-left-color:#f59e0b;color:#fff;font-weight:600}
+.side a.it.off{opacity:.4}
+.side a.dummy{opacity:.75}
+.main{display:flex;flex-direction:column;min-width:0}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.crumb{color:var(--mute);font-size:13px}.crumb b{color:var(--ink)}
+.top select,.chip{font:inherit;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:4px 8px;background:var(--card);color:var(--ink)}
+.chip{cursor:pointer;border-radius:14px}.chip:hover{border-color:var(--pri)}
+.content{padding:14px;flex:1;min-width:0}
+.mtabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:12px;flex-wrap:wrap}
+.mtabs button,button.tab{font:inherit;background:none;border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;color:var(--mute);padding:8px 14px;cursor:pointer}
+.mtabs button:hover,button.tab:hover{color:var(--ink)}
+.mtabs button.on,button.tab.on{background:var(--card);border-color:var(--line);color:var(--ink);font-weight:600;margin-bottom:-1px}
+.mtabs button.lock{opacity:.5;cursor:not-allowed}
+.pg .mh,.mbox .mh{font-size:12px;color:var(--mute);margin:0 0 6px}
+.mbox .mh{margin-right:30px}
+.mdl{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:28px 12px;overflow:auto}
+.mdl[hidden],.pg[hidden],[data-pane-body][hidden],#pg-users[hidden],#pg-ca[hidden]{display:none}
+.mbox{background:var(--bg);border-radius:12px;width:min(940px,100%);padding:14px;position:relative}
+.mbox .x{position:absolute;right:10px;top:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:6px;cursor:pointer;padding:2px 8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#111827;color:#fff;padding:8px 14px;border-radius:8px;z-index:100;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast.on{opacity:1}
+span.btn[data-act],.btn.g,.btn.d,.pg span.btn,.mbox span.btn{cursor:pointer}
+#ed-bar{top:auto!important;bottom:10px;right:10px;height:auto}
+.notes li{display:block}
+@media(max-width:820px){.app{grid-template-columns:1fr}.side{display:flex;overflow-x:auto;padding:6px}.side .logo,.side .grp,.side .dummy{display:none}.side a.it{border-left:none;white-space:nowrap}}
+</style><style id="ed-css">
+#ed-bar{position:fixed;top:10px;right:10px;z-index:99;display:flex;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 8px;box-shadow:0 4px 16px rgba(0,0,0,.25);font:13px system-ui,sans-serif;color:var(--ink)}
+#ed-bar button{border:1px solid var(--line);background:var(--soft);color:var(--ink);border-radius:6px;padding:4px 10px;cursor:pointer;font:inherit}
+#ed-bar button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+#ed-bar .ed-tools{display:none;gap:6px}
+body.editing #ed-bar .ed-tools{display:flex}
+body.editing .wrap{outline:2px dashed var(--pri);outline-offset:6px}
+@media print{#ed-bar{display:none}}
+</style><style id="css-reg">
+.rc{text-align:center;cursor:pointer;white-space:nowrap;min-width:78px}
+.rc.free:hover{background:var(--soft)}
+.rc.sel{background:color-mix(in srgb,var(--ok) 20%,transparent);outline:2px solid var(--ok);font-weight:600}
+.rc.full{color:var(--mute);background:var(--soft);cursor:not-allowed}
+.rc.wl{background:color-mix(in srgb,var(--warn) 18%,transparent);outline:2px solid var(--warn)}
+.rc.leave{background:color-mix(in srgb,var(--bad) 12%,transparent);cursor:not-allowed}
+.rc.base{background:var(--soft);cursor:not-allowed}
+.rc .tk,.rc .lv{display:inline-block;padding:1px 5px;border-radius:4px;cursor:pointer}.rc .lv{border:1px solid var(--mute)}.rc.hc .tk{font-weight:600}.rc.hcl .lv{border-color:var(--bad);font-weight:600}
+.rc .rcs{font:inherit;padding:2px 4px;border-radius:4px;border:1px solid var(--mute);background:transparent;cursor:pointer}.rc.hco{background:var(--soft)}.rc .rcs option{background:#fff;color:#1a1a1a}
+.rc.hc{background:color-mix(in srgb,var(--pri) 12%,transparent)}.rc.hcl{background:color-mix(in srgb,var(--bad) 12%,transparent);outline:2px solid var(--bad)}
+.rc.low{background:color-mix(in srgb,var(--warn) 22%,transparent)}.rc.okc{background:color-mix(in srgb,var(--ok) 16%,transparent)}.rc.over{background:var(--soft);color:var(--mute)}
+.prog{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;min-width:120px}.prog i{display:block;height:100%;background:var(--ok)}
+.ckin{font-size:15px;padding:8px 18px}
+</style>
+</head><body><div id="ed-bar"><button id="ed-toggle" type="button">✏️ Chỉnh sửa</button><span class="ed-tools"><button type="button" data-cmd="bold"><b>B</b></button><button type="button" data-cmd="italic"><i>I</i></button><button type="button" data-cmd="hiliteColor">Tô sáng</button><button type="button" data-cmd="undo">↶</button><button type="button" data-cmd="redo">↷</button></span><button id="ed-save" type="button">💾 Lưu file</button></div><div class="wrap">
+<nav class="tnav"><a href="JCN-116_Wireframe.html">Tổng quan</a><a href="JCN-116.1_Wireframe.html">116.1 Đồng bộ 2 chiều Pancake</a><a href="JCN-116.2_Wireframe.html">116.2 Trung tâm chia lead</a><a href="JCN-116.3_Wireframe.html">116.3 Lead của tôi & Khung chat</a><a class="on" href="JCN-116.5_Wireframe.html">116.5 Ca làm việc & Trạng thái đi làm</a><a href="JCN-116.6_Wireframe.html">116.6 Quản lý Tag</a></nav>
+<h1>JCN-116.5 — Ca làm việc &amp; Trạng thái đi làm</h1>
+<details class="info"><summary>ℹ Giới thiệu ticket JCN-116.5 (bấm để mở / đóng)</summary>
+
+<h1>JCN-116.5 — Ca làm việc & Trạng thái đi làm</h1>
+<p class="sub">Biết nhân viên nào thực sự đi làm: xếp ca, nghỉ phép, trạng thái online tự động và Tạm nghỉ. Kết quả là điều kiện ứng viên của chia tự động. Làm sau 116.1 và trước 116.2.</p>
+<div class="hint">🔗 Nút/viền xanh là <b>bấm được</b>: chuyển sang màn kế tiếp (có thể ở ticket khác). Màn hình trong ticket này: <b>Màn 13 và 13b (Danh mục, Sửa ca), 14, 14b và 14c (Xếp lịch, Import Excel, Sửa ca nhân viên), 15 (Ca của tôi), 16 (Trạng thái làm việc), 17 (Tài khoản & Ai đang đi làm)</b>.</div>
+<div class="chips"><span class="c">Phát tín hiệu cho:</span><a href="JCN-116.3_Wireframe.html#s3a">116.2 Chia tự động (ai được chia)</a><a href="JCN-116.2_Wireframe.html#s2">116.2 Popup Chia (cột Hôm nay)</a><a href="JCN-116.2_Wireframe.html#s1">116.2 Chia việc lead</a></div>
+
+
+<div class="hint">🖱 <b>Trang chạy được:</b> chọn <b>vai trò</b> ở góc trên phải (tab nào không đủ quyền sẽ hiện 🔒), bấm menu bên trái, bấm tab, bấm nút <b>Sửa / Import Excel / Xin nghỉ / Tạm nghỉ</b> để mở popup. Dữ liệu chỉ là mô phỏng.</div></details>
+<div class="app"><aside class="side"><div class="logo">J-Connect</div><a class="it dummy" data-dummy="Quản lý thanh toán"><span>💳</span>Quản lý thanh toán</a><a class="it dummy" data-dummy="Quản lý hoàn tiền"><span>🧾</span>Quản lý hoàn tiền</a><a class="it dummy" data-dummy="Đối soát công nợ"><span>⇄</span>Đối soát công nợ</a><div class="grp">Đại lý / CTV</div><a class="it dummy" data-dummy="Đại lý / CTV"><span>🤝</span>Đại lý / CTV</a><div class="grp">Danh mục</div><a class="it dummy" data-dummy="Data Master"><span>☰</span>Data Master</a><div class="grp">Pancake</div><a class="it " href="JCN-116.2_Wireframe.html#s10"><span>💬</span>Pancake</a><div class="grp">Quản trị</div><a class="it nav-users" data-nav="users"><span>👥</span>Quản lý người dùng</a><a class="it dummy" data-dummy="Role &amp; Phân quyền"><span>🛡</span>Role &amp; Phân quyền</a><a class="it nav-ca" data-nav="ca"><span>🗓</span>Ca làm việc</a><a class="it dummy" data-dummy="Nhân viên"><span>👤</span>Nhân viên</a><div class="grp">Cài đặt</div><a class="it dummy" data-dummy="Cấu hình hệ thống"><span>⚙</span>Cấu hình hệ thống</a><a class="it dummy" data-dummy="Ngôn ngữ"><span>🌐</span>Ngôn ngữ</a><a class="it dummy" data-dummy="Hồ sơ"><span>📄</span>Hồ sơ</a><a class="it dummy" data-dummy="Đổi mật khẩu"><span>🔑</span>Đổi mật khẩu</a></aside><div class="main"><div class="top"><div class="crumb" id="crumb"></div><div class="row" style="margin:0">
+<label class="legend" for="role">Đăng nhập với vai trò:</label>
+<select id="role"><option value="admin">Quản trị / HR</option><option value="tn">Trưởng nhóm Sale (Hà)</option><option value="nv">Nhân viên Sale (Lan)</option></select>
+<button class="chip" id="stchip" data-go="s16">🟢 Đang làm · Ca Hành chính ▾</button></div></div><div class="content">
+<div id="pg-ca"><div class="mtabs" id="catabs">
+<button data-tab="s15">Ca của tôi</button><button data-tab="s15d">Đăng ký ca</button><button data-tab="s15e">Công của tôi</button><button data-tab="s14">Xếp lịch ca</button><button data-tab="s14d">Chấm công</button><button data-tab="s13">Danh mục ca</button></div><section class="pg" data-id="s15" hidden><div class="mh">Màn 15 — Ca của tôi (Nhân viên)</div><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Ca của tôi</b></span><span>Lan (Sale)</span></div><div class="body">
+<div class="row"><span class="btn">◀ 20/10 – 26/10 ▶</span><span class="grow"></span><a class="btn" href="#req-doi">Xin đổi ca</a><a class="btn w" href="#req-nghi">Xin nghỉ</a></div>
+<div class="scroll"><table>
+<tr><th>T2 20</th><th>T3 21</th><th>T4 22</th><th>T5 23 (hôm nay)</th><th>T6 24</th><th>T7 25</th><th>CN 26</th></tr>
+<tr><td>🟦 HC 08:30–17:30</td><td>🟦 HC</td><td>🟦 HC</td><td style="outline:2px solid var(--pri)">🟦 HC · <b>đang trong ca</b></td><td>🟦 HC</td><td>—</td><td>—</td></tr>
+</table></div>
+<div style="margin-top:12px"><b>Yêu cầu của tôi</b> <span class="mk">1</span> <span class="legend">(bấm vào một dòng để xem chi tiết)</span></div><div class="scroll"><table id="myreq"><tr><th>Gửi lúc</th><th>Loại</th><th>Ngày</th><th>Nội dung</th><th>Trạng thái</th></tr><tr data-go="reqd" data-req='{"t":"Xin nghỉ","d":"27/10/2026 (T3) — cả ngày","ca":"🟦 Hành chính 08:30–17:30","w":"—","r":"Việc gia đình","st":"wait","by":"Hà (Trưởng nhóm Sale)","note":"—","log":["23/10 09:12 — Lan gửi yêu cầu","23/10 09:12 — Thông báo tới Hà"],"cancel":1}' style="cursor:pointer"><td>23/10 09:12</td><td>Xin nghỉ</td><td>27/10</td><td>Cả ngày · Việc gia đình</td><td class="st"><span class="bd wait">Chờ duyệt</span></td></tr><tr data-go="reqd" data-req='{"t":"Xin đổi ca","d":"18/10/2026 (T7)","ca":"🟩 Sáng 07:30–12:00","w":"Nam — 🟨 Chiều 13:00–18:00","r":"Có việc buổi sáng","st":"ok","by":"Hà (Trưởng nhóm Sale)","note":"OK","log":["16/10 14:03 — Lan gửi yêu cầu","16/10 15:40 — Hà duyệt","16/10 15:40 — Lịch tự cập nhật: Lan → Chiều, Nam → Sáng; Lan và Nam nhận thông báo"],"cancel":0}' style="cursor:pointer"><td>16/10 14:03</td><td>Xin đổi ca</td><td>18/10</td><td>Đổi với Nam · Có việc buổi sáng</td><td class="st"><span class="bd ok">Đã duyệt</span></td></tr><tr data-go="reqd" data-req='{"t":"Xin nghỉ","d":"10/10/2026 (T7) — nửa ngày chiều","ca":"🟨 Chiều 13:00–18:00","w":"—","r":"Khám bệnh","st":"late","by":"Hà (Trưởng nhóm Sale)","note":"Chiều đó thiếu người, xin dời sang ngày khác","log":["08/10 10:20 — Lan gửi yêu cầu","08/10 11:05 — Hà từ chối (kèm lý do)"],"cancel":0}' style="cursor:pointer"><td>08/10 10:20</td><td>Xin nghỉ</td><td>10/10</td><td>Nửa ngày chiều · Khám bệnh</td><td class="st"><span class="bd late">Từ chối</span></td></tr></table></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>3 popup: <a class="lk" href="#req-nghi">Xin nghỉ</a> (cả ngày / nửa ngày sáng / nửa ngày chiều, khoảng ngày, lý do) · <a class="lk" href="#req-doi">Xin đổi ca</a> (ngày, ca hiện tại, đồng nghiệp đổi cùng, xem trước kết quả, lý do) · <a class="lk" href="#reqd">Chi tiết yêu cầu</a> (bấm một dòng ở bảng; người duyệt, ghi chú, nhật ký; chỉ <b>Huỷ yêu cầu</b> khi còn Chờ duyệt). Duyệt tại <a class="lk" href="#s14">màn 14</a> (tab Yêu cầu).</li>
+<li><span class="mk">2</span>Xin nghỉ: nếu ngày chọn trùng ca đã có người xin nghỉ, hoặc làm bộ phận thiếu người tối thiểu, hiện <b>cảnh báo</b> nhưng vẫn cho gửi (Trưởng nhóm quyết định). Không xin được ngày đã qua.</li>
+<li><span class="mk">3</span>Xin đổi ca: chỉ chọn được đồng nghiệp <b>cùng bộ phận</b> có lịch ngày đó; hai ca <b>không được chồng giờ</b>. Duyệt xong lịch của cả hai tự cập nhật và cả hai nhận thông báo.</li>
+</ol></div></section><section class="pg" data-id="s14" hidden><div class="mh">Màn 14 — Xếp lịch ca &amp; Duyệt yêu cầu (Trưởng nhóm)</div><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Xếp lịch ca</b></span><span>Trưởng nhóm Sale: Hà</span></div><div class="body">
+<div class="tabs" data-tabs="s14"><button class="tab on" data-pane="lich">Lịch ca</button><button class="tab" data-pane="yc">Yêu cầu đổi ca / nghỉ (<span id="ycn">2</span>) <span class="mk">5</span></button><button class="tab" data-pane="ls">Lịch sử import</button></div>
+<div data-pane-body="lich">
+<div class="row"><span class="mk">1</span><span class="btn">◀ 20/10 – 26/10 ▶</span><div class="in">Bộ phận: Sale ▾</div></div>
+<div class="scroll"><table>
+<tr><th>Nhân viên</th><th>T2 20</th><th>T3 21</th><th>T4 22</th><th>T5 23</th><th>T6 24</th><th>T7 25</th><th>CN 26</th></tr>
+<tr><td><b>Lan</b></td><td>🟦 HC</td><td>🟦 HC</td><td>🟦 HC</td><td>🟦 HC</td><td><a class="lk" href="#s14c">🟦 HC ✎</a></td><td>—</td><td>—</td></tr>
+<tr><td><b>Nam</b></td><td>🟩 Sáng</td><td>🟩 Sáng</td><td>🟩 Sáng</td><td>🟩 Sáng</td><td><a class="lk" href="#s14c">🟩 Sáng ✎</a></td><td>🟩 Sáng</td><td>—</td></tr>
+<tr><td><b>Linh</b> (thử việc)</td><td>🟧 Chiều</td><td>🟧 Chiều</td><td>🔴 Nghỉ phép</td><td>🟧 Chiều</td><td>🟧 Chiều</td><td>🟧 Chiều</td><td>—</td></tr>
+<tr><td><b>Minh</b></td><td>🟦 HC 📝</td><td>🟦 HC 📝</td><td>🟦 HC 📝</td><td>🟦 HC 📝</td><td>🟦 HC 📝</td><td>—</td><td>—</td></tr>
+<tr><td><b>Tuấn</b></td><td colspan="7" style="text-align:center"><span class="bd wait">⏳ Đăng ký cả tuần 20/10 – 26/10 đang chờ duyệt</span> <small>— duyệt xong mới vào lịch</small></td></tr>
+</table></div>
+<p class="legend"><span class="mk">2</span> Chọn ô → chọn ca; kéo chọn nhiều ô gán một lần. Ô trống = dùng ca mặc định của bộ phận (Hành chính T2–T6).<br><span class="mk">6</span> 📝 = ca do NV đăng ký và <b>đã được duyệt</b> (tự vào bảng, không cần xếp tay). ⏳ = đăng ký <b>đang chờ duyệt</b>: duyệt theo <b>cả tuần</b> (không duyệt từng ngày), cả tuần của NV đó hiện một dòng chờ, <b>chưa tính</b> vào lịch cho tới khi duyệt; bị từ chối thì biến mất khỏi bảng. Trưởng nhóm vẫn sửa được từng ô.</p>
+</div>
+<div data-pane-body="yc" hidden>
+<div class="scroll"><table>
+<tr><th>Nhân viên</th><th>Loại</th><th>Ngày</th><th>Lý do</th><th>Trạng thái</th><th>Thao tác</th></tr>
+<tr><td>Linh</td><td>Xin nghỉ</td><td>22/10</td><td>Việc gia đình</td><td class="st"><span class="bd wait">Chờ duyệt</span></td><td class="ac"><span class="btn g" data-act="ok">Duyệt</span> <span class="btn d" data-act="no">Từ chối</span></td></tr>
+<tr><td>Nam</td><td>Đổi ca với Minh</td><td>24/10</td><td>Ca sáng ↔ Hành chính</td><td class="st"><span class="bd wait">Chờ duyệt</span></td><td class="ac"><span class="btn g" data-act="ok">Duyệt</span> <span class="btn d" data-act="no">Từ chối</span></td></tr>
+<tr><td>Minh</td><td>Xin nghỉ</td><td>18/10</td><td>Khám sức khoẻ</td><td class="st"><span class="bd ok">Đã duyệt</span></td><td class="ac">—</td></tr>
+</table></div>
+<p class="legend"><span class="mk">5</span> Duyệt xong lịch tự cập nhật, hai bên nhận thông báo; ngày nghỉ phép đã duyệt thì NV không được chia lead.</p>
+</div>
+<div data-pane-body="ls" hidden>
+<div class="scroll"><table>
+<tr><th>Thời gian</th><th>Người nhập</th><th>File</th><th>Kết quả</th><th>Trạng thái lịch</th><th></th></tr>
+<tr><td>23/10 09:12</td><td>Hà</td><td>lich-ca-sale-27-10.xlsx</td><td>5/6 dòng hợp lệ</td><td><span class="bd wait">Nháp</span></td><td><span class="btn">Hoàn tác</span></td></tr>
+<tr><td>16/10 08:40</td><td>Hà</td><td>lich-ca-sale-20-10.xlsx</td><td>6/6 dòng hợp lệ</td><td><span class="bd ok">Đã phát hành</span></td><td>—</td></tr>
+</table></div>
+</div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Xếp theo tuần/tháng: chọn ô → chọn ca. Sửa lịch có hiệu lực ngay, NV nhận thông báo và hệ thống ghi lịch sử.</li>
+<li><span class="mk">2</span>Chọn nhiều ô cùng lúc để gán ca nhanh, tránh làm từng ô.</li>
+<li><span class="mk">5</span>Duyệt xong lịch tự cập nhật, hai bên nhận thông báo; ngày nghỉ phép đã duyệt thì NV không được chia lead.</li>
+<li><span class="mk">6</span>Khi Trưởng nhóm / HR <b>duyệt</b> đăng ký ca của NV (tab Đăng ký ca), các ô của NV đó <b>tự vào Lịch ca</b> theo đúng ngày, đánh dấu 📝. Mỗi đăng ký là <b>một tuần</b>, duyệt / từ chối cả tuần một lần: đang chờ duyệt thì cả tuần của NV hiện ⏳ và chưa tính vào lịch; <b>bị từ chối</b> thì không vào lịch.</li>
+</ol></div></section><section class="pg" data-id="s13" hidden><div class="mh">Màn 13 — Danh mục ca (Quản trị / HR)</div><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Danh mục ca</b></span><span><a class="btn p" href="#s13b">+ Thêm ca</a></span></div><div class="body">
+<div class="scroll"><table>
+<tr><th>Tên ca</th><th>Giờ</th><th>Nghỉ giữa ca</th><th>Bộ phận</th><th>Màu</th><th>Trạng thái</th><th>Thao tác</th></tr>
+<tr><td><b>Hành chính</b></td><td>08:30 – 17:30</td><td>12:00 – 13:00</td><td>Sale · CSKH · WFCĐ</td><td>🟦</td><td><span class="bd ok">Đang dùng</span></td><td><a class="btn" href="#s13b">Sửa</a> <span class="btn" data-act="stop">Ngừng</span></td></tr>
+<tr><td><b>Sáng</b></td><td>07:30 – 12:00</td><td>—</td><td>Sale</td><td>🟩</td><td><span class="bd ok">Đang dùng</span></td><td><a class="btn" href="#s13b">Sửa</a> <span class="btn" data-act="stop">Ngừng</span></td></tr>
+<tr><td><b>Chiều</b></td><td>13:00 – 21:00</td><td>—</td><td>Sale</td><td>🟧</td><td><span class="bd ok">Đang dùng</span></td><td><a class="btn" href="#s13b">Sửa</a> <span class="btn" data-act="stop">Ngừng</span></td></tr>
+</table></div>
+<div class="banner info" style="margin-top:10px;font-size:13px"><span class="mk">1</span> Form <b>Thêm / Sửa ca</b>: Tên ca * · Giờ bắt đầu * · Giờ kết thúc * (cho phép qua nửa đêm) · Nghỉ giữa ca · Bộ phận áp dụng * · Màu · Đang dùng.</div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Ca đã có lịch không xoá được, chỉ Ngừng dùng; sửa giờ chỉ áp từ ngày mai, ghi lịch sử. Ca mẫu là ví dụ, chờ công ty cung cấp ca thật (#37).</li>
+</ol></div></section><section class="pg" data-id="s15d" hidden><div class="mh">Màn 15d — Đăng ký ca (Nhân viên)</div><p class="sub">Tab chỉ có nội dung khi bộ phận ở chế độ <b>Nhân viên tự đăng ký</b> hoặc <b>Kết hợp</b> và có kỳ đang mở. Bấm vào ô để chọn / bỏ chọn.</p><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Đăng ký ca</b></span><span>Lan (Sale)</span></div><div class="body">
+<div class="banner info"><span class="mk">1</span> Kỳ đăng ký tuần <b>02/11 – 08/11</b> · hạn chốt <b>Thứ Năm 29/10 18:00</b> (còn 6 ngày) · sau hạn chốt dùng <a class="lk" href="#req-doi">Xin đổi ca</a></div>
+<div class="row"><b>Danh sách đăng ký của tôi</b> <span class="grow"></span><span class="btn p" data-toggle="rc-new">＋ Đăng ký ca tuần mới (02/11 – 08/11)</span></div>
+<div class="scroll"><table>
+<tr><th>Nội dung</th><th>Ngày gửi</th><th>Trạng thái</th><th>Người duyệt / Ghi chú</th></tr>
+<tr><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11</td><td>26/10 09:12</td><td><span class="bd wait">Chờ duyệt</span></td><td>Chờ Trưởng nhóm / HR duyệt · <a class="lk" data-toast="Đã hủy đăng ký — có thể đăng ký lại trước hạn chốt">Hủy</a></td></tr>
+<tr><td>Đăng ký lịch làm từ ngày 26/10 đến ngày 01/11</td><td>19/10 17:45</td><td><span class="bd late">Từ chối</span></td><td>Hà · Lý do: "Thiếu ca tối thiểu, vui lòng đăng ký lại" 🔔 · <a class="lk" href="#s15d">Đăng ký lại</a></td></tr>
+<tr><td>Đăng ký lịch làm từ ngày 19/10 đến ngày 25/10</td><td>12/10 18:02</td><td><span class="bd ok">Đã duyệt</span></td><td>Hà · đã vào lịch ca của tôi</td></tr>
+</table></div>
+<div id="rc-new" hidden>
+<div style="margin-top:6px"><b>Đăng ký mới — tuần 02/11 – 08/11</b></div>
+<div class="row"><span class="btn">◀ 02/11 – 08/11 ▶</span></div>
+<div class="scroll"><table id="rc-grid">
+<tr><th>Ca</th><th>T2 02/11</th><th>T3 03/11</th><th>T4 04/11</th><th>T5 05/11</th><th>T6 06/11</th><th>T7 07/11</th><th>CN 08/11</th></tr>
+<tr><td>🟦 Hành chính 08:30–17:30</td><td class="rc hc">🟦 Đi làm</td><td class="rc hc">🟦 Đi làm</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hc">🟦 Đi làm</td><td class="rc hc">🟦 Đi làm</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td></tr>
+<tr><td>🟩 Sáng 07:30–12:00</td><td class="rc hc">🟦 Đi làm</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hc">🟦 Đi làm</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td></tr>
+<tr><td>🟧 Chiều 13:00–21:00</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hc">🟦 Đi làm</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td><td class="rc hcl">🔴 Nghỉ phép</td></tr>
+</table></div>
+<div class="row" style="margin-top:8px"><span class="mk">3</span><span class="btn" data-toast="Đã điền lại đúng ca tuần trước">Dùng lại tuần trước</span><span class="btn" data-toast="Đã xóa lựa chọn chưa gửi">Xóa lựa chọn</span><span class="grow"></span><span class="btn p" data-toast="✔ Đã gửi đăng ký — chờ Trưởng nhóm/HR duyệt; duyệt xong lịch tự vào Bảng lịch tổng, bị từ chối bạn sẽ nhận thông báo kèm lý do">Gửi đăng ký</span></div>
+<div class="legend" style="margin-top:6px">Chú thích: ca 🟦 <b>Hành chính</b> mặc định là <b>Đi làm</b>; ca Sáng / Chiều để trống, bấm vào ô để chọn. Ngày muốn nghỉ → bấm vào ô và chọn ⚪ <b>Nghỉ</b> hoặc 🔴 <b>Nghỉ phép</b>.</div>
+</div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Tab chỉ hiện nội dung khi kỳ đang mở. Hạn chốt giờ Tokyo. Còn 24 giờ và 2 giờ nếu chưa đủ ca tối thiểu, hệ thống nhắc NV.</li>
+<li><span class="mk">2</span>Số ca đăng ký theo <code>register_min_shifts</code> / <code>register_max_shifts</code> (mặc định 5 / 6). Chưa đủ vẫn gửi được nhưng bị nhắc và Trưởng nhóm thấy trong bảng chưa đăng ký đủ.</li>
+<li><span class="mk">3</span>Chọn nhiều ô rồi <b>Gửi một lần</b>. Chế độ <b>Tự duyệt</b>: còn chỗ được ngay theo thứ tự gửi; hết chỗ vào danh sách chờ, có người hủy thì tự nhận và có thông báo. Chế độ <b>Trưởng nhóm duyệt</b>: ô ở trạng thái Chờ duyệt.</li>
+<li><span class="mk">4</span>Lỗi hiện ngay trên ô: <b>chồng giờ</b> với ca khác, <b>vượt số ca tối đa</b>, <b>ngày nghỉ phép</b> đã duyệt. Trước hạn chốt NV sửa / hủy tự do; sau hạn chốt khóa.</li>
+</ol></div></div></section>
+<section class="pg" data-id="s15e" hidden><div class="mh">Màn 15e — Công của tôi (Nhân viên)</div><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Công của tôi</b></span><span>Lan (Sale)</span></div><div class="body">
+<div class="row"><span class="btn">◀ Tháng 10/2026 ▶</span><span class="grow"></span><a class="btn w" href="#req-bsc">Xin bổ sung công</a></div>
+<div class="cards"><span class="mk">1</span>
+<div class="cd"><small>Số ca đã làm</small><b>18</b></div><div class="cd warn"><small>Đi trễ</small><b>2</b></div><div class="cd warn"><small>Tự đóng (quên Ra ca)</small><b>1</b></div><div class="cd"><small>Giờ làm thực tế</small><b>142h</b></div></div>
+<div class="scroll"><table>
+<tr><th>Ngày</th><th>Ca</th><th>Vào</th><th>Ra</th><th>Làm thực tế</th><th>Tạm nghỉ</th><th>Kết quả <span class="mk">2</span></th><th>Thao tác</th></tr>
+<tr><td>T5 22/10</td><td>🟦 HC</td><td>08:27</td><td>17:33</td><td>8h06</td><td>0h50</td><td><span class="bd ok">Đúng giờ</span></td><td>—</td></tr>
+<tr><td>T4 21/10</td><td>🟦 HC</td><td>08:41</td><td>17:30</td><td>7h49</td><td>1h00</td><td><span class="bd late">Đi trễ 11′</span></td><td>—</td></tr>
+<tr><td>T3 20/10</td><td>🟦 HC</td><td>08:29</td><td>17:30 <small>(tự đóng)</small></td><td>8h01</td><td>1h00</td><td><span class="bd wait">Tự đóng</span></td><td>—</td></tr>
+<tr><td>T2 19/10</td><td>🟦 HC</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="bd late">Không chấm công</span></td><td><a class="btn" href="#req-bsc">Xin bổ sung công</a></td></tr>
+<tr><td>T7 17/10</td><td>🟩 Sáng</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="bd">Nghỉ phép</span></td><td>—</td></tr>
+<tr><td>T6 16/10</td><td>🟩 Sáng</td><td>07:25</td><td>11:58</td><td>4h33</td><td>0h00</td><td><span class="bd new">Về sớm 2′</span></td><td>—</td></tr>
+</table></div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Tổng kết tháng của chính NV (số ca, số lần đi trễ, giờ làm thực tế). Chỉ NV và Trưởng nhóm thấy.</li>
+<li><span class="mk">2</span>Kết quả: Đúng giờ · Đi trễ n′ (sau dung sai <code>late_grace_minutes</code>) · Về sớm n′ · Tự đóng · Không chấm công · Nghỉ phép (không tính vắng). Giờ do máy chủ ghi theo giờ Tokyo, NV không tự sửa.</li>
+<li><span class="mk">3</span>Quên Vào ca nhưng có làm việc: <a class="lk" href="#req-bsc">Xin bổ sung công</a> kèm giờ vào thực tế và lý do, Trưởng nhóm duyệt 1 chạm; bị từ chối thì ca vẫn là Không chấm công.</li>
+</ol></div></div></section>
+<section class="pg" data-id="s14d" hidden><div class="mh">Màn 14d — Chấm công &amp; Cấu hình (Trưởng nhóm / Quản trị)</div><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Chấm công</b></span><span>Trưởng nhóm Sale: Hà</span></div><div class="body">
+<div class="tabs" data-tabs="s14d"><button class="tab on" data-pane="cc">Bảng chấm công <span class="mk">5</span></button><button class="tab" data-pane="cfg">Cấu hình theo bộ phận <span class="mk">7</span></button></div>
+<div data-pane-body="cc">
+<div class="row"><span class="btn">◀ Tuần 19/10 – 25/10 ▶</span><div class="in">Bộ phận: Sale ▾</div><div class="in">NV: tất cả ▾</div><div class="in">Kết quả: tất cả ▾</div><span class="grow"></span><span class="btn" data-toast="Đã xuất Excel (đúng các dòng đang lọc, giờ Tokyo)">Xuất Excel</span></div>
+<div class="banner"><span class="mk">4</span> Có <b>1 yêu cầu bổ sung công</b> chờ duyệt (Nam · T2 19/10 · vào 08:30) <span class="btn" data-toast="Đã duyệt — bảng chấm công cập nhật, nguồn «Bổ sung»" style="margin-left:6px">Duyệt</span><span class="btn d" data-toast="Đã từ chối — ca vẫn là Không chấm công">Từ chối</span></div>
+<div class="scroll"><table>
+<tr><th>NV</th><th>Ngày</th><th>Ca</th><th>Vào</th><th>Ra</th><th>Làm thực tế</th><th>Tạm nghỉ</th><th>Kết quả</th><th>Nguồn</th><th></th></tr>
+<tr><td>Lan</td><td>22/10</td><td>HC</td><td>08:27</td><td>17:33</td><td>8h06</td><td>0h50</td><td><span class="bd ok">Đúng giờ</span></td><td>Bấm</td><td><span class="btn" data-toast="Sửa công: bắt buộc nhập lý do, lưu lịch sử cũ → mới">Sửa công</span></td></tr>
+<tr><td>Lan</td><td>21/10</td><td>HC</td><td>08:41</td><td>17:30</td><td>7h49</td><td>1h00</td><td><span class="bd late">Đi trễ 11′</span></td><td>Bấm</td><td><span class="btn" data-toast="Sửa công: bắt buộc nhập lý do, lưu lịch sử cũ → mới">Sửa công</span></td></tr>
+<tr style="background:color-mix(in srgb,var(--warn) 12%,transparent)"><td>Lan</td><td>20/10</td><td>HC</td><td>08:29</td><td>17:30</td><td>8h01</td><td>1h00</td><td><span class="bd wait">Tự đóng</span></td><td>Tự đóng</td><td><span class="btn" data-toast="Sửa công: bắt buộc nhập lý do, lưu lịch sử cũ → mới">Sửa công</span></td></tr>
+<tr style="background:color-mix(in srgb,var(--bad) 10%,transparent)"><td>Nam</td><td>19/10</td><td>HC</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="bd late">Không chấm công</span></td><td>—</td><td><span class="btn" data-toast="Sửa công: bắt buộc nhập lý do, lưu lịch sử cũ → mới">Sửa công</span></td></tr>
+<tr><td>Hoa</td><td>19/10</td><td>Sáng</td><td>07:28</td><td>12:03</td><td>4h35</td><td>0h00</td><td><span class="bd ok">Đúng giờ</span></td><td>Bổ sung</td><td><span class="btn" data-toast="Sửa công: bắt buộc nhập lý do, lưu lịch sử cũ → mới">Sửa công</span></td></tr>
+</table></div>
+</div>
+<div data-pane-body="cfg" hidden>
+<div class="scroll"><table>
+<tr><th>Bộ phận</th><th>Chế độ xếp ca <span class="mk">6</span></th><th>Duyệt đăng ký</th><th>Chấm công</th></tr>
+<tr><td>Sale</td><td><select class="in"><option>Trưởng nhóm xếp</option><option>Nhân viên tự đăng ký</option><option selected>Kết hợp</option></select></td><td><select class="in"><option selected>Tự duyệt</option><option>Trưởng nhóm duyệt</option></select></td><td><select class="in"><option>Tắt</option><option>Tự ghi</option><option selected>Bấm vào/ra</option></select></td></tr>
+<tr><td>CSKH</td><td><select class="in"><option>Trưởng nhóm xếp</option><option selected>Nhân viên tự đăng ký</option><option>Kết hợp</option></select></td><td><select class="in"><option selected>Tự duyệt</option><option>Trưởng nhóm duyệt</option></select></td><td><select class="in"><option>Tắt</option><option>Tự ghi</option><option selected>Bấm vào/ra</option></select></td></tr>
+<tr><td>WFCĐ</td><td><select class="in"><option selected>Trưởng nhóm xếp</option><option>Nhân viên tự đăng ký</option><option>Kết hợp</option></select></td><td>—</td><td><select class="in"><option>Tắt</option><option>Tự ghi</option><option selected>Bấm vào/ra</option></select></td></tr>
+<tr><td>Support</td><td><select class="in"><option>Trưởng nhóm xếp</option><option selected>Nhân viên tự đăng ký</option><option>Kết hợp</option></select></td><td><select class="in"><option>Tự duyệt</option><option selected>Trưởng nhóm duyệt</option></select></td><td><select class="in"><option>Tắt</option><option>Tự ghi</option><option selected>Bấm vào/ra</option></select></td></tr>
+</table></div>
+<table style="margin-top:8px"><tr><th>Tham số</th><th>Giá trị</th></tr>
+<tr><td>Hạn chốt đăng ký</td><td><input class="in" type="time" value="18:00" style="min-width:90px"> <select class="in" style="min-width:90px"><option>Thứ Hai</option><option>Thứ Ba</option><option>Thứ Tư</option><option selected>Thứ Năm</option><option>Thứ Sáu</option><option>Thứ Bảy</option><option>Chủ Nhật</option></select> tuần trước <small>(giờ Tokyo)</small></td></tr>
+<tr><td>Tự mở kỳ mỗi tuần</td><td><label><input type="checkbox" onchange="this.nextElementSibling.textContent=this.checked?'Bật':'Tắt'"> <span>Tắt</span></label></td></tr>
+<tr><td>Cửa sổ vào ca sau giờ bắt đầu</td><td><input class="in" type="number" min="0" value="60" style="min-width:70px;width:70px"> phút</td></tr>
+<tr><td>Dung sai đi trễ</td><td><input class="in" type="number" min="0" value="5" style="min-width:70px;width:70px"> phút</td></tr>
+<tr><td>Nhắc NV / báo Trưởng nhóm khi chưa vào ca</td><td><input class="in" type="number" min="0" value="10" style="min-width:70px;width:70px"> / <input class="in" type="number" min="0" value="30" style="min-width:70px;width:70px"> phút</td></tr>
+<tr><td>Tự ra ca sau giờ hết ca</td><td><input class="in" type="number" min="0" value="30" style="min-width:70px;width:70px"> phút</td></tr></table>
+<p style="margin-top:8px"><span class="btn p" data-toast="Đã lưu cấu hình (mô phỏng)">Lưu cấu hình</span></p>
+</div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">4</span>Bổ sung công do NV gửi (quên Vào ca): duyệt 1 chạm; từ chối thì ca vẫn là Không chấm công.</li>
+<li><span class="mk">5</span>Dòng <b>Tự đóng</b> (vàng) và <b>Không chấm công</b> (đỏ) tô màu để lọc nhanh. <b>Sửa công</b> bắt buộc lý do, lưu lịch sử (ai, khi nào, cũ → mới) và không đổi KPI đã ghi. Nghỉ phép không bị tính vắng.</li>
+<li><span class="mk">6</span>Mỗi bộ phận chọn một trong ba chế độ: Trưởng nhóm xếp · Nhân viên tự đăng ký · Kết hợp. Bộ phận nào cũng có thể tự đăng ký ca.</li>
+<li><span class="mk">7</span>Cấu hình theo bộ phận; Quản trị đặt, Trưởng nhóm đặt cho nhóm mình. Chấm công Bấm vào/ra là mặc định; Tắt thì quay về tự Online khi đăng nhập.</li>
+</ol></div></div></section><section class="pg" data-id="s14e" hidden><div class="mh">Màn 15d — Đăng ký ca (góc nhìn Trưởng nhóm / Quản trị)</div><p class="sub">Cùng tab <b>Đăng ký ca</b> với nhân viên nhưng nội dung theo vai trò: <b>Nhân viên</b> → lưới tự đăng ký; <b>Trưởng nhóm / Quản trị</b> → danh sách đăng ký để duyệt / từ chối (màn này). Đổi vai trò ở ô chọn phía trên để xem.</p><div class="frame"><div class="bar"><span>Quản trị ▸ Ca làm việc ▸ <b>Đăng ký ca</b></span><span>Trưởng nhóm Sale: Hà</span></div><div class="body">
+<div class="row"><span class="btn">◀ Tuần 02/11 – 08/11 ▶</span><div class="in">Bộ phận: Sale ▾</div><div class="in">Nhân viên: tất cả ▾</div><div class="in">Trạng thái: Chờ duyệt ▾</div><span class="grow"></span><span class="btn" data-toast="Đã xuất Excel danh sách đăng ký ca (đúng các dòng đang lọc)">Xuất Excel</span><span class="btn p" data-toast="Đã duyệt các đăng ký đã tick — lịch của NV tự vào Bảng lịch tổng (Màn 14), NV nhận thông báo">Duyệt đã chọn</span></div>
+<div class="cards"><div class="cd warn"><small>Chờ duyệt</small><b>3</b></div><div class="cd"><small>Đã duyệt</small><b>1</b></div><div class="cd"><small>Từ chối</small><b>1</b></div><div class="cd"><small>Chưa đăng ký</small><b>3 NV</b></div></div>
+<div class="scroll"><table>
+<tr><th>☑</th><th>Nhân viên</th><th>Ngày gửi</th><th>Nội dung <span class="mk">1</span></th><th>Trạng thái <span class="mk">3</span></th><th>Thao tác <span class="mk">2</span></th></tr>
+<tr><td>☑</td><td><b>Lan</b></td><td>26/10 09:12</td><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11<br><small>Có 1 ngày nghỉ phép (04/11)</small></td><td><span class="bd wait">Chờ duyệt</span></td><td class="ac"><span class="btn g" data-toast="Đã duyệt đăng ký của Lan — 5 ca tự vào Bảng lịch tổng, Lan nhận thông báo">Duyệt</span> <span class="btn d" data-toast="Từ chối: bắt buộc nhập lý do — Lan nhận thông báo kèm lý do, ô không vào lịch">Từ chối</span></td></tr>
+<tr><td>☑</td><td><b>Nam</b></td><td>26/10 10:40</td><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11</td><td><span class="bd wait">Chờ duyệt</span></td><td class="ac"><span class="btn g" data-toast="Đã duyệt đăng ký của Nam — 3 ca tự vào Bảng lịch tổng, Nam nhận thông báo">Duyệt</span> <span class="btn d" data-toast="Từ chối: bắt buộc nhập lý do — Nam nhận thông báo kèm lý do, ô không vào lịch">Từ chối</span></td></tr>
+<tr><td>☑</td><td><b>Linh</b> (thử việc)</td><td>27/10 08:05</td><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11<br><small>Ghi chú: xin ca sáng vì đi học chiều</small></td><td><span class="bd wait">Chờ duyệt</span></td><td class="ac"><span class="btn g" data-toast="Đã duyệt đăng ký của Linh — 5 ca tự vào Bảng lịch tổng, Linh nhận thông báo">Duyệt</span> <span class="btn d" data-toast="Từ chối: bắt buộc nhập lý do — Linh nhận thông báo kèm lý do, ô không vào lịch">Từ chối</span></td></tr>
+<tr><td></td><td>Minh</td><td>25/10 17:30</td><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11</td><td><span class="bd ok">Đã duyệt</span></td><td>→ đã vào Bảng lịch tổng</td></tr>
+<tr><td></td><td>Hoa</td><td>25/10 18:02</td><td>Đăng ký lịch làm từ ngày 02/11 đến ngày 08/11</td><td><span class="bd late">Từ chối</span></td><td><small>Lý do: thiếu ca tối thiểu — NV đã được báo</small></td></tr>
+</table></div>
+<div class="legend" style="margin-top:6px">Chưa đăng ký: Tuấn · Bảo · Vy — <span class="btn" data-toast="Đã gửi nhắc cho 3 NV chưa đăng ký">Nhắc cả 3</span></div>
+</div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Mỗi dòng là một đăng ký của NV trong kỳ: các ca đã chọn và ngày nghỉ / nghỉ phép. Bấm tên NV để xem chi tiết theo lưới tuần.</li>
+<li><span class="mk">2</span><b>Duyệt</b> → các ô tự vào Bảng lịch tổng (Màn 14), NV nhận thông báo. <b>Từ chối</b> → bắt buộc nhập lý do, ô không vào lịch, NV nhận thông báo kèm lý do và đăng ký lại được nếu chưa quá hạn chốt. Duyệt hàng loạt bằng tick + <b>Duyệt đã chọn</b>.</li>
+<li><span class="mk">3</span>Người duyệt: Trưởng nhóm của bộ phận, hoặc HR / Quản trị. Chỉ hiện đăng ký chờ duyệt với bộ phận ở chế độ <b>Trưởng nhóm duyệt</b>; bộ phận <b>Tự duyệt</b> vẫn xem được danh sách nhưng không có nút Duyệt / Từ chối.</li>
+</ol></div></div></section>
+</div>
+<div id="pg-users" hidden><section class="pg" data-id="s17" hidden><div class="mh">Màn 17 — Tài khoản (cột trạng thái làm việc) &amp; Ai đang đi làm hôm nay</div><div class="frame"><div class="bar"><span>Quản lý tài khoản ▸ <b>Tài Khoản (User)</b></span><span>Bộ phận: Sale ▾ · Trạng thái làm việc ▾</span></div><div class="body">
+<div class="hint" style="margin:0 0 8px"><span class="mk">2</span> Hôm nay (Sale): <b>3/5 đang làm</b> · 1 tạm nghỉ · 1 ngoài ca &nbsp;<a class="lk" href="JCN-116.2_Wireframe.html#s1">Mở Pancake ▸ Chia việc &amp; Tồn đọng →</a></div>
+<div class="scroll"><table>
+<tr><th>Tên / Mã</th><th>Role</th><th>Bộ phận</th><th>Đăng nhập lần cuối</th><th>Trạng thái làm việc <span class="mk">1</span></th><th>Hoạt động gần nhất</th><th>Ngoại lệ <span class="mk">3</span></th></tr>
+<tr><td>Lan</td><td>EMPLOYEE</td><td>Sale</td><td>23/10/2026 08:25</td><td>🟢 Online</td><td>vừa xong</td><td>—</td></tr>
+<tr><td>Nam</td><td>EMPLOYEE</td><td>Sale</td><td>23/10/2026 07:28</td><td>🟢 Online</td><td>2 phút trước</td><td>—</td></tr>
+<tr><td>Minh</td><td>EMPLOYEE</td><td>Sale</td><td>23/10/2026 08:31</td><td>🟡 Tạm nghỉ (còn 20')</td><td>12:05</td><td>—</td></tr>
+<tr><td>Linh</td><td>EMPLOYEE</td><td>Sale</td><td>22/10/2026 13:02</td><td>⚪ Ngoài ca</td><td>hôm qua 21:03</td><td><span class="btn">Thêm vào ca hôm nay</span></td></tr>
+<tr><td>Tuấn</td><td>EMPLOYEE</td><td>Sale</td><td>23/10/2026 08:40</td><td>🟠 Vắng (14')</td><td>09:51</td><td><span class="btn w">Nghỉ đột xuất</span></td></tr>
+</table></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Thêm 2 cột vào màn Tài khoản hiện có: <b>Trạng thái làm việc</b> và <b>Hoạt động gần nhất</b>; giữ "Đăng nhập lần cuối". Thêm bộ lọc Trạng thái làm việc.</li>
+<li><span class="mk">2</span>Tóm tắt "Hôm nay: n/tổng đang làm" theo bộ phận; link sang màn Chia việc lead.</li>
+<li><span class="mk">3</span>Ngoại lệ do Trưởng nhóm: <b>Thêm vào ca hôm nay</b> (làm bù, thay người), <b>Nghỉ đột xuất</b>, <b>Bật nhận việc ngoài ca</b>; có hiệu lực ngay lần chia kế tiếp, ghi lịch sử.</li>
+</ol></div></section></div>
+</div></div></div>
+<div class="mdl" data-id="s13b" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh">Màn 13b — Sửa ca (danh mục)</div><p class="sub">Mở từ nút <b>Sửa</b> ở <a class="lk" href="#s13">màn 13</a>. Thay đổi giờ ca có <b>xem trước ảnh hưởng</b> trước khi lưu.</p>
+<div class="frame"><div class="bar"><span>Danh mục ca ▸ <b>Sửa ca "Sáng"</b></span><span>modal</span></div><div class="body">
+<div class="split">
+<div>
+<div class="fld"><label>Tên ca *</label><div class="in">Sáng</div></div>
+<div class="row"><div class="fld grow"><label>Giờ bắt đầu *</label><div class="in">07:30 → <b>08:00</b></div></div><div class="fld grow"><label>Giờ kết thúc *</label><div class="in">12:00</div></div></div>
+<div class="fld"><label>Nghỉ giữa ca</label><div class="in">—</div></div>
+<div class="fld"><label>Bộ phận áp dụng *</label><div class="in">Sale</div></div>
+<div class="fld"><label>Lý do thay đổi * (bắt buộc, không cần duyệt) <span class="mk">4</span></label><div class="in">Đổi theo yêu cầu NV ▾ — Ca sáng bắt đầu muộn 30 phút vì lịch xe đưa đón</div></div>
+<div class="fld"><label>Áp dụng từ ngày * <span class="mk">1</span></label><div class="in">◉ Ngày mai (24/10) &nbsp; ○ Từ hôm nay &nbsp; ○ Chọn ngày…</div></div>
+</div>
+<div>
+<div class="banner" style="font-size:13px"><span class="mk">2</span> <b>Xem trước ảnh hưởng</b><br>Ảnh hưởng <b>4 nhân viên, 18 lượt ca</b> từ 24/10<br><small>Nam · Linh · Minh · Tuấn</small><br><small>Ca đã diễn ra và ca hôm nay <b>không đổi</b>.</small></div>
+<div class="banner info" style="font-size:13px"><span class="mk">3</span> Nếu chọn <b>Ngừng dùng</b> ca đang có lịch tương lai: chọn ca thay thế <div class="in" style="margin-top:4px">Ca thay thế: Hành chính ▾ / để trống</div></div>
+</div>
+</div>
+<div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn p" href="#s13">Lưu thay đổi</a></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Mặc định áp dụng từ ngày mai; "Từ hôm nay" cho người có quyền, có hiệu lực ngay cho lần chia lead kế tiếp.</li>
+<li><span class="mk">2</span>Số NV và số lượt ca bị ảnh hưởng tính trước khi lưu; ghi lịch sử (ai, khi nào, cũ → mới).</li>
+<li><span class="mk">3</span>Ngừng dùng ca có lịch tương lai: bắt buộc chọn ca thay thế hoặc để NV về "chưa xếp".</li>
+<li><span class="mk">4</span>Sửa ca <b>không cần duyệt</b> nhưng <b>bắt buộc ghi lý do</b> (chọn nhanh + ghi chú; "Khác" phải gõ nội dung); lý do lưu trong lịch sử.</li>
+</ol></div></div></div><div class="mdl" data-id="s14c" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh">Màn 14c — Sửa ca của nhân viên (popup từ ô lịch)</div><p class="sub">Bấm vào một ô (hoặc chọn nhiều ô) ở <a class="lk" href="#s14">màn 14</a>. Ví dụ: sửa ca ngày mai của Lan.</p>
+<div class="frame"><div class="bar"><span>Xếp lịch ca ▸ <b>Sửa ca</b></span><span>modal</span></div><div class="body">
+<div class="split">
+<div>
+<div class="fld"><label>Ô đang sửa</label><div class="in">Lan · T6 24/10 (đang là 🟦 Hành chính) <span class="mk">1</span></div></div>
+<div class="fld"><label>Thao tác *</label><div class="in" id="actrad"><label><input type="radio" name="act14c" value="doi" checked> Đổi ca</label> &nbsp; <label><input type="radio" name="act14c" value="them"> Thêm ca thứ hai</label> &nbsp; <label><input type="radio" name="act14c" value="gio"> Chỉnh giờ riêng</label> &nbsp; <label><input type="radio" name="act14c" value="nghi"> Nghỉ (bỏ ca)</label></div><div class="legend" id="acthint" style="margin-top:4px"></div></div>
+<div class="fld" data-for="doi them"><label id="calbl">Ca mới</label><div class="in">🟩 Sáng 07:30–12:00 ▾</div></div>
+<div class="fld" data-for="gio" hidden><label>Giờ riêng cho riêng ngày đó * <span class="mk">6</span></label><div class="row"><div class="in">Vào: 09:00</div><div class="in">Ra: 12:00</div><span class="bd hard">⏱ không tạo ca mới</span></div></div>
+<div class="fld"><label>Áp dụng cho * <span class="mk">2</span></label><div class="in">◉ Chỉ ngày này &nbsp; ○ Các ô đã chọn &nbsp; ○ Từ ngày này đến hết tuần &nbsp; ○ Hết tháng</div></div>
+<div class="fld"><label id="rsnlbl">Lý do * (bắt buộc mọi lần sửa — không cần duyệt) <span class="mk">3</span></label><div class="in">Việc đột xuất ▾</div><div class="in ta" style="margin-top:4px">Lan đổi ca sáng để đi khám sức khỏe buổi chiều.</div></div>
+<div class="row"><div class="in">☑ Thông báo cho nhân viên</div></div>
+</div>
+<div>
+<div class="banner" style="font-size:13px"><span class="mk">4</span> <b>Cảnh báo ảnh hưởng</b><br>• Ngày 24/10 còn <b>3</b> người (tối thiểu 3) — vẫn đủ.<br>• Lan đang giữ <b>0</b> lead.</div>
+<div class="banner bad" style="font-size:13px"><b>Nếu sửa ca hôm nay:</b> Lan đang giữ 4 lead — sau khi đổi sẽ không nhận lead mới, 4 lead đang giữ giữ nguyên; Trưởng nhóm được báo để chia lại.</div>
+<div class="legend"><span class="mk">5</span> <a class="lk" href="#s14c">Lịch sử chỉnh sửa của ô</a>: 22/10 09:12 Hà gán 🟦 HC · 23/10 11:40 Hà sửa (sắp tới) → 🟩 Sáng</div>
+</div>
+</div>
+<div class="row" style="justify-content:flex-end"><span class="btn">Huỷ</span><a class="btn p" href="#s14">Lưu thay đổi</a></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Chọn nhiều ô để sửa cùng lúc; Trưởng nhóm sửa từ <b>hôm nay</b> trở đi, Quản trị sửa cả ngày đã qua (kèm lý do). Nhân viên không tự sửa ca.</li>
+<li><span class="mk">2</span>Phạm vi áp dụng giúp sửa nhanh nhiều ngày một lần, không làm từng ô.</li>
+<li><span class="mk">3</span><b>Lý do bắt buộc mọi lần sửa</b> (chọn nhanh + ghi chú; "Khác" phải gõ nội dung); sửa <b>không cần ai duyệt</b>. Không nhập lý do thì nút Lưu bị khoá. Cấp trên xem báo cáo chỉnh sửa cuối ngày.</li>
+<li><span class="mk">4</span>Sửa ca hôm nay có hiệu lực ngay lên trạng thái làm việc (<a class="lk" href="#s16">màn 16</a>) và lần chia lead kế tiếp.</li>
+<li><span class="mk">6</span><b>Giờ riêng</b>: chỉnh giờ vào/ra cho riêng ngày đó, không đổi ca gốc, hiển thị ⏱ trên lưới; trạng thái làm việc (<a class="lk" href="#s16">màn 16</a>) tính theo giờ riêng (vd Nam chỉ 🟢 từ 09:00).</li>
+<li><span class="mk">7</span><b>Trường hiện theo thao tác</b>: <i>Đổi ca</i> → Ca mới · <i>Thêm ca thứ hai</i> → Ca thứ hai (không được chồng giờ ca đang có) · <i>Chỉnh giờ riêng</i> → Giờ vào / ra · <i>Nghỉ (bỏ ca)</i> → không có thêm trường, chỉ hiện cảnh báo ảnh hưởng. <i>Nghỉ (bỏ ca)</i> luôn là <b>nghỉ đột xuất</b>, chỉ cần ghi lý do. Ô đang sửa, Áp dụng cho, Lý do, Thông báo là chung cho mọi thao tác.</li>
+<li><span class="mk">5</span>Mọi sửa đổi ghi lịch sử; có Hoàn tác thao tác gần nhất trong 10 phút; hai người cùng sửa một ô thì người lưu sau nhận báo "Lịch vừa được … sửa — tải lại".</li>
+</ol></div></div></div><div class="mdl" data-id="s14b" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh">Màn 14b — Import Excel lịch ca (từ nút Import Excel ở màn 14)</div><p class="sub">3 bước: Tải mẫu → Tải file lên → Xem trước &amp; Nhập. Lịch nhập vào ở trạng thái <b>Nháp</b>, <a class="lk" href="#s14">quay lại màn 14</a> để Phát hành.</p>
+<div class="frame"><div class="bar"><span>Xếp lịch ca ▸ <b>Import Excel</b></span><span>① Tải mẫu → ② Tải lên → <b>③ Xem trước &amp; Nhập</b></span></div><div class="body">
+<div class="split">
+<div><b>① Tải file mẫu</b> <span class="mk">1</span>
+<div class="row" style="margin-top:6px"><div class="in">Bộ phận: Sale ▾</div><div class="in">Kỳ: 27/10 – 02/11 ▾</div></div>
+<div class="row"><span class="btn p">⬇ Tải file mẫu</span><span class="btn">⬇ Tải file mẫu kèm lịch hiện tại</span></div>
+<p class="legend">File .xlsx: sheet <b>Lịch ca</b> (cột A Mã NV · B Họ tên · C… ngày), <b>Danh mục ca</b>, <b>Hướng dẫn</b>. Ô = mã ca (HC, SANG, CHIEU) · <code>SANG+CHIEU</code> = 2 ca · trống = giữ nguyên · <code>NGHI</code> = nghỉ (bỏ ca) · <code>HC@09:00-17:00</code> = ca kèm <b>giờ riêng</b>.</p></div>
+<div><b>② Tải file lên</b> <span class="mk">2</span>
+<div class="in" style="margin:6px 0;padding:18px;text-align:center">⬆ Kéo thả file .xlsx vào đây hoặc chọn file (≤ 5 MB)</div>
+<div class="row"><span class="bd ok">✔ lich-ca-sale-27-10.xlsx</span><small>5 NV × 7 ngày đọc được</small></div></div>
+</div>
+<hr style="border:none;border-top:1px solid var(--line);margin:12px 0">
+<b>③ Xem trước &amp; Nhập</b> <span class="mk">3</span>
+<div class="cards" style="margin-top:8px">
+<div class="cd"><small>Hợp lệ</small><b style="color:var(--ok)">4</b></div>
+<div class="cd warn"><small>Cảnh báo</small><b>1</b></div>
+<div class="cd bad"><small>Lỗi</small><b>1</b></div></div>
+<div class="scroll"><table>
+<tr><th>Dòng</th><th>Mã NV</th><th>Họ tên</th><th>Ô nhập</th><th>Trạng thái</th><th>Lý do</th></tr>
+<tr><td>2</td><td>SA202600011</td><td>Lan</td><td>5</td><td><span class="bd ok">Hợp lệ</span></td><td>—</td></tr>
+<tr><td>3</td><td>SA202600012</td><td>Nam</td><td>6</td><td><span class="bd ok">Hợp lệ</span></td><td>—</td></tr>
+<tr><td>4</td><td>SA202600013</td><td>Linh</td><td>5</td><td><span class="bd wait">Cảnh báo</span></td><td>29/10 đã có nghỉ phép được duyệt — giữ nguyên nghỉ phép</td></tr>
+<tr><td>5</td><td>SA202600014</td><td>Minh</td><td>5</td><td><span class="bd ok">Hợp lệ</span></td><td>—</td></tr>
+<tr><td>6</td><td>SA202600099</td><td>—</td><td>0</td><td><span class="bd late">Lỗi</span></td><td>Mã NV không tồn tại hoặc ngoài nhóm bạn</td></tr>
+<tr><td>7</td><td>SA202600015</td><td>Tuấn</td><td>4</td><td><span class="bd ok">Hợp lệ</span></td><td>—</td></tr>
+</table></div>
+<div class="row" style="margin-top:10px"><div class="in">Chế độ ghi: ◉ Ghi đè các ô có trong file &nbsp; ○ Chỉ điền ô trống</div><div class="in">Lý do chung * (ghi đè lịch đã phát hành): Cập nhật lịch tuần 27/10</div><span class="grow"></span><span class="btn">⬇ Tải file lỗi</span><span class="btn">Huỷ</span><a class="btn p" href="#s14">Nhập 5 dòng hợp lệ</a></div>
+<div class="banner info" style="margin-top:10px;font-size:13px"><span class="mk">4</span> Sau khi nhập: "Đã nhập lịch (Nháp) cho 5 nhân viên" — <a class="lk" href="#s14">Phát hành lịch</a> · <span class="btn">Hoàn tác lần import này</span></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>File mẫu đã điền sẵn NV của bộ phận và các ngày của kỳ; "kèm lịch hiện tại" điền sẵn ca đã xếp để sửa rồi nhập lại. Trưởng nhóm chỉ thấy NV nhóm mình; Quản trị thấy tất cả.</li>
+<li><span class="mk">2</span>Chỉ nhận <code>.xlsx</code> ≤ 5 MB, tối đa 500 NV × 62 ngày/lần; sai định dạng báo lỗi ngay khi tải lên.</li>
+<li><span class="mk">3</span>Kiểm tra: Mã NV, mã ca (đang dùng, đúng bộ phận), ngày (không sửa ngày đã qua — trừ Quản trị), hai ca không chồng giờ, không ghi đè nghỉ phép đã duyệt. Dòng lỗi không được nhập; <b>Tải file lỗi</b> trả file gốc kèm cột "Lỗi".</li>
+<li><span class="mk">4</span>Lịch nhập vào ở trạng thái Nháp; có Hoàn tác khi chưa phát hành; ghi vào tab Lịch sử import.</li>
+</ol></div></div></div><div class="mdl" data-id="s16" hidden><div class="mbox"><button class="x" data-close>✕</button><div class="mh">Màn 16 — Thanh trạng thái làm việc &amp; Tạm nghỉ (mọi màn)</div><div class="frame"><div class="bar"><span>Thanh trên cùng của J-Connect</span><span><span class="mk">1</span> Ca Hành chính 08:30–17:30 · <b>🟢 Đang làm</b> <span class="btn w">Ra ca</span> <span class="btn">☕ Tạm nghỉ ▾</span> · 🔔 2</span></div><div class="body">
+<div class="split">
+<div><b>Nút chấm công</b> <span class="mk">4</span><br><br><div class="in" style="margin-bottom:6px">⚪ Chưa vào ca → <span class="btn p ckin" data-toast="✔ Đã chấm công vào 08:27 (giờ Tokyo) — bạn chuyển 🟢 Sẵn sàng">Vào ca 08:30</span></div><div class="in" style="margin-bottom:12px">🟢 Đang làm (đã làm 3:12) → <span class="btn w ckin" data-toast="Nhắc bàn giao lead đang tư vấn trước khi Ra ca">Ra ca</span></div><b>Popup Tạm nghỉ</b> <span class="mk">2</span><br><br><div class="in" style="margin-bottom:6px">○ 15 phút</div><div class="in" style="margin-bottom:6px">◉ 30 phút</div><div class="in" style="margin-bottom:6px">○ 60 phút</div><div class="in" style="margin-bottom:6px">○ Đến khi tôi quay lại</div><span class="btn p">Bắt đầu tạm nghỉ</span></div>
+<div><b>Các trạng thái (tự tính)</b> <span class="mk">3</span>
+<table>
+<tr><td>⚪ Chưa vào ca</td><td>Có ca nhưng chưa bấm <b>Vào ca</b> → không được chia</td></tr>
+<tr><td>🟢 Đang làm</td><td>Đã Vào ca + có hoạt động ≤ 10 phút → <b>được chia lead</b></td></tr>
+<tr><td>🟡 Tạm nghỉ</td><td>NV bấm → không được chia</td></tr>
+<tr><td>🟠 Vắng</td><td>Trong ca nhưng 10 phút không thao tác → không được chia</td></tr>
+<tr><td>⚪ Ngoài ca</td><td>Không có ca / hết ca → không được chia</td></tr>
+<tr><td>🔴 Nghỉ phép</td><td>Đã duyệt nghỉ → không được chia</td></tr>
+</table></div></div>
+</div></div>
+<div class="notes"><b>Ghi chú</b><ol>
+<li><span class="mk">1</span>Khi <code>attendance_mode</code> = Tắt: đăng nhập trong ca là <b>tự Online</b>, không cần bấm "Bắt đầu ca"; hết ca tự Ngoài ca. Khi bật <b>Bấm vào/ra</b> (mặc định): phải bấm <b>Vào ca</b> mới được chia lead. Xem lịch tại <a class="lk" href="#s15">Ca của tôi</a>.</li>
+<li><span class="mk">2</span>Tạm nghỉ 1 chạm; hết thời gian thì tự quay lại Online khi NV thao tác; nhắc nếu quá thời gian.</li>
+<li><span class="mk">4</span>Nút <b>Vào ca</b> hiện khi đăng nhập trong cửa sổ vào ca (sớm tối đa <code>shift_early_minutes</code>, muộn tối đa 60 phút); giờ do máy chủ ghi (Tokyo). Cuối ca đổi thành <b>Ra ca</b>; còn lead đang tư vấn thì nhắc bàn giao. Quên Ra ca: tự đóng sau 30 phút. Xem <a class="lk" href="#s15e">Công của tôi</a>.</li>
+<li><span class="mk">3</span>Trạng thái 🟢 là điều kiện ứng viên của <a class="lk" href="JCN-116.3_Wireframe.html#s3a">chia tự động (116.2)</a> và cột "Hôm nay" trong <a class="lk" href="JCN-116.2_Wireframe.html#s2">popup Chia (116.4)</a>.</li>
+</ol></div></div></div><div class="mdl" data-id="req-bsc" hidden><div class="mbox" style="width:min(520px,100%)"><button class="x" data-close>✕</button><div class="mh">Xin bổ sung công</div><div class="frame"><div class="body">
+<table><tr><td>Ngày</td><td><div class="in">T2 19/10/2026 ▾</div></td></tr><tr><td>Ca</td><td>🟦 Hành chính 08:30–17:30 (chỉ đọc)</td></tr><tr><td>Giờ vào thực tế *</td><td><div class="in">08:30</div></td></tr><tr><td>Giờ ra thực tế</td><td><div class="in">17:30</div></td></tr><tr><td>Lý do *</td><td><div class="in">Quên bấm Vào ca, đã trả lời khách từ 08:30</div></td></tr><tr><td>Gửi tới</td><td>Trưởng nhóm Sale</td></tr></table>
+<p><a class="btn p" href="#s15e">Gửi yêu cầu</a> <a class="btn" href="#s15e">Hủy</a></p></div></div></div></div>
+<div class="mdl" data-id="req-nghi" hidden><div class="mbox" style="width:min(560px,100%)"><button class="x" data-close>✕</button>
+<div class="mh">Xin nghỉ</div><p class="sub">Mở từ nút <b>Xin nghỉ</b> ở <a class="lk" href="#s15">màn 15</a>. Gửi tới Trưởng nhóm để duyệt.</p><div class="frame"><div class="bar"><span>Ca của tôi ▸ <b>Xin nghỉ</b></span><span>Lan (Sale)</span></div><div class="body">
+<div class="fld"><label>Loại nghỉ *</label><div class="in" id="nghirad"><label><input type="radio" name="nghi15" value="ngay" checked> Cả ngày</label> &nbsp; <label><input type="radio" name="nghi15" value="sang"> Nửa ngày sáng</label> &nbsp; <label><input type="radio" name="nghi15" value="chieu"> Nửa ngày chiều</label></div></div>
+<div class="row"><div class="fld grow"><label>Từ ngày *</label><div class="in">27/10/2026 (T3) 📅</div></div><div class="fld grow" id="nghi-den"><label>Đến ngày</label><div class="in">27/10/2026 (T3) 📅</div></div></div>
+<div class="fld"><label>Ca bị ảnh hưởng <span class="legend">(tự lấy từ lịch của tôi)</span></label><div class="in" style="opacity:.8">🟦 Hành chính 08:30–17:30 — 1 ngày</div></div>
+<div class="banner" style="font-size:13px"><span class="mk">2</span> ⚠ Ngày 27/10 bộ phận Sale đã có <b>1 người</b> xin nghỉ (Linh) — còn lại tối thiểu 2 người. Vẫn gửi được; Trưởng nhóm sẽ xem xét.</div>
+<div class="fld"><label>Lý do *</label><div class="in ta">Việc gia đình</div></div>
+<div class="fld"><label>Gửi tới</label><div class="in" style="opacity:.8">Hà (Trưởng nhóm Sale)</div></div>
+<div class="row" style="justify-content:flex-end"><span class="btn" data-close>Huỷ</span><span class="btn p" data-act="sendnghi">Gửi yêu cầu</span></div>
+</div></div></div></div>
+<div class="mdl" data-id="req-doi" hidden><div class="mbox" style="width:min(560px,100%)"><button class="x" data-close>✕</button>
+<div class="mh">Xin đổi ca</div><p class="sub">Mở từ nút <b>Xin đổi ca</b> ở <a class="lk" href="#s15">màn 15</a>. Đổi ca với một đồng nghiệp cùng bộ phận.</p><div class="frame"><div class="bar"><span>Ca của tôi ▸ <b>Xin đổi ca</b></span><span>Lan (Sale)</span></div><div class="body">
+<div class="row"><div class="fld grow"><label>Ngày muốn đổi *</label><div class="in">29/10/2026 (T5) 📅</div></div><div class="fld grow"><label>Ca hiện tại của tôi</label><div class="in" style="opacity:.8">🟩 Sáng 07:30–12:00</div></div></div>
+<div class="fld"><label>Đổi cùng * <span class="legend">(chỉ hiện người cùng bộ phận có lịch ngày đó)</span></label><div class="in">Nam — 🟨 Chiều 13:00–18:00 ▾</div></div>
+<div class="fld"><label>Xem trước sau khi đổi <span class="mk">3</span></label><div class="in" style="opacity:.9">Lan: 🟩 Sáng → <b>🟨 Chiều 13:00–18:00</b><br>Nam: 🟨 Chiều → <b>🟩 Sáng 07:30–12:00</b><br><span class="legend">✔ Không chồng giờ với ca khác của hai bên · ✔ Bộ phận vẫn đủ người tối thiểu</span></div></div>
+<div class="fld"><label>Lý do *</label><div class="in ta">Có việc buổi sáng</div></div>
+<div class="fld"><label>Gửi tới</label><div class="in" style="opacity:.8">Hà (Trưởng nhóm Sale) · Nam nhận thông báo</div></div>
+<div class="row" style="justify-content:flex-end"><span class="btn" data-close>Huỷ</span><span class="btn p" data-act="senddoi">Gửi yêu cầu</span></div>
+</div></div></div></div>
+<div class="mdl" data-id="reqd" hidden><div class="mbox" style="width:min(560px,100%)"><button class="x" data-close>✕</button>
+<div class="mh" id="rd-title">Chi tiết yêu cầu</div><p class="sub">Mở khi bấm một dòng trong bảng <b>Yêu cầu của tôi</b> ở <a class="lk" href="#s15">màn 15</a>.</p><div class="frame"><div class="bar"><span>Ca của tôi ▸ <b>Chi tiết yêu cầu</b></span><span id="rd-st"></span></div><div class="body">
+<div class="fld"><label>Ngày</label><div class="in" id="rd-d"></div></div>
+<div class="fld"><label>Ca của tôi</label><div class="in" id="rd-ca"></div></div>
+<div class="fld" id="rd-wf"><label>Đổi cùng</label><div class="in" id="rd-w"></div></div>
+<div class="fld"><label>Lý do</label><div class="in" id="rd-r"></div></div>
+<div class="fld"><label>Người duyệt</label><div class="in" id="rd-by"></div></div>
+<div class="fld"><label>Ghi chú của người duyệt</label><div class="in" id="rd-note"></div></div>
+<div class="fld"><label>Nhật ký</label><div class="in" id="rd-log" style="line-height:1.6"></div></div>
+<div class="row" style="justify-content:flex-end"><span class="btn" data-close>Đóng</span><span class="btn d" id="rd-cancel" data-act="cancelreq">Huỷ yêu cầu</span></div>
+</div></div></div></div>
+<div class="toast" id="toast"></div>
+<div class="pn"><a href="JCN-116.2_Wireframe.html">← JCN-116.2 Trung tâm chia lead, Chia thủ công & Theo dõi</a><a href="JCN-116_Wireframe.html">Tổng quan →</a></div>
+<p class="legend" style="margin-top:20px">Wireframe BA 23/10/2026 · Số liệu, tên người là dữ liệu minh hoạ · Đối chiếu file <code>JCN-116.5 - ….md</code></p>
+</div><script id="ed-js">
+(function(){
+var page=document.querySelector('.wrap'),btn=document.getElementById('ed-toggle'),dirty=false;
+function editing(){return document.body.classList.contains('editing')}
+function setEdit(on){
+  document.body.classList.toggle('editing',on);btn.classList.toggle('on',on);
+  btn.textContent=on?'✅ Xong chỉnh sửa':'✏️ Chỉnh sửa';
+  page.contentEditable=on?'true':'false';
+}
+btn.onclick=function(){setEdit(!editing())};
+page.addEventListener('input',function(){dirty=true});
+page.addEventListener('click',function(e){if(editing()&&e.target.closest('a')){e.preventDefault()}},true);
+document.querySelectorAll('#ed-bar [data-cmd]').forEach(function(b){
+  b.onmousedown=function(e){e.preventDefault()};
+  b.onclick=function(){var c=b.dataset.cmd;document.execCommand(c,false,c==='hiliteColor'?'#fde68a':null)};
+});
+document.getElementById('ed-save').onclick=function(){
+  var was=editing();setEdit(false);
+  var bar=document.getElementById('ed-bar'),next=bar.nextSibling,par=bar.parentNode;par.removeChild(bar);
+  page.removeAttribute('contenteditable');
+  var html='<!doctype html>\n'+document.documentElement.outerHTML;
+  par.insertBefore(bar,next);if(was)setEdit(true);
+  var name=decodeURIComponent(location.pathname.split('/').pop())||'wireframe.html';
+  var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'text/html'}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();dirty=false;
+};
+window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue=''}});
+})();
+</script>
+<script id="reg-js">
+(function(){
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function paint(c){var base=c.parentNode.rowIndex==1,s=c.dataset.s==null?(base?'w':''):c.dataset.s;c.dataset.s=s;c.className='rc '+(s=='w'?'hc':s=='p'?'hcl':s=='n'?'hco':'');c.innerHTML='<select class="rcs">'+(base?'':'<option value=""'+(s==''?' selected':'')+'>— Chọn —</option>')+'<option value="w"'+(s=='w'?' selected':'')+'>🟦 Đi làm</option><option value="n"'+(s=='n'?' selected':'')+'>⚪ Nghỉ</option><option value="p"'+(s=='p'?' selected':'')+'>🔴 Nghỉ phép</option></select>'}
+document.addEventListener('click',function(e){
+  if(document.body.classList.contains('editing'))return;
+  var t=e.target.closest('[data-toast]');if(t){var m=document.getElementById('toast');m.textContent=t.dataset.toast;m.classList.add('on');setTimeout(function(){m.classList.remove('on')},2800);return}
+  var tg=e.target.closest('[data-toggle]');if(tg){var box=document.getElementById(tg.dataset.toggle);box.hidden=!box.hidden;tg.textContent=box.hidden?'＋ Đăng ký ca tuần mới (02/11 – 08/11)':'✕ Đóng form đăng ký';return}
+  var c=e.target.closest('#rc-grid .rc');if(!c)return;
+});
+document.addEventListener('change',function(e){
+  var c=e.target.closest('#rc-grid .rc');if(!c||!e.target.classList.contains('rcs'))return;
+  c.dataset.s=e.target.value;paint(c);
+});
+$$('#rc-grid .rc').forEach(paint);
+})();
+</script>
+<script id="app-js">
+(function(){
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var ROLES={admin:'Quản trị / HR',tn:'Trưởng nhóm Sale',nv:'Nhân viên Sale'};
+var TABPERM={s15:['admin','tn','nv'],s15d:['admin','tn','nv'],s15e:['admin','tn','nv'],s14:['admin','tn'],s14d:['admin','tn'],s13:['admin']};
+var TABNAME={s15:'Ca của tôi',s15d:'Đăng ký ca',s15e:'Công của tôi',s14:'Xếp lịch ca',s14d:'Chấm công',s13:'Danh mục ca'};
+var NEED={s15:'nv',s15d:'nv',s15e:'nv',s14:'tn',s14d:'tn',s13:'admin',s17:'tn'};
+var st={role:'admin',page:'ca',tab:'s15',status:'🟢 Đang làm'};
+var toastT;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove('on')},2600)}
+function can(tab){return TABPERM[tab].indexOf(st.role)>-1}
+function closeModals(){$$('.mdl').forEach(function(m){m.hidden=true})}
+function openModal(id){closeModals();var m=$('.mdl[data-id="'+id+'"]');if(m){m.hidden=false;m.scrollTop=0}}
+function render(){
+  $('#role').value=st.role;
+  $$('#catabs button').forEach(function(b){var t=b.dataset.tab,ok=can(t);
+    b.classList.toggle('on',t===st.tab&&st.page==='ca');b.classList.toggle('lock',!ok);
+    b.textContent=(ok?'':'🔒 ')+TABNAME[t];b.title=ok?'':'Cần quyền: '+ROLES[NEED[t]]});
+  $$('#pg-ca .pg').forEach(function(p){p.hidden=p.dataset.id!==(st.tab==='s15d'&&st.role!=='nv'?'s14e':st.tab)});
+  $('#pg-ca').hidden=st.page!=='ca';$('#pg-users').hidden=st.page!=='users';
+  $('#pg-users .pg').hidden=false;
+  var usersOk=st.role!=='nv';
+  $('.nav-users').classList.toggle('off',!usersOk);$('.nav-users').classList.toggle('on',st.page==='users');
+  $('.nav-ca').classList.toggle('on',st.page==='ca');
+  $('#crumb').innerHTML=st.page==='ca'?'Quản trị ▸ Ca làm việc ▸ <b>'+TABNAME[st.tab]+'</b>':'Quản trị ▸ Quản lý người dùng ▸ <b>Tài khoản</b>';
+  $('#stchip').textContent=st.status+' · Ca Hành chính ▾';
+}
+function setRole(r,quiet){st.role=r;if(st.page==='ca'&&!can(st.tab)){st.tab='s15'}if(st.page==='users'&&r==='nv'){st.page='ca';st.tab='s15'}render();if(!quiet)toast('Vai trò: '+ROLES[r])}
+function need(id){ // tự nâng vai trò nếu màn cần quyền cao hơn
+  var order=['nv','tn','admin'],need=NEED[id]||'nv';
+  if(order.indexOf(st.role)<order.indexOf(need)){st.role=need;toast('Đã chuyển vai trò sang «'+ROLES[need]+'» để xem màn này')}
+}
+function go(id){
+  id=(id||'').replace('#','');if(id==='s14e')id='s15d';
+  if(id==='s15'||id==='s15d'||id==='s15e'||id==='s14'||id==='s14d'||id==='s13'){closeModals();need(id);st.page='ca';st.tab=id;render();window.scrollTo(0,0);return}
+  if(id==='s17'){closeModals();need(id);st.page='users';render();window.scrollTo(0,0);return}
+  if(id==='s13b'){need('s13');st.page='ca';st.tab='s13';render();openModal(id);return}
+  if(id==='s14b'||id==='s14c'){need('s14');st.page='ca';st.tab='s14';render();openModal(id);return}
+  if(id==='req')id='req-nghi';
+  if(id==='s16'||id==='req-nghi'||id==='req-doi'||id==='reqd'||id==='req-bsc'){render();openModal(id);return}
+  if(id==='ca'){var t=st.tab;if(!can(t))t='s15';go(t);return}
+  if(id==='users'){if(st.role==='nv'){toast('🔒 Cần quyền Trưởng nhóm hoặc Quản trị');return}go('s17');return}
+}
+document.addEventListener('click',function(e){
+  if(document.body.classList.contains('editing'))return;
+  var t=e.target;
+  var cl=t.closest('[data-close]');if(cl){closeModals();return}
+  if(t.classList&&t.classList.contains('mdl')){closeModals();return}
+  var nv=t.closest('[data-nav]');if(nv){e.preventDefault();go(nv.dataset.nav);return}
+  var dm=t.closest('[data-dummy]');if(dm){e.preventDefault();toast('«'+dm.dataset.dummy+'» nằm ngoài phạm vi wireframe 116.5');return}
+  var tb=t.closest('#catabs button');if(tb){if(!can(tb.dataset.tab)){toast('🔒 Cần quyền «'+ROLES[NEED[tb.dataset.tab]]+'» để xem tab này — đổi vai trò ở góc trên phải')}else go(tb.dataset.tab);return}
+  var pt=t.closest('button.tab[data-pane]');if(pt){var box=pt.closest('.body');$$('button.tab[data-pane]',box).forEach(function(b){b.classList.toggle('on',b===pt)});$$('[data-pane-body]',box).forEach(function(p){p.hidden=p.dataset.paneBody!==pt.dataset.pane});return}
+  var g=t.closest('[data-go]');if(g){go(g.dataset.go);return}
+  var a=t.closest('a[href]');
+  if(a){var h=a.getAttribute('href');
+    if(h&&h.charAt(0)==='#'&&h.length>1){e.preventDefault();var inM=a.closest('.mdl'),txt=a.textContent.trim();
+      if(inM&&/^(Lưu|Nhập)/.test(txt))toast('✔ '+txt+' (mô phỏng)');go(h);return}
+    return}
+  var b=t.closest('span.btn,.btn');if(!b)return;
+  var act=b.dataset.act,tx=b.textContent.trim();
+  if(act==='publish'){var bd=b.parentNode.querySelector('.bd.wait');if(bd){bd.className='bd ok';bd.textContent='Đã phát hành'}toast('Đã phát hành lịch — nhân viên nhận thông báo');return}
+  if(act==='ok'||act==='no'){var tr=b.closest('tr'),s=$('.st',tr),ac=$('.ac',tr);s.innerHTML=act==='ok'?'<span class="bd ok">Đã duyệt</span>':'<span class="bd late">Đã từ chối</span>';ac.textContent='—';
+    var n=$$('.st .bd.wait').length;var c=$('#ycn');if(c)c.textContent=n;toast(act==='ok'?'Đã duyệt — lịch tự cập nhật, hai bên nhận thông báo':'Đã từ chối yêu cầu');return}
+  if(act==='stop'){var r=b.closest('tr'),x=$('.bd',r);var off=x.textContent==='Đang dùng';x.className='bd '+(off?'tag':'ok');x.textContent=off?'Ngừng dùng':'Đang dùng';b.textContent=off?'Dùng lại':'Ngừng';toast(off?'Đã ngừng dùng ca (mô phỏng)':'Đã dùng lại ca');return}
+  if(act==='sendnghi'||act==='senddoi'){closeModals();var tb=$('#myreq'),nghi=act==='sendnghi';
+    var o=nghi?{t:'Xin nghỉ',d:'27/10/2026 (T3) — cả ngày',ca:'🟦 Hành chính 08:30–17:30',w:'—',r:'Việc gia đình'}:{t:'Xin đổi ca',d:'29/10/2026 (T5)',ca:'🟩 Sáng 07:30–12:00',w:'Nam — 🟨 Chiều 13:00–18:00',r:'Có việc buổi sáng'};
+    o.st='wait';o.by='Hà (Trưởng nhóm Sale)';o.note='—';o.cancel=1;o.log=['29/10 '+new Date().toTimeString().slice(0,5)+' — Lan gửi yêu cầu','Thông báo tới Hà'];
+    var tr=document.createElement('tr');tr.setAttribute('data-go','reqd');tr.setAttribute('data-req',JSON.stringify(o));tr.style.cursor='pointer';
+    tr.innerHTML='<td>Vừa xong</td><td>'+o.t+'</td><td>'+(nghi?'27/10':'29/10')+'</td><td>'+(nghi?'Cả ngày':'Đổi với Nam')+' · '+o.r+'</td><td class="st"><span class="bd wait">Chờ duyệt</span></td>';
+    if(tb)tb.insertBefore(tr,tb.rows[1]);toast('Đã gửi yêu cầu — chờ Trưởng nhóm duyệt');return}
+  if(act==='cancelreq'){closeModals();var cr=window.__reqRow;if(cr){$('.st',cr).innerHTML='<span class="bd tag">Đã huỷ</span>';var d=JSON.parse(cr.getAttribute('data-req'));d.st='tag';d.cancel=0;cr.setAttribute('data-req',JSON.stringify(d))}toast('Đã huỷ yêu cầu');return}
+  if(tx==='Bắt đầu tạm nghỉ'){st.status='🟡 Tạm nghỉ 30\'';render();closeModals();toast('Đang tạm nghỉ 30 phút — tạm thời không được chia lead');return}
+  if(tx==='Huỷ'){if(b.closest('.mdl'))closeModals();else toast('Huỷ (mô phỏng)');return}
+  toast('Mô phỏng: «'+tx+'»');
+});
+$('#role').addEventListener('change',function(e){setRole(e.target.value)});
+// modal s16: bấm "Quay lại làm việc" để trở lại trạng thái đang làm
+$('#stchip').addEventListener('dblclick',function(){st.status='🟢 Đang làm';render();toast('Đã quay lại làm việc')});
+window.addEventListener('hashchange',function(){if(location.hash)go(location.hash)});
+setRole('admin',true);
+if(location.hash)go(location.hash);
+})();
+</script><script id="f14c-js">
+(function(){
+var H={doi:'Thay ca gốc của ô bằng ca khác.',them:'Thêm ca thứ hai trong ngày (ca gãy); không được chồng giờ ca đang có.',gio:'Chỉnh giờ vào/ra cho riêng ngày đó, không đổi ca gốc.',nghi:'Nghỉ đột xuất, bỏ ca của ô — chỉ cần ghi lý do. NV không được chia lead; nếu đang giữ lead thì lead giữ nguyên, Trưởng nhóm được báo để chia lại.'};
+function sync(){var r=document.querySelector('input[name=act14c]:checked');if(!r)return;var v=r.value;
+ document.querySelectorAll('[data-for]').forEach(function(e){e.hidden=e.dataset.for.split(' ').indexOf(v)<0});
+ var c=document.getElementById('calbl');if(c)c.textContent=v==='them'?'Ca thứ hai *':'Ca mới *';
+ var l=document.getElementById('rsnlbl');if(l)l.firstChild.nodeValue=v==='nghi'?'Lý do nghỉ đột xuất * (bắt buộc — không cần duyệt) ':'Lý do * (bắt buộc mọi lần sửa — không cần duyệt) ';
+ document.getElementById('acthint').textContent=H[v]}
+document.addEventListener('change',function(e){if(e.target.name==='act14c')sync()});
+sync();
+})();
+</script><script id="f15-js">
+(function(){
+var ST={wait:'<span class="bd wait">Chờ duyệt</span>',ok:'<span class="bd ok">Đã duyệt</span>',late:'<span class="bd late">Từ chối</span>',tag:'<span class="bd tag">Đã huỷ</span>'};
+function $(i){return document.getElementById(i)}
+document.addEventListener('click',function(e){
+ var r=e.target.closest&&e.target.closest('tr[data-req]');
+ if(r){var d=JSON.parse(r.getAttribute('data-req'));window.__reqRow=r;
+  $('rd-title').textContent='Chi tiết yêu cầu — '+d.t;$('rd-st').innerHTML=ST[d.st];
+  $('rd-d').textContent=d.d;$('rd-ca').textContent=d.ca;$('rd-w').textContent=d.w;$('rd-wf').hidden=d.w==='—';
+  $('rd-r').textContent=d.r;$('rd-by').textContent=d.by;$('rd-note').textContent=d.note;
+  $('rd-log').innerHTML=d.log.map(function(x){return '• '+x}).join('<br>');
+  $('rd-cancel').hidden=!d.cancel}
+});
+document.addEventListener('change',function(e){
+ if(e.target.name==='nghi15'){$('nghi-den').hidden=e.target.value!=='ngay'}
+});
+})();
+</script><a href="index.html" style="position:fixed;bottom:18px;left:18px;z-index:99999;background:#10141a;color:#ffffff;padding:8px 14px;border-radius:999px;font:500 13px system-ui,-apple-system,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.25);display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);transition:all .15s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'">
+  <span style="font-size:14px">←</span> <span>Danh mục tài liệu M06</span>
+</a>
+</body></html>

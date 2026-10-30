@@ -1,0 +1,2344 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>JCN-116.6 - Quản lý Tag</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <style>:root{--bg:#fff;--ink:#1f2937;--line:#d1d5db;--soft:#f3f4f6}@media(prefers-color-scheme:dark){:root{--bg:#111827;--ink:#e5e7eb;--line:#374151;--soft:#1f2937}}
+  body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,"Segoe UI",sans-serif;max-width:1100px;margin:0 auto;padding:16px}
+  table{border-collapse:collapse;display:block;overflow-x:auto}th,td{border:1px solid var(--line);padding:6px 8px;vertical-align:top}th{background:var(--soft)}
+  code,pre{background:var(--soft);border-radius:4px;padding:1px 4px}pre{padding:8px;overflow-x:auto}blockquote{border-left:4px solid var(--line);margin:8px 0;padding:2px 12px;color:inherit;opacity:.9}a{color:#2563eb}</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">JCN-116.6 - Quản lý Tag</h1>
+</header>
+<h1
+id="jcn-1166--quản-lý-tag-danh-mục--trạng-thái--quy-tắc-chuyển--đồng-bộ">JCN-116.6
+— Quản lý Tag (Danh mục · Trạng thái · Quy tắc chuyển · Đồng bộ)</h1>
+<ul>
+<li><strong>Ticket cha:</strong> JCN-116 [M06-PC-2] Chia việc Lead từ
+Pancake</li>
+<li><strong>Trạng thái:</strong> Đề xuất (chưa tạo trên Jira) ·
+<strong>Module:</strong> M06 · <strong>Ngày:</strong> 30/10/2026</li>
+<li><strong>Màn hình:</strong> Màn 18 — Danh mục tag (kèm 18a Thêm/Sửa
+tag, 18b Tắt / Gộp tag) · Màn 19 — Nhóm trạng thái &amp; giá trị (19a
+Sửa giá trị) · Màn 20 — Ma trận hiển thị theo tag · Màn 21 — Quy tắc
+chuyển tag (21a Chi tiết &amp; Mô phỏng) · Màn 22 — Lịch sử đổi tag
+&amp; Hoàn tác · Màn 23 — Đồng bộ Pancake · Màn 24 — Xuất bản cấu hình ·
+Màn 25 — Popup Đổi tag cho khách (dùng chung)</li>
+<li><strong>Wireframe:</strong> <a
+href="JCN-116.6_Wireframe.html"><code>JCN-116.6_Wireframe.html</code></a>
+· bản Google Sheet <a
+href="JCN-116.6_Wireframe_GoogleSheet.xlsx"><code>JCN-116.6_Wireframe_GoogleSheet.xlsx</code></a></li>
+<li><strong>Nguồn:</strong> <a href="Tag.md">Tag.md</a> (từ
+<code>Tag.xlsx</code>) · <code>raw/pancake-webhook-screens.html</code>
+màn 7 "Quy tắc tag" (khách chốt 24/10/2026) · JCN-116.2 Phần C (mô hình
+4 lớp, bảng chuyển TR1–TR19) · JCN-116 Rule 19, 21, 22 · JCN-116.1 (đồng
+bộ 2 chiều)</li>
+<li><strong>Thứ tự làm:</strong> sau 116.1 (nhập tag từ Pancake), song
+song 116.2–116.4. Số 116.6 do bổ sung sau.</li>
+</ul>
+<hr />
+<h2 id="1-vị-trí-trong-luồng">1. Vị trí trong luồng</h2>
+<p><strong>Tài liệu này trả lời ba câu hỏi, theo đúng thứ tự một quản
+trị viên cần làm:</strong></p>
+<ol type="1">
+<li><strong>Có những tag và trạng thái nào?</strong> → Phần A (danh mục
+tag), Phần B (nhóm trạng thái).</li>
+<li><strong>Khi nào tag tự đổi, ai được đổi tay?</strong> → Phần C (quy
+tắc chuyển tag). <em>Logic nghiệp vụ đã nằm ở JCN-116.2 Phần C; tài liệu
+này chỉ thêm phần <strong>cấu hình, thử nghiệm và vận hành</strong> quy
+tắc đó.</em></li>
+<li><strong>Thay đổi có an toàn không, đồng bộ sang Pancake thế nào, sai
+thì quay lại ra sao?</strong> → Phần D (xuất bản &amp; phiên bản), Phần
+E (vận hành: đổi tay, lịch sử, hoàn tác), Phần F (đồng bộ Pancake).</li>
+</ol>
+<pre><code> Danh mục tag (A) ──┐
+ Nhóm trạng thái (B)─┼─► Bản nháp cấu hình ──► Mô phỏng ──► Xuất bản (D) ──► Phiên bản N đang chạy
+ Quy tắc chuyển (C) ─┘      (Màn 18–21)         (Màn 21a)     (Màn 24)             │
+                                                                                   ▼
+        Sự kiện (khách nhắn · đơn giao thành công · đến ngày hẹn · NV đổi tay) ──► Bộ máy chuyển tag
+                                                                                   │
+                         ┌─────────────────────────────────────────────────────────┤
+                         ▼                                                         ▼
+              Lịch sử đổi tag + Hoàn tác (E, Màn 22)                 Đồng bộ sang Pancake (F, Màn 23)</code></pre>
+<table>
+<thead>
+<tr>
+<th>Phụ thuộc vào</th>
+<th>Cung cấp cho</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JCN-116.1 (nhập tag Pancake lần đầu, đẩy tag sang Pancake) ·
+JCN-116.2 Phần C (TR1–TR19, <code>entry_reason</code>,
+<code>customer_stage</code>) · JCN-116.5 (ai đang đi làm, để chia sau
+khi đổi tag) · M04 (trạng thái đơn: Check TT, Xuất hàng, Vận chuyển) ·
+JCN-83/84/85/87 (ngưng dịch vụ, Support, Thu cước)</td>
+<td>JCN-116.2 (chip tag và trạng thái trên lưới) · JCN-116.3 (Màn 8 Bàn
+giao gọi <strong>Màn 25</strong>) · JCN-116.4 (lọc theo tag, KPI theo
+tag tại thời điểm xảy ra sự kiện)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-user-story">2. User Story</h2>
+<table>
+<thead>
+<tr>
+<th>Vai trò</th>
+<th>Muốn</th>
+<th>Để</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quản trị</strong></td>
+<td>Xem toàn bộ tag, trạng thái, quy tắc ở một nơi; sửa tên, màu, thứ
+tự, tham số; thử quy tắc trước khi chạy thật; quay về phiên bản cũ khi
+sai</td>
+<td>Đổi cách vận hành mà không cần nhờ dev và không làm rối dữ liệu
+khách</td>
+</tr>
+<tr>
+<td><strong>Trưởng nhóm</strong></td>
+<td>Xem lịch sử đổi tag của bộ phận, hoàn tác lần đổi sai, đổi tag tay
+cho khách</td>
+<td>Sửa sai nhanh, khách không bị rơi giữa hai bộ phận</td>
+</tr>
+<tr>
+<td><strong>Nhân viên</strong></td>
+<td>Chỉ thấy những lựa chọn đổi tag mình được phép, kèm giải thích "đổi
+xong chuyện gì xảy ra"</td>
+<td>Không đổi nhầm, biết trước khách sẽ sang ai</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-nguyên-tắc-thiết-kế-rút-ra-từ-so-sánh-các-nguồn">3. Nguyên tắc
+thiết kế (rút ra từ so sánh các nguồn)</h2>
+<p>Ba nguồn đang nói về tag: <strong>Tag.xlsx</strong> (bảng giá trị
+theo cột), <strong>bản wireframe webhook 24/10</strong> (màn Quy tắc
+tag: nhóm, hành động, đồng bộ, gợi ý, hoàn tác) và <strong>JCN-116.2
+Phần C</strong> (mô hình lớp, bất biến, bảng chuyển). Mỗi nguồn mạnh một
+mặt; tài liệu này lấy phần mạnh nhất của từng nguồn:</p>
+<table>
+<thead>
+<tr>
+<th>Nguồn</th>
+<th>Mạnh ở</th>
+<th>Yếu ở</th>
+<th>Lấy gì</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tag.xlsx</td>
+<td>Đủ giá trị thực tế của từng bộ phận (WFCĐ, Support, Thu cước…)</td>
+<td>Là bảng giá trị, không có quy tắc, ai đổi, điều kiện</td>
+<td><strong>Toàn bộ giá trị</strong> làm dữ liệu khởi tạo (Phần B)</td>
+</tr>
+<tr>
+<td>Wireframe webhook (Màn 7)</td>
+<td>Giao diện quản trị: alias, nhóm, hướng đồng bộ, <strong>chế độ gợi ý
+2 tuần</strong>, lịch sử + <strong>hoàn tác</strong>, cảnh báo tag lệch
+tên giữa các page</td>
+<td>Tag đặt phẳng 7 tag "định tuyến" (không phân biệt tag chủ / tiểu
+loại); thiếu <code>entry_reason</code>, bất biến, tình huống biên</td>
+<td><strong>Cách cấu hình</strong> (Màn 18, 21, 22, 23)</td>
+</tr>
+<tr>
+<td>JCN-116.2 Phần C</td>
+<td>Logic: 4 lớp, <code>entry_reason</code>, TR1–TR19, bất biến I1–I9,
+ma trận hiển thị</td>
+<td>Chưa có giao diện quản trị; chưa nói sửa cấu hình có an toàn
+không</td>
+<td><strong>Mô hình và quy tắc</strong> (Phần A–C)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Các nguyên tắc rút ra:</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Nguyên tắc</th>
+<th>Hệ quả thiết kế</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td><strong>Mã không đổi, nhãn đổi được.</strong> Bộ máy tham chiếu tag
+và trạng thái bằng <code>code</code> cố định (vd <code>SALE</code>,
+<code>CSKH_UPSALE</code>), không bằng tên hiển thị.</td>
+<td>Đổi tên, màu, alias bất kỳ lúc nào mà không hỏng quy tắc.</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td><strong>Tag lõi khóa, tag tùy chọn mở.</strong> Tag mà quy tắc
+TR1–TR19 dùng (<code>is_system</code>) chỉ được sửa nhãn, màu, alias,
+thứ tự; không xóa, không tắt, không gộp.</td>
+<td>Quản trị không vô tình phá luồng chia việc.</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td><strong>Logic cố định, tham số cấu hình.</strong> Điều kiện và hệ
+quả của quy tắc là mã theo spec; giao diện chỉ cho chỉnh <strong>công
+tắc, chế độ, tham số</strong> (số phút, số ngày…). Không có "trình dựng
+quy tắc" tự do.</td>
+<td>Giữ được bất biến I1–I9; quản trị không tự tạo quy tắc mâu
+thuẫn.</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td><strong>Thay đổi cấu hình qua Xuất bản.</strong> Sửa chỉ lưu
+<strong>bản nháp</strong>; có hiệu lực khi <strong>Xuất bản</strong>
+(kèm so sánh khác biệt và số khách bị ảnh hưởng). Mỗi lần xuất bản là
+một <strong>phiên bản</strong>, quay lại được.</td>
+<td>An toàn: sửa sai không làm hỏng khách đang xử lý.</td>
+</tr>
+<tr>
+<td>Q5</td>
+<td><strong>Thử trước, chạy thật sau.</strong> Mỗi quy tắc tự động có
+chế độ <strong>Tắt · Gợi ý · Chạy thật</strong>; Gợi ý chỉ ghi "sẽ làm
+gì" vào log và báo cáo.</td>
+<td>Bật quy tắc mới mà không đổi tag thật của khách.</td>
+</tr>
+<tr>
+<td>Q6</td>
+<td><strong>Mọi lần đổi đều có dấu vết và hoàn tác được.</strong></td>
+<td>Phần E, Màn 22.</td>
+</tr>
+<tr>
+<td>Q7</td>
+<td><strong>CRM là nguồn đúng, Pancake là bản chiếu.</strong> Tag đổi
+trên Pancake chỉ có hiệu lực với nhóm được đặt 2 chiều (Phần F).</td>
+<td>Không bị hai nơi ghi đè nhau.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phần-a--danh-mục-tag-màn-18-18a-18b">PHẦN A — Danh mục tag (Màn
+18, 18a, 18b)</h2>
+<h3 id="rule-a1--cấu-trúc-danh-mục">Rule A1 — Cấu trúc danh mục</h3>
+<p>Danh mục gồm <strong>ba tầng</strong> (khớp 4 lớp ở JCN-116.2 Rule
+C2; lớp "trạng thái" và "giai đoạn khách" nằm ở Phần B):</p>
+<table>
+<thead>
+<tr>
+<th>Tầng</th>
+<th>Ý nghĩa</th>
+<th>Số giá trị / khách</th>
+<th>Ai gắn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tag bộ phận</strong></td>
+<td>Bộ phận chịu trách nhiệm. Gồm <strong>tag chủ</strong>
+(<code>Sale</code>, <code>CSKH</code>, <code>WFCĐ</code>) và
+<strong>tiểu loại</strong> của CSKH (<code>Upsale</code>,
+<code>Support</code>, <code>Support kỹ thuật</code>,
+<code>Thu cước</code>)</td>
+<td>1 tag chủ + tối đa 1 tiểu loại</td>
+<td>Hệ thống hoặc người phụ trách (theo bảng TR)</td>
+</tr>
+<tr>
+<td><strong>Cờ</strong></td>
+<td>Điều cần chú ý: <code>Khó tư vấn</code>, <code>Cần training</code>,
+<code>Giới thiệu chưa xác minh</code>, <code>Khiếu nại</code> <em>(đề
+xuất)</em></td>
+<td>Nhiều</td>
+<td>Người phụ trách / Trưởng nhóm / hệ thống</td>
+</tr>
+<tr>
+<td><strong>Ưu tiên và chỉ hiển thị</strong></td>
+<td><code>UT_VIP</code>, <code>UT_BLACKLIST</code> (chờ khách cung cấp
+bộ tag — Q-026) và tag chỉ để xem (vd "Hỏi giá")</td>
+<td>Nhiều</td>
+<td>Hệ thống / Trưởng nhóm</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Wireframe webhook đặt 7 tag định tuyến <strong>phẳng</strong>
+(<code>CSKH support</code>, <code>CSKH Upsale</code>…). Tài liệu này giữ
+<strong>cấu trúc chủ → tiểu loại</strong> vì quy tắc ưu tiên, ma trận
+trạng thái và KPI đều cần biết "CSKH nào". Tên đầy đủ trên Pancake
+(<code>CSKH Upsale</code>) được lưu ở trường <code>pancake_text</code>
+của tiểu loại, nên <strong>không mất tương thích</strong> với cách đặt
+tên của khách.</p>
+</blockquote>
+<h3 id="rule-a2--dữ-liệu-khởi-tạo-seed">Rule A2 — Dữ liệu khởi tạo
+(seed)</h3>
+<table>
+<thead>
+<tr>
+<th>Mã <code>code</code></th>
+<th>Tầng</th>
+<th>Nhãn</th>
+<th>Bộ phận nhận</th>
+<th>Tên trên Pancake (<code>pancake_text</code>)</th>
+<th>Alias</th>
+<th>Màu</th>
+<th>Lõi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SALE</code></td>
+<td>Tag chủ</td>
+<td>Sale</td>
+<td>Sale</td>
+<td>Sale</td>
+<td>sale</td>
+<td>Xanh dương</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>CSKH</code></td>
+<td>Tag chủ</td>
+<td>CSKH</td>
+<td>CSKH (chung)</td>
+<td>CSKH</td>
+<td>cskh</td>
+<td>Xanh lá</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>WFCD</code></td>
+<td>Tag chủ</td>
+<td>WFCĐ</td>
+<td>Hỗ trợ WFCĐ</td>
+<td>WFCĐ</td>
+<td>WFCD, wifi</td>
+<td>Cam</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>CSKH_UPSALE</code></td>
+<td>Tiểu loại của <code>CSKH</code></td>
+<td>Upsale</td>
+<td>CSKH Upsale</td>
+<td>CSKH Upsale</td>
+<td>upsale</td>
+<td>Xanh ngọc</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>CSKH_SUPPORT</code></td>
+<td>Tiểu loại</td>
+<td>Support</td>
+<td>CSKH Support</td>
+<td>CSKH support</td>
+<td>support</td>
+<td>Tím</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>CSKH_TECH</code></td>
+<td>Tiểu loại</td>
+<td>Support kỹ thuật</td>
+<td>CSKH Support kỹ thuật</td>
+<td>CSKH support kỹ thuật</td>
+<td>support kt</td>
+<td>Đỏ</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>CSKH_BILLING</code></td>
+<td>Tiểu loại</td>
+<td>Thu cước</td>
+<td>CSKH Thu cước</td>
+<td>CSKH thu cước</td>
+<td>thu cuoc</td>
+<td>Vàng</td>
+<td>✔</td>
+</tr>
+<tr>
+<td><code>FLAG_HARD</code></td>
+<td>Cờ</td>
+<td>Khó tư vấn</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Tím đậm</td>
+<td>✔ (JCN-116.4 dùng)</td>
+</tr>
+<tr>
+<td><code>FLAG_TRAIN</code></td>
+<td>Cờ</td>
+<td>Cần training</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Xám</td>
+<td>✔ (JCN-116 Rule 24)</td>
+</tr>
+<tr>
+<td><code>FLAG_REF_UNVERIFIED</code></td>
+<td>Cờ</td>
+<td>Giới thiệu chưa xác minh</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Vàng</td>
+<td>✔ (TR4)</td>
+</tr>
+<tr>
+<td><code>FLAG_COMPLAINT</code></td>
+<td>Cờ</td>
+<td>Khiếu nại</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Đỏ</td>
+<td><em>(đề xuất, tùy chọn)</em></td>
+</tr>
+<tr>
+<td><code>UT_VIP</code> · <code>UT_BLACKLIST</code></td>
+<td>Ưu tiên</td>
+<td>VIP · Blacklist</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><em>(chờ khách, Q-026)</em></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Tag lõi <strong>không xóa, không tắt, không gộp, không đổi bộ phận
+nhận</strong> (Q2). Sửa được: nhãn, màu, alias, thứ tự, "hiện trên
+lưới".</li>
+<li>Tag thứ 4 trở đi (vd "Hỏi giá") do Quản trị thêm, thuộc tầng
+<strong>Cờ</strong> hoặc <strong>Chỉ hiển thị</strong>.
+<strong>Không</strong> cho thêm tag bộ phận mới ở giai đoạn này (cần
+thêm bộ phận mới thì phải có quy tắc chia việc đi kèm — ngoài phạm
+vi).</li>
+</ul>
+<h3 id="rule-a3--quy-tắc-đặt-tên-alias-màu">Rule A3 — Quy tắc đặt tên,
+alias, màu</h3>
+<ul>
+<li><strong>Tên hiển thị</strong> duy nhất trong cùng tầng (không phân
+biệt hoa thường, bỏ dấu khi so sánh).</li>
+<li><strong>Alias</strong> = danh sách tên khác mà tag này có thể mang
+trên Pancake (vd <code>WFCD</code> và <code>WFCĐ</code>). Khi đồng bộ,
+hệ thống khớp theo <code>pancake_text</code> rồi đến alias (so sánh sau
+khi bỏ dấu, bỏ hoa thường — BR-TAG-02). Một alias chỉ thuộc một tag;
+trùng thì chặn lưu.</li>
+<li><strong>Màu</strong> chọn từ bảng màu có sẵn (không nhập mã tự do)
+để đảm bảo đủ tương phản ở chế độ sáng và tối. Mỗi chip luôn có
+<strong>chữ</strong> (JCN-116.2 Rule C8.3), không chỉ dựa vào màu.</li>
+<li><strong>Thứ tự</strong> quyết định thứ tự hiển thị trong bộ lọc và
+popup chọn tag.</li>
+</ul>
+<h3 id="rule-a4--thêm-sửa-tắt-gộp-xóa">Rule A4 — Thêm, sửa, tắt, gộp,
+xóa</h3>
+<table>
+<thead>
+<tr>
+<th>Thao tác</th>
+<th>Áp dụng cho</th>
+<th>Điều kiện</th>
+<th>Hệ quả</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Thêm</strong></td>
+<td>Cờ, Ưu tiên, Chỉ hiển thị</td>
+<td>Tên không trùng</td>
+<td>Có hiệu lực sau Xuất bản; nếu bật đồng bộ, hệ thống báo "cần tạo tag
+này trên Pancake" (Phần F).</td>
+</tr>
+<tr>
+<td><strong>Sửa</strong></td>
+<td>Mọi tag</td>
+<td>Tag lõi chỉ sửa nhãn / màu / alias / thứ tự</td>
+<td>Đổi nhãn không đổi dữ liệu khách (khách tham chiếu
+<code>code</code>).</td>
+</tr>
+<tr>
+<td><strong>Tắt</strong></td>
+<td>Tag không lõi</td>
+<td>Hiện <strong>số khách đang gắn</strong> và <strong>số quy tắc tham
+chiếu</strong> trước khi xác nhận (Màn 18b)</td>
+<td>Tag tắt <strong>không gắn mới</strong>; khách đang gắn <strong>giữ
+nguyên</strong> và vẫn hiện (nhãn "đã tắt"). Bật lại được.</td>
+</tr>
+<tr>
+<td><strong>Gộp</strong></td>
+<td>Tag không lõi</td>
+<td>Chọn tag đích cùng tầng; xem trước số khách chuyển</td>
+<td>Mọi khách mang tag nguồn sang tag đích; ghi <strong>một dòng lịch
+sử</strong> cho mỗi khách (loại "Gộp tag"), <strong>không đổi người phụ
+trách</strong>, không chia lại; tag nguồn chuyển thành alias của tag
+đích.</td>
+</tr>
+<tr>
+<td><strong>Xóa</strong></td>
+<td>Chỉ tag <strong>chưa từng gắn</strong> cho khách nào</td>
+<td>—</td>
+<td>Xóa hẳn. Tag đã có dữ liệu chỉ được <strong>Tắt</strong> hoặc
+<strong>Gộp</strong>, không xóa (giữ lịch sử và báo cáo).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="phần-b--nhóm-trạng-thái--giá-trị-màn-19-19a-20">PHẦN B — Nhóm
+trạng thái &amp; giá trị (Màn 19, 19a, 20)</h2>
+<h3 id="rule-b1--khái-niệm">Rule B1 — Khái niệm</h3>
+<ul>
+<li><strong>Nhóm trạng thái</strong> = một trục trạng thái độc lập, mỗi
+khách chỉ có <strong>một giá trị</strong> trong một nhóm (khớp "Trạng
+thái" ở JCN-116.2 Rule C2). Ví dụ: Tiếp nhận, Mức tiềm năng, Tiến trình
+chốt đơn.</li>
+<li><strong>Giá trị</strong> thuộc đúng một nhóm: <code>code</code>,
+nhãn, màu, thứ tự, "trạng thái cuối" (kết thúc trục), <strong>ai được
+đổi</strong>, <strong>tự động hay tay</strong>, tiền tố tag
+Pancake.</li>
+<li>Giá trị mà bộ máy chuyển tag hoặc KPI dùng là <strong>giá trị
+lõi</strong> (khóa <code>code</code>, chỉ sửa nhãn / màu / thứ tự). Giá
+trị khác là <strong>giá trị mở</strong>, thêm bớt được.</li>
+</ul>
+<h3
+id="rule-b2--dữ-liệu-khởi-tạo-từ-tagxlsx-đã-sắp-lại-theo-jcn-1162-rule-c6">Rule
+B2 — Dữ liệu khởi tạo (từ Tag.xlsx, đã sắp lại theo JCN-116.2 Rule
+C6)</h3>
+<p><strong>Nhóm dùng chung nhiều bộ phận</strong></p>
+<table>
+<thead>
+<tr>
+<th>Nhóm (<code>code</code>)</th>
+<th>Giá trị</th>
+<th>Ai đổi</th>
+<th>Pancake</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tiếp nhận</strong> (<code>reception</code>)</td>
+<td>New · Đã tiếp nhận · New — quá giờ</td>
+<td>Hệ thống</td>
+<td><code>TN-</code></td>
+<td>Lõi. "Quá giờ" do tự nhả (JCN-116.2 Rule A4).</td>
+</tr>
+<tr>
+<td><strong>Mức tiềm năng</strong> (<code>potential</code>)</td>
+<td>Chưa đánh giá · Nhấp quảng cáo · Cấp 1 · Cấp 2</td>
+<td>Người phụ trách (hệ thống đặt giá trị đầu)</td>
+<td><code>TV-</code></td>
+<td>Lõi. Thay cho "Trạng thái tư vấn" cũ (C6.2).</td>
+</tr>
+<tr>
+<td><strong>Tiến trình chốt đơn</strong> (<code>deal</code>)</td>
+<td>Đang tư vấn · Chờ chốt · Đã chốt · Đã lên đơn · <strong>Không
+mua</strong></td>
+<td>Người phụ trách; "Đã lên đơn" do hệ thống</td>
+<td><code>CĐ-</code></td>
+<td>Lõi. Điều kiện chuyển: JCN-116.2 Rule C6.4. "Không mua" kèm lý do
+(bảng dưới).</td>
+</tr>
+<tr>
+<td><strong>Lý do không mua</strong> (<code>lost_reason</code>)</td>
+<td>Giá cao · Không còn nhu cầu · So sánh nơi khác · Không liên hệ được
+· Khác</td>
+<td>Người phụ trách</td>
+<td>—</td>
+<td><strong>Mở</strong> (thêm được); "Khác" bắt buộc ghi chú.</td>
+</tr>
+<tr>
+<td><strong>Check thanh toán</strong> (<code>payment_check</code>)</td>
+<td>Chờ check · Đã check · Từ chối</td>
+<td>Kế toán (theo đơn)</td>
+<td><code>TT-</code></td>
+<td>Lõi.</td>
+</tr>
+<tr>
+<td><strong>Xuất hàng</strong> (<code>shipping_out</code>)</td>
+<td>Chờ xuất · Đã đóng gói · Đã gửi hàng</td>
+<td>Kho (theo đơn)</td>
+<td><code>XH-</code></td>
+<td>Lõi.</td>
+</tr>
+<tr>
+<td><strong>Vận chuyển</strong> (<code>delivery</code>)</td>
+<td>Chưa cập nhật · Đang vận chuyển · <strong>Đã gửi thành công</strong>
+· Lỗi VC — mất hàng · Lỗi VC — sai địa chỉ · Lỗi VC — người nhận</td>
+<td>Kho / hãng VC</td>
+<td><code>VC-</code></td>
+<td>"Đã gửi thành công" kích hoạt TR6/TR7.</td>
+</tr>
+<tr>
+<td><strong>Sử dụng dịch vụ</strong> (<code>service_state</code>)</td>
+<td>Đang sử dụng · Ngưng dịch vụ <em>(+ hẹn upsale, ngày hẹn)</em></td>
+<td>Hệ thống / NV CSKH</td>
+<td>—</td>
+<td>Lõi. Ngày hẹn kích hoạt TR12.</td>
+</tr>
+<tr>
+<td><strong>Loại dịch vụ</strong> (<code>service_type</code>)</td>
+<td>SIM bán đứt · SIM thu cước · WFCĐ</td>
+<td>Hệ thống (theo đơn)</td>
+<td>—</td>
+<td>Lõi. Hạn SIM kích hoạt TR13.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nhóm riêng của từng bộ phận</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bộ phận</th>
+<th>Nhóm (<code>code</code>)</th>
+<th>Giá trị</th>
+<th>Ai đổi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WFCĐ</strong></td>
+<td>Trạng thái đăng ký (<code>wfcd_reg</code>)</td>
+<td>Chưa đăng ký · Đã đăng ký NCC · Đã hẹn nghe gọi · Đang xử lý thủ tục
+· Đã hẹn lắp đặt · <strong>Huỷ</strong></td>
+<td>NV WFCĐ (Huỷ kích hoạt TR15)</td>
+</tr>
+<tr>
+<td></td>
+<td>Trạng thái lắp đặt (<code>wfcd_install</code>)</td>
+<td>Chưa xử lý · Đã hẹn lắp đặt · Đã lắp đặt · Hẹn lắp đặt lại ·
+<strong>Lắp đặt thành công</strong></td>
+<td>NV WFCĐ (kích hoạt TR14)</td>
+</tr>
+<tr>
+<td><strong>Support / Kỹ thuật</strong></td>
+<td>Trạng thái xử lý (<code>support_state</code>)</td>
+<td>Tiếp nhận · Chờ xử lý · Đã xử lý · Theo dõi ·
+<strong>Xong</strong></td>
+<td>NV Support</td>
+</tr>
+<tr>
+<td></td>
+<td>Số lần support (<code>support_count</code>)</td>
+<td>1…5 (tự tăng)</td>
+<td>Hệ thống (TR8)</td>
+</tr>
+<tr>
+<td></td>
+<td>Vấn đề xử lý · Sản phẩm support</td>
+<td>Ghi chú tự do · danh mục sản phẩm</td>
+<td>NV Support</td>
+</tr>
+<tr>
+<td><strong>Thu cước</strong></td>
+<td>Kỳ thu cước (<code>bill_period</code>)</td>
+<td>Kỳ 1 · Kỳ 2 · Kỳ 3</td>
+<td>Hệ thống</td>
+</tr>
+<tr>
+<td></td>
+<td>Lần thông báo · Trạng thái thông báo</td>
+<td>Lần 1–3 · Chưa thông báo / Đã thông báo / Không gửi được</td>
+<td>NV Thu cước</td>
+</tr>
+<tr>
+<td></td>
+<td>Trạng thái phản hồi</td>
+<td>Phản hồi · Không phản hồi · Không đọc tin · Chặn page</td>
+<td>NV Thu cước</td>
+</tr>
+<tr>
+<td></td>
+<td>Trạng thái tương tác</td>
+<td>Khách dùng tiếp · Khách hủy · Khách có khả năng hủy · Khả năng hủy
+cao</td>
+<td>NV Thu cước</td>
+</tr>
+<tr>
+<td></td>
+<td>Hình thức thanh toán · Tình trạng gửi mã TT</td>
+<td>SMP · MyPay QR · CK · App PayPay… · Chưa gửi mã / Đã gửi mã / Chờ
+mã</td>
+<td>NV Thu cước</td>
+</tr>
+<tr>
+<td></td>
+<td>Trạng thái thanh toán · Check TT</td>
+<td>Chưa thanh toán · Đã nhận bill · Check TT không hợp lệ · Không phản
+hồi · Đã xác nhận thanh toán</td>
+<td>NV Thu cước / Kế toán</td>
+</tr>
+<tr>
+<td></td>
+<td>Xử lý TT không hợp lệ</td>
+<td>Không xác nhận được TT → TT lại · TT thừa → cộng công nợ tháng sau ·
+TT thiếu → chờ xác nhận</td>
+<td>NV Thu cước</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Chi tiết nghiệp vụ của các nhóm riêng (hẹn thanh toán muộn +1…+4
+ngày, bàn giao danh sách hủy cuối tháng, chuyển Support tạo mã mới vào
+kho mã…) thuộc JCN-83/84/85/87; <strong>JCN-116.6 chỉ quản lý danh mục
+giá trị và hiển thị</strong>, không lặp quy tắc đó.</p>
+</blockquote>
+<h3 id="rule-b3--quy-tắc-sửa-nhóm-và-giá-trị">Rule B3 — Quy tắc sửa nhóm
+và giá trị</h3>
+<ul>
+<li><strong>Giá trị lõi:</strong> sửa nhãn, màu, thứ tự; không xóa,
+không đổi <code>code</code>, không đổi "ai đổi".</li>
+<li><strong>Giá trị mở</strong> (Lý do không mua, Vấn đề xử lý, Hình
+thức thanh toán…): thêm, sửa, tắt, đổi thứ tự. Giá trị đã được dùng chỉ
+<strong>Tắt</strong>, không xóa.</li>
+<li><strong>Không tạo nhóm mới</strong> ở giai đoạn này (nhóm mới cần ma
+trận hiển thị và quy tắc đi kèm).</li>
+<li><strong>Đổi thứ tự</strong> chỉ ảnh hưởng hiển thị, không ảnh hưởng
+điều kiện chuyển (điều kiện chuyển là logic cố định, JCN-116.2 Rule
+C6.4).</li>
+</ul>
+<h3 id="rule-b4--ma-trận-hiển-thị-theo-tag-màn-20">Rule B4 — Ma trận
+hiển thị theo tag (Màn 20)</h3>
+<ul>
+<li>Cấu hình <strong>mỗi tag × mỗi nhóm trạng thái</strong> một trong ba
+mức: ✎ sửa được · 👁 chỉ xem · — ẩn. Giá trị khởi tạo là bảng ở
+<strong>JCN-116.2 Rule C7</strong>.</li>
+<li>Đổi mức hiển thị <strong>không xóa dữ liệu</strong>: nhóm bị ẩn vẫn
+nằm ở lịch sử (bất biến I5).</li>
+<li><strong>Không cho đặt ✎ nếu người sửa không có vai trò</strong> được
+phép trong "Ai đổi" của giá trị (vd không cho NV Sale sửa Check TT). Màn
+hiển thị cảnh báo vàng và chặn lưu.</li>
+<li><strong>Thứ tự "trạng thái nổi bật"</strong> (JCN-116.2 Rule C8.2):
+danh sách 6 mức ưu tiên kéo thả được; chip nào hiện trên lưới
+(<code>show_on_grid</code>) cũng đặt ở đây.</li>
+</ul>
+<hr />
+<h2 id="phần-c--quy-tắc-chuyển-tag-màn-21-21a">PHẦN C — Quy tắc chuyển
+tag (Màn 21, 21a)</h2>
+<h3 id="rule-c1--mô-hình-quy-tắc">Rule C1 — Mô hình quy tắc</h3>
+<p>Mỗi quy tắc là một dòng của bảng chuyển <strong>JCN-116.2 Rule
+C3</strong> (mã <code>TR1</code>…<code>TR19</code>). Giao diện hiện
+<strong>cùng mã</strong>, để người đọc spec và quản trị cùng nói chung
+một ngôn ngữ.</p>
+<table>
+<thead>
+<tr>
+<th>Thành phần</th>
+<th>Sửa trên giao diện?</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mã <code>TRxx</code>, sự kiện, điều kiện, tag trước → sau,
+<code>entry_reason</code>, tác nhân</td>
+<td>❌ Chỉ xem</td>
+<td>Logic cố định theo spec (Q3).</td>
+</tr>
+<tr>
+<td><strong>Công tắc / Chế độ</strong></td>
+<td>✔</td>
+<td>Tắt · Gợi ý · Chạy thật (quy tắc tự động); Cho phép · Không cho phép
+(quy tắc do người làm)</td>
+</tr>
+<tr>
+<td><strong>Tham số</strong></td>
+<td>✔</td>
+<td>Bảng dưới</td>
+</tr>
+<tr>
+<td><strong>Bắt buộc lý do</strong></td>
+<td>✔ (với quy tắc do người làm)</td>
+<td>Bật sẵn cho TR16, TR17, TR18</td>
+</tr>
+<tr>
+<td>Số lần chạy 7 ngày, số lần bị hoàn tác</td>
+<td>Chỉ xem</td>
+<td>Giúp thấy quy tắc nào hay bị sửa lại</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phân loại quy tắc</strong></p>
+<table>
+<thead>
+<tr>
+<th>Loại</th>
+<th>Quy tắc</th>
+<th>Chế độ có thể đặt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tự động</strong> (hệ thống chạy khi có sự kiện)</td>
+<td>TR1, TR2, TR3, TR6, TR7, TR10, TR12, TR13, TR14, TR15 <em>(và TR11:
+chỉ đặt giai đoạn khách)</em></td>
+<td>Tắt / <strong>Gợi ý</strong> / Chạy thật</td>
+</tr>
+<tr>
+<td><strong>Do người làm</strong> (NV bấm)</td>
+<td>TR4, TR5, TR8, TR9, TR16, TR17, TR19</td>
+<td>Cho phép / Không cho phép</td>
+</tr>
+<tr>
+<td><strong>Do Trưởng nhóm</strong></td>
+<td>TR18</td>
+<td>Cho phép / Không cho phép (chỉ Trưởng nhóm, Quản trị)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Quy tắc <strong>tự động cốt lõi</strong> (TR1 — lead mới vào Sale;
+TR2 — khách có mã giới thiệu) <strong>không cho đặt "Tắt"</strong>: tắt
+là mất luồng chia lead. Hai quy tắc này chỉ có Gợi ý / Chạy thật.</p>
+</blockquote>
+<h3 id="rule-c2--tham-số-cấu-hình">Rule C2 — Tham số cấu hình</h3>
+<table>
+<thead>
+<tr>
+<th>Tham số</th>
+<th>Áp dụng</th>
+<th>Mặc định</th>
+<th>Ghi chú</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>defer_minutes</code></td>
+<td>TR6, TR7, TR10 (hoãn khi người phụ trách đang trò chuyện — bất biến
+I6)</td>
+<td>30 phút</td>
+<td>Đề xuất #70 (JCN-116.2). 0 = không hoãn.</td>
+</tr>
+<tr>
+<td><code>upsale_days_before_expiry</code></td>
+<td>TR13</td>
+<td>30 ngày</td>
+<td>Dùng chung với Màn 11 (JCN-116.2): <strong>một nơi duy nhất</strong>
+lưu giá trị này — Màn 21 chỉ hiển thị liên kết.</td>
+</tr>
+<tr>
+<td><code>wfcd_cancel_wait_days</code></td>
+<td>TR15</td>
+<td>30 ngày</td>
+<td>Khoảng chờ trước khi trả khách WFCĐ huỷ về Sale (#23, #78).</td>
+</tr>
+<tr>
+<td><code>reopen_lead_days</code></td>
+<td>Điều hướng khi khách LEAD_DONG nhắn lại (JCN-116.2 Rule C5 dòng
+9)</td>
+<td>30 ngày</td>
+<td>Quá hạn tạo chu kỳ lead mới (#72).</td>
+</tr>
+<tr>
+<td><code>referral_default_potential</code></td>
+<td>TR2, TR3, TR4</td>
+<td>Cấp 1</td>
+<td>Mức tiềm năng ban đầu của khách giới thiệu (#67).</td>
+</tr>
+<tr>
+<td><code>require_reason</code></td>
+<td>TR16, TR17, TR18</td>
+<td>Bật</td>
+<td>Không cho tắt với TR18.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rule-c3--thứ-tự-ưu-tiên-khi-khách-có-nhiều-việc">Rule C3 — Thứ
+tự ưu tiên khi khách có nhiều việc</h3>
+<ul>
+<li>Bảng thứ tự (đã chốt #1): <strong>Support kỹ thuật &gt; Thu cước
+&gt; Support &gt; Upsale &gt; WFCĐ &gt; Sale</strong>. Hiển thị trong
+Màn 21 dạng danh sách <strong>kéo thả</strong>; đổi thứ tự có hiệu lực
+sau Xuất bản và <strong>không đổi người phụ trách của các việc đang
+mở</strong>, chỉ ảnh hưởng hội thoại mới (JCN-116.2 Rule C4, I1).</li>
+</ul>
+<h3 id="rule-c4--chế-độ-gợi-ý-và-mô-phỏng">Rule C4 — Chế độ Gợi ý và Mô
+phỏng</h3>
+<ul>
+<li><strong>Chế độ Gợi ý (theo quy tắc):</strong> khi sự kiện xảy ra, hệ
+thống <strong>không đổi tag</strong>, chỉ ghi vào lịch sử một dòng loại
+"Gợi ý": <em>"sẽ chuyển Sale → CSKH Upsale (TR3) — lý do: mã
+GT-1234"</em>. Dòng gợi ý hiện ở Màn 22 với nhãn "Gợi ý", không có nút
+Hoàn tác.</li>
+<li><strong>Gợi ý toàn bộ:</strong> công tắc ở đầu Màn 21 đặt
+<strong>mọi quy tắc tự động</strong> sang Gợi ý cho tới một ngày (mặc
+định <strong>14 ngày</strong> kể từ lần Xuất bản đầu tiên — theo thỏa
+thuận "2 tuần đầu chỉ ghi log" ở bản webhook 24/10). Hết hạn, hệ thống
+<strong>nhắc</strong> Quản trị chuyển sang Chạy thật, <strong>không tự
+chuyển</strong>.</li>
+<li><strong>Báo cáo Gợi ý (7 ngày):</strong> mỗi quy tắc hiện <em>"sẽ
+làm: n khách"</em> (vd "TR3: 14 khách sẽ sang Upsale"). Nút <strong>Xem
+danh sách</strong> mở Màn 22 đã lọc.</li>
+<li><strong>Mô phỏng (Màn 21a):</strong> Quản trị nhập <strong>một
+khách</strong> (mã KH hoặc chọn trong danh sách) và một <strong>sự
+kiện</strong> (vd "Đơn giao thành công", "Nhập mã giới thiệu GT-1234").
+Hệ thống trả lời: <em>quy tắc nào khớp · tag trước → sau · người nhận ·
+bước bị hoãn (nếu có)</em>, <strong>không ghi gì vào dữ liệu</strong>.
+Dùng để kiểm tra trước khi Xuất bản.</li>
+</ul>
+<h3 id="rule-c5--xung-đột-và-an-toàn">Rule C5 — Xung đột và an toàn</h3>
+<ul>
+<li><strong>Idempotent</strong> (I8): cùng một sự kiện đến hai lần chỉ
+đổi một lần; dòng thứ hai ghi "Bỏ qua — đã xử lý".</li>
+<li><strong>Thứ tự sự kiện</strong> (I9): xử lý theo thời gian; tin nhắn
+đến lúc đang chuyển giao cho người phụ trách mới.</li>
+<li><strong>Hai quy tắc cùng khớp:</strong> ưu tiên theo thứ tự ở Rule
+C3; quy tắc thua ghi "Bỏ qua — nhường TRxx".</li>
+<li><strong>Chống vòng lặp:</strong> không cho một khách chuyển qua lại
+giữa hai tag tự động quá <strong>3 lần trong 24 giờ</strong>; lần thứ 4
+dừng, ghi "Chặn vòng lặp" và báo Trưởng nhóm.</li>
+</ul>
+<hr />
+<h2 id="phần-d--xuất-bản-cấu-hình--phiên-bản-màn-24">PHẦN D — Xuất bản
+cấu hình &amp; Phiên bản (Màn 24)</h2>
+<h3 id="rule-d1--bản-nháp-và-xuất-bản">Rule D1 — Bản nháp và Xuất
+bản</h3>
+<ul>
+<li>Mọi chỉnh sửa ở Màn 18–23 lưu thành <strong>bản nháp</strong> của
+cấu hình (một bản nháp chung, mọi Quản trị cùng thấy; ai sửa gì có dấu
+vết).</li>
+<li>Thanh trên cùng mọi màn hiện <strong>"Bản nháp có n thay đổi chưa
+xuất bản"</strong> kèm nút <strong>Xem thay đổi</strong> và <strong>Xuất
+bản</strong>.</li>
+<li>Màn 24 hiện <strong>khác biệt</strong> (cũ → mới theo từng mục),
+<strong>số khách bị ảnh hưởng</strong> (vd "Tắt tag 'Hỏi giá': 12 khách
+còn mang tag này"), và danh sách <strong>cảnh báo chặn / không
+chặn</strong>:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Mức</th>
+<th>Ví dụ</th>
+<th>Hành vi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chặn</strong></td>
+<td>Alias trùng; quy tắc cốt lõi bị tắt; ✎ cho vai trò không có
+quyền</td>
+<td>Không cho Xuất bản tới khi sửa</td>
+</tr>
+<tr>
+<td><strong>Cảnh báo</strong></td>
+<td>Tag lệch tên giữa các page Pancake; quy tắc đang Gợi ý nhưng sắp hết
+hạn</td>
+<td>Cho Xuất bản, hiện lại ở đầu Màn 23</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Xuất bản bắt buộc <strong>ghi chú thay đổi</strong> (vd "Bật TR6
+chạy thật"). Sau khi xuất bản: phiên bản <strong>N+1</strong> thành
+"Đang chạy"; bản nháp xóa trống.</li>
+</ul>
+<h3 id="rule-d2--phiên-bản-và-quay-lại">Rule D2 — Phiên bản và quay
+lại</h3>
+<ul>
+<li>Danh sách phiên bản: số phiên bản, người xuất bản, giờ, ghi chú,
+trạng thái (Đang chạy / Đã thay).</li>
+<li><strong>Quay lại phiên bản cũ:</strong> tạo bản nháp bằng nội dung
+phiên bản đó và đi qua Xuất bản bình thường (không ghi đè lịch sử). Dữ
+liệu khách <strong>không bị đổi lại</strong>: chỉ cấu hình được khôi
+phục; muốn đưa khách về tag cũ phải <strong>Hoàn tác</strong> ở Màn
+22.</li>
+<li>Mỗi dòng lịch sử đổi tag ghi <code>config_version</code> đang chạy
+lúc đó, để biết quyết định theo cấu hình nào.</li>
+</ul>
+<hr />
+<h2 id="phần-e--vận-hành-đổi-tag-tay-lịch-sử-hoàn-tác-màn-22-25">PHẦN E
+— Vận hành: đổi tag tay, lịch sử, hoàn tác (Màn 22, 25)</h2>
+<h3 id="rule-e1--popup-đổi-tag-cho-khách-dùng-chung-màn-25">Rule E1 —
+Popup "Đổi tag cho khách" dùng chung (Màn 25)</h3>
+<p>Mở từ: Lead của tôi / khung chat / hàng chờ (JCN-116.2, 116.3,
+116.4). Thay phần chọn tag của <strong>JCN-116.3 Màn 8</strong>; các quy
+tắc bàn giao ở 116.3 giữ nguyên.</p>
+<ul>
+<li><strong>Chỉ liệt kê tag đích được phép</strong> cho vai trò và tag
+hiện tại của người bấm, lấy từ quy tắc "do người làm" đang <strong>Cho
+phép</strong>. Tag không được phép <strong>không hiện</strong> (không để
+NV chọn rồi mới báo lỗi).</li>
+<li>Mỗi lựa chọn kèm <strong>"Chuyện gì xảy ra"</strong> (xem trước hệ
+quả), lấy từ quy tắc: ví dụ khi chọn <em>Upsale — Khách giới thiệu</em>:
+<em>"Khách sang CSKH Upsale; bạn mất quyền nhắn; hệ thống chia cho NV
+Upsale đang Sẵn sàng; không tính lỗi quá giờ."</em></li>
+<li>Trường bắt buộc theo quy tắc: <strong>lý do</strong> (TR16, TR17,
+TR18); <strong>người giới thiệu</strong> (TR4); <strong>mã giới
+thiệu</strong> (TR3); <strong>ghi chú bàn giao</strong> (TR9).</li>
+<li>Nếu người phụ trách <strong>đang trò chuyện</strong> (bất biến I6),
+popup cho hai nút: <strong>Chuyển ngay</strong> (người bấm tự quyết)
+hoặc <strong>Đặt hẹn chuyển sau khi hoàn tất</strong>.</li>
+<li>Sau khi xác nhận: hiện dải thông báo kết quả (JCN-116.2 Rule C8.3)
+và đóng popup. Lỗi quyền hoặc xung đột (đã có người đổi trước) → hiện lý
+do rõ, không đổi gì.</li>
+</ul>
+<h3 id="rule-e2--lịch-sử-đổi-tag-màn-22">Rule E2 — Lịch sử đổi tag (Màn
+22)</h3>
+<ul>
+<li>Mỗi dòng: thời gian (giờ Tokyo) · khách · thay đổi (tag trước → sau,
+hoặc giá trị trạng thái) · <strong>mã quy tắc</strong> (TRxx) ·
+<strong>tác nhân</strong> (Hệ thống / tên người / Pancake) ·
+<code>entry_reason</code> · người phụ trách cũ → mới · lý do · phiên bản
+cấu hình · loại (<strong>Đã áp dụng · Gợi ý · Bỏ qua · Chặn · Hoàn
+tác</strong>).</li>
+<li>Bộ lọc: khoảng thời gian · quy tắc (TRxx) · tag · tác nhân · loại ·
+khách (mã / SĐT) · chỉ dòng "chưa xem".</li>
+<li><strong>Trưởng nhóm</strong> chỉ thấy khách thuộc bộ phận mình (đang
+giữ hoặc từng giữ); <strong>Quản trị</strong> thấy tất cả; nhân viên
+không có màn này (xem dòng thời gian của khách ở Customer 360).</li>
+<li>Lịch sử <strong>không sửa, không xóa</strong> (bất biến I4). Giữ tối
+thiểu 24 tháng <em>(đề xuất)</em>.</li>
+</ul>
+<h3 id="rule-e3--hoàn-tác">Rule E3 — Hoàn tác</h3>
+<ul>
+<li>Nút <strong>Hoàn tác</strong> ở dòng "Đã áp dụng" của <strong>Trưởng
+nhóm (trong bộ phận) và Quản trị</strong>. Hiện hộp xác nhận với
+<strong>hệ quả</strong>: tag trở về giá trị trước · người phụ trách về
+người trước · đồng hồ SLA của người đó <strong>bắt đầu lại</strong> ·
+người phụ trách hiện tại được báo mất khách.</li>
+<li><strong>Không hoàn tác được</strong> khi: đã có thay đổi <em>sau
+đó</em> trên cùng khách (phải hoàn tác theo thứ tự từ mới đến cũ); đơn
+của khách đã <strong>Đã lên đơn</strong> sau lần đổi đó (đơn không
+chuyển theo lead — bất biến I7); đã quá 7 ngày <em>(đề xuất)</em>. Nút
+mờ kèm lý do.</li>
+<li>Hoàn tác tạo <strong>dòng mới</strong> loại "Hoàn tác", không xóa
+dòng cũ; gắn cờ <code>undone</code> cho dòng bị hoàn tác.</li>
+<li>Hoàn tác thay đổi tag thì <strong>đồng bộ lại Pancake</strong> (Phần
+F).</li>
+</ul>
+<h3 id="rule-e4--quyền">Rule E4 — Quyền</h3>
+<table>
+<thead>
+<tr>
+<th>Chức năng</th>
+<th>Quản trị</th>
+<th>Trưởng nhóm</th>
+<th>Nhân viên</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Xem danh mục, trạng thái, quy tắc (Màn 18–21, 23)</td>
+<td>✔ sửa</td>
+<td>👁 chỉ xem <em>(Rule 19 hiện cho Trưởng nhóm sửa — chờ chốt,
+#T1)</em></td>
+<td>—</td>
+</tr>
+<tr>
+<td>Mô phỏng (Màn 21a)</td>
+<td>✔</td>
+<td>✔</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Xuất bản / quay lại phiên bản (Màn 24)</td>
+<td>✔</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Lịch sử đổi tag (Màn 22)</td>
+<td>✔ tất cả</td>
+<td>✔ bộ phận mình</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Hoàn tác</td>
+<td>✔</td>
+<td>✔ bộ phận mình</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Đổi tag tay (Màn 25)</td>
+<td>✔</td>
+<td>✔ (mọi tag đích được phép, TR18)</td>
+<td>✔ chỉ khách mình phụ trách, theo quy tắc "do người làm"</td>
+</tr>
+<tr>
+<td>Nhập tag từ Pancake lần đầu, đẩy tag sang Pancake</td>
+<td>Hệ thống</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Quyền kỹ thuật gợi ý: <code>tag.config.view</code>,
+<code>tag.config.edit</code>, <code>tag.config.publish</code>,
+<code>tag.history.view</code>, <code>tag.history.undo</code>,
+<code>tag.assign</code> — đặt tên theo nhóm quyền hiện có
+<code>pancake.settings.manage</code>.</p>
+<hr />
+<h2 id="phần-f--đồng-bộ-với-pancake-màn-23">PHẦN F — Đồng bộ với Pancake
+(Màn 23)</h2>
+<blockquote>
+<p>Chỉ áp dụng <strong>khi còn dùng Pancake</strong> (JCN-116.2 Rule
+C10). Khi chuyển sang chat nội bộ, ẩn Màn 23 và bỏ các cột Pancake ở Màn
+18–19.</p>
+</blockquote>
+<h3 id="rule-f1--đối-soát-danh-mục-catalog">Rule F1 — Đối soát danh mục
+(catalog)</h3>
+<ul>
+<li>Nút <strong>Đồng bộ danh mục từ Pancake</strong>: đọc danh sách tag
+của từng page; khớp với danh mục theo <code>pancake_text</code> rồi
+alias (BR-TAG-02).</li>
+<li>Kết quả hiển thị thành ba nhóm:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Ý nghĩa</th>
+<th>Việc cần làm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Đã khớp</strong></td>
+<td>Có <code>pancake_text</code> hoặc alias trùng ở mọi page</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Lệch tên / thiếu</strong></td>
+<td>Khớp qua alias nhưng tên khác nhau giữa page (vd <code>WFCD</code> ở
+Zalo, <code>WFCĐ</code> ở Facebook); hoặc page <strong>thiếu</strong>
+tag</td>
+<td>Đề nghị thống nhất tên; với tag thiếu: hướng dẫn tạo trên Pancake
+<em>(nếu API cho phép tạo tag thì có nút <strong>Tạo trên
+Pancake</strong> — #T6)</em></td>
+</tr>
+<tr>
+<td><strong>Chưa ánh xạ</strong></td>
+<td>Tag Pancake không có tag tương ứng (vd "Hỏi giá")</td>
+<td>Chọn một trong: <strong>Gán alias</strong> vào tag có sẵn ·
+<strong>Tạo tag mới</strong> (Cờ / Chỉ hiển thị) · <strong>Bỏ
+qua</strong> (JCN-116 Rule 21: không tự tạo tag)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Tag Pancake <strong>không ánh xạ</strong> không làm hỏng luồng: bị
+bỏ qua, ghi log "Tag chưa ánh xạ".</li>
+<li>Khách đổi tên tag trên Pancake: hệ thống <strong>cảnh báo</strong>
+(không đứt kết nối, vì khớp còn dựa alias); Quản trị thêm tên mới vào
+alias.</li>
+</ul>
+<h3 id="rule-f2--hướng-đồng-bộ-nhóm-trạng-thái">Rule F2 — Hướng đồng bộ
+nhóm trạng thái</h3>
+<p>Mỗi nhóm trạng thái có thẻ <strong>tiền tố</strong>
+(<code>TN-</code>, <code>TV-</code>, <code>CĐ-</code>, <code>TT-</code>,
+<code>XH-</code>, <code>VC-</code>) và một hướng:</p>
+<table>
+<thead>
+<tr>
+<th>Hướng</th>
+<th>Ý nghĩa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2 chiều</strong></td>
+<td>Đổi ở J-Connect → ghi sang Pancake; đổi ở Pancake → áp vào
+J-Connect, ghi lịch sử (nguồn "Pancake", người đổi "không rõ" vì webhook
+không cho biết), có nút Hoàn tác; nhóm gắn với bộ phận hậu cần (TT, XH,
+VC) còn <strong>cảnh báo</strong> Kế toán / Kho</td>
+</tr>
+<tr>
+<td><strong>Chỉ J → Pancake</strong></td>
+<td>Pancake chỉ hiển thị; đổi bên Pancake bị bỏ qua và ghi log</td>
+</tr>
+<tr>
+<td><strong>Tắt</strong></td>
+<td>Không đồng bộ nhóm này</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mặc định đề xuất</strong> (có lý do — khác bản webhook 24/10,
+chờ chốt #T2):</p>
+<table>
+<thead>
+<tr>
+<th>Nhóm</th>
+<th>Mặc định</th>
+<th>Lý do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tiếp nhận <code>TN-</code></td>
+<td>Chỉ J → Pancake</td>
+<td>Do hệ thống đặt (SLA, tự nhả); người ngoài đổi sẽ phá SLA</td>
+</tr>
+<tr>
+<td>Tư vấn / tiềm năng <code>TV-</code>, Chốt đơn <code>CĐ-</code></td>
+<td><strong>2 chiều</strong></td>
+<td>NV vẫn làm trên Pancake trong giai đoạn đầu</td>
+</tr>
+<tr>
+<td>Check TT <code>TT-</code>, Xuất hàng <code>XH-</code>, Vận chuyển
+<code>VC-</code></td>
+<td>Chỉ J → Pancake</td>
+<td>Nguồn đúng là <strong>đơn hàng M04</strong>; cho đổi từ Pancake tạo
+sai lệch giữa tag và đơn</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Bản webhook 24/10 ghi <em>"khách yêu cầu 2 chiều cả 6 nhóm"</em>. Tài
+liệu này <strong>giữ khả năng bật 2 chiều từng nhóm</strong> (kèm cảnh
+báo bộ phận hậu cần và Hoàn tác), nhưng mặc định không bật cho 3 nhóm
+gắn với đơn hàng để tránh dữ liệu mâu thuẫn. Nếu khách vẫn muốn 2 chiều
+cả 6: đổi mặc định, <strong>không cần sửa mã</strong>.</p>
+</blockquote>
+<h3 id="rule-f3--đẩy-tag-bộ-phận-sang-pancake">Rule F3 — Đẩy tag bộ phận
+sang Pancake</h3>
+<ul>
+<li>Gắn tag bộ phận trong J-Connect (kể cả tự động) → hệ thống
+<strong>gắn tag tương ứng trên Pancake</strong>
+(<code>pancake_text</code>) và <strong>gỡ tag bộ phận cũ</strong> (khách
+chỉ mang một tag chủ). Bản webhook 24/10: <em>bắt đầu xử lý → gắn
+<code>Sale</code>; đơn giao thành công → gắn <code>CSKH</code></em> —
+khớp TR1 và TR6 ở đây (xem #T3 về thời điểm gắn).</li>
+<li>Tag đẩy sang lỗi (Pancake sụp, token lỗi): xếp hàng thử lại;
+<strong>không chặn</strong> việc đổi tag trong J-Connect; Màn 23 hiện số
+"chờ đồng bộ" và lỗi gần nhất.</li>
+</ul>
+<hr />
+<h2 id="4-đặc-tả-dữ-liệu-ui-field-specification">4. Đặc tả dữ liệu UI
+(Field Specification)</h2>
+<h3 id="41-màn-18--danh-mục-tag">4.1. Màn 18 — Danh mục tag</h3>
+<p><strong>Vị trí:</strong> Pancake ▸ <strong>Quản lý Tag</strong> ▸ tab
+<strong>Danh mục</strong>. <strong>Quyền:</strong> Quản trị sửa; Trưởng
+nhóm xem.</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>draft_banner</code></td>
+<td>display</td>
+<td>Bản nháp có n thay đổi</td>
+<td>auto</td>
+<td>Hiện khi có thay đổi chưa xuất bản; nút Xem thay đổi / Xuất bản (Màn
+24).</td>
+</tr>
+<tr>
+<td><code>summary_cards</code></td>
+<td>display</td>
+<td>Thẻ tổng quan</td>
+<td>auto</td>
+<td>Số tag đang bật · số quy tắc đang Chạy thật · số quy tắc đang Gợi ý
+· số tag lệch Pancake · số lần đổi tag hôm nay. Bấm thẻ mở màn tương
+ứng.</td>
+</tr>
+<tr>
+<td>(tab) <code>layer</code></td>
+<td>tab</td>
+<td>Tag bộ phận · Cờ · Ưu tiên &amp; chỉ hiển thị</td>
+<td>—</td>
+<td>Mỗi tab một bảng.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>text</td>
+<td>Tên tag</td>
+<td>✔</td>
+<td>1–40 ký tự; duy nhất trong tầng (bỏ dấu, không phân biệt hoa
+thường).</td>
+</tr>
+<tr>
+<td><code>code</code></td>
+<td>text (chỉ đọc)</td>
+<td>Mã</td>
+<td>auto</td>
+<td>Chữ HOA + gạch dưới; đặt lúc tạo, <strong>không đổi</strong>. Tag
+lõi có chip "Lõi".</td>
+</tr>
+<tr>
+<td><code>parent_code</code></td>
+<td>select</td>
+<td>Thuộc</td>
+<td>✔ với tiểu loại</td>
+<td>Chỉ chọn <code>CSKH</code>. Tag chủ để trống.</td>
+</tr>
+<tr>
+<td><code>owner_dept</code></td>
+<td>select</td>
+<td>Bộ phận nhận</td>
+<td>✔ với tag bộ phận</td>
+<td>Tag lõi khóa.</td>
+</tr>
+<tr>
+<td><code>pancake_text</code></td>
+<td>text</td>
+<td>Tên trên Pancake</td>
+<td>✔ khi bật đồng bộ</td>
+<td>Tên tag thật trên Pancake.</td>
+</tr>
+<tr>
+<td><code>aliases</code></td>
+<td>tags</td>
+<td>Alias</td>
+<td></td>
+<td>Mỗi alias duy nhất toàn hệ thống.</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>palette</td>
+<td>Màu</td>
+<td>✔</td>
+<td>Chọn từ bảng màu; hiện kèm xem trước chip.</td>
+</tr>
+<tr>
+<td><code>show_on_grid</code></td>
+<td>toggle</td>
+<td>Hiện trên lưới</td>
+<td></td>
+<td>Mặc định bật cho tag bộ phận.</td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>number / kéo thả</td>
+<td>Thứ tự</td>
+<td>auto</td>
+<td>Kéo thả để đổi.</td>
+</tr>
+<tr>
+<td><code>is_active</code></td>
+<td>toggle</td>
+<td>Đang bật</td>
+<td>✔</td>
+<td>Tag lõi không tắt được (nút mờ + lý do).</td>
+</tr>
+<tr>
+<td><code>customer_count</code></td>
+<td>tính toán</td>
+<td>Khách đang gắn</td>
+<td>auto</td>
+<td>Bấm mở Danh sách khách lọc theo tag.</td>
+</tr>
+<tr>
+<td><code>pancake_coverage</code></td>
+<td>tính toán</td>
+<td>Pancake</td>
+<td>auto</td>
+<td>"3/3 page" hoặc "2/3 ⚠" (bấm sang Màn 23).</td>
+</tr>
+<tr>
+<td>(nút)</td>
+<td>button</td>
+<td>Thêm tag · Sửa · Tắt/Bật · Gộp · Xóa</td>
+<td>—</td>
+<td>Theo Rule A4; Xóa chỉ hiện với tag chưa từng gắn.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Màn 18a — Thêm / Sửa tag (popup):</strong> các trường
+<code>label</code>, <code>parent_code</code>, <code>owner_dept</code>,
+<code>pancake_text</code>, <code>aliases</code>, <code>color</code>,
+<code>show_on_grid</code>, <code>is_active</code>; tag lõi hiện các
+trường khóa dạng chỉ đọc kèm giải thích "Tag lõi dùng trong quy tắc
+TRxx". <strong>Màn 18b — Tắt / Gộp (popup):</strong> hiện <em>số khách
+đang gắn</em>, <em>quy tắc tham chiếu</em>, <em>page Pancake có
+tag</em>; Gộp thêm ô <strong>Tag đích</strong> (cùng tầng) và xem trước
+"n khách sẽ chuyển".</p>
+<h3 id="42-màn-19--nhóm-trạng-thái--giá-trị">4.2. Màn 19 — Nhóm trạng
+thái &amp; giá trị</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>group_list</code></td>
+<td>list</td>
+<td>Nhóm trạng thái</td>
+<td>auto</td>
+<td>Cột: nhãn nhóm · số giá trị · tiền tố Pancake · hướng đồng bộ (đọc
+từ Màn 23) · bộ phận dùng.</td>
+</tr>
+<tr>
+<td><code>value_list</code></td>
+<td>list (trong nhóm)</td>
+<td>Giá trị</td>
+<td>auto</td>
+<td>Cột: thứ tự · nhãn · <code>code</code> · màu · trạng thái cuối · ai
+đổi · tự động/tay · số khách đang ở giá trị · bật/tắt.</td>
+</tr>
+<tr>
+<td><code>value.label</code></td>
+<td>text</td>
+<td>Nhãn giá trị</td>
+<td>✔</td>
+<td>1–40 ký tự; duy nhất trong nhóm.</td>
+</tr>
+<tr>
+<td><code>value.color</code></td>
+<td>palette</td>
+<td>Màu</td>
+<td>✔</td>
+<td></td>
+</tr>
+<tr>
+<td><code>value.is_final</code></td>
+<td>toggle</td>
+<td>Trạng thái cuối</td>
+<td></td>
+<td>Lõi khóa.</td>
+</tr>
+<tr>
+<td><code>value.changer</code></td>
+<td>multi-select (chỉ đọc với giá trị lõi)</td>
+<td>Ai được đổi</td>
+<td>✔</td>
+<td>Người phụ trách · Kế toán · Kho · Hệ thống.</td>
+</tr>
+<tr>
+<td><code>value.is_active</code></td>
+<td>toggle</td>
+<td>Đang bật</td>
+<td>✔</td>
+<td>Giá trị đã dùng chỉ Tắt, không xóa.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Màn 19a — Sửa giá trị (popup):</strong> trường
+<code>value.label</code>, <code>value.color</code>,
+<code>value.is_final</code>, <code>value.is_active</code>; giá trị lõi
+hiện khóa kèm "Dùng trong quy tắc TRxx / KPI".</p>
+<h3 id="43-màn-20--ma-trận-hiển-thị">4.3. Màn 20 — Ma trận hiển thị</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>matrix</code></td>
+<td>grid</td>
+<td>Nhóm trạng thái × Tag</td>
+<td>✔</td>
+<td>Ô chọn ✎ / 👁 / —. Hàng = nhóm; cột = Sale · CSKH · Upsale ·
+Support/Kỹ thuật · Thu cước · WFCĐ. Cảnh báo vàng khi đặt ✎ cho vai trò
+không có quyền.</td>
+</tr>
+<tr>
+<td><code>show_on_grid</code></td>
+<td>toggle/hàng</td>
+<td>Hiện trên lưới</td>
+<td></td>
+<td>Mặc định theo Rule C8.2.</td>
+</tr>
+<tr>
+<td><code>highlight_order</code></td>
+<td>sortable list</td>
+<td>Thứ tự trạng thái nổi bật</td>
+<td>✔</td>
+<td>6 mức, kéo thả.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-màn-21--quy-tắc-chuyển-tag">4.4. Màn 21 — Quy tắc chuyển
+tag</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>global_suggest</code></td>
+<td>toggle + date</td>
+<td>Gợi ý toàn bộ đến ngày</td>
+<td></td>
+<td>Bật thì mọi quy tắc tự động là Gợi ý; mặc định 14 ngày.</td>
+</tr>
+<tr>
+<td><code>rule_code</code></td>
+<td>text (chỉ đọc)</td>
+<td>Mã</td>
+<td>auto</td>
+<td>TR1…TR19.</td>
+</tr>
+<tr>
+<td><code>rule_event</code> / <code>rule_condition</code> /
+<code>rule_transition</code></td>
+<td>text (chỉ đọc)</td>
+<td>Sự kiện · Điều kiện · Tag trước → sau</td>
+<td>auto</td>
+<td>Lấy từ JCN-116.2 Rule C3.</td>
+</tr>
+<tr>
+<td><code>rule_actor</code></td>
+<td>text (chỉ đọc)</td>
+<td>Tác nhân</td>
+<td>auto</td>
+<td>Hệ thống / NV / Trưởng nhóm.</td>
+</tr>
+<tr>
+<td><code>rule_mode</code></td>
+<td>segmented</td>
+<td>Chế độ</td>
+<td>✔</td>
+<td>Tự động: Tắt / Gợi ý / Chạy thật. Do người làm: Cho phép / Không cho
+phép. TR1, TR2 không có "Tắt".</td>
+</tr>
+<tr>
+<td><code>rule_params</code></td>
+<td>key-value</td>
+<td>Tham số</td>
+<td></td>
+<td>Rule C2.</td>
+</tr>
+<tr>
+<td><code>require_reason</code></td>
+<td>toggle</td>
+<td>Bắt buộc lý do</td>
+<td></td>
+<td>TR16–TR18.</td>
+</tr>
+<tr>
+<td><code>runs_7d</code> / <code>undone_7d</code> /
+<code>suggest_7d</code></td>
+<td>tính toán</td>
+<td>Chạy / Hoàn tác / Gợi ý (7 ngày)</td>
+<td>auto</td>
+<td>Bấm mở Màn 22 đã lọc.</td>
+</tr>
+<tr>
+<td><code>priority_order</code></td>
+<td>sortable list</td>
+<td>Thứ tự ưu tiên khi nhiều việc</td>
+<td>✔</td>
+<td>Rule C3.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Màn 21a — Chi tiết &amp; Mô phỏng (popup):</strong> hiện đủ
+sự kiện/điều kiện/hệ quả; phần <strong>Mô phỏng</strong>: ô
+<em>Khách</em> (mã KH / SĐT), ô <em>Sự kiện giả định</em> (chọn danh
+sách: khách nhắn · nhập mã GT · đơn giao thành công · đến ngày hẹn · NV
+đổi tag…), nút <strong>Chạy mô phỏng</strong>; kết quả: <em>quy tắc khớp
+· tag trước → sau · người nhận · bị hoãn (có/không, vì sao)</em>; ghi
+chú "Không ghi vào dữ liệu".</p>
+<h3 id="45-màn-22--lịch-sử-đổi-tag">4.5. Màn 22 — Lịch sử đổi tag</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filter.*</code></td>
+<td>filters</td>
+<td>Thời gian · Quy tắc · Tag · Tác nhân · Loại · Khách</td>
+<td></td>
+<td>Rule E2. Mặc định 7 ngày.</td>
+</tr>
+<tr>
+<td><code>event.time</code></td>
+<td>datetime</td>
+<td>Thời gian</td>
+<td>auto</td>
+<td>Giờ Tokyo.</td>
+</tr>
+<tr>
+<td><code>event.customer</code></td>
+<td>link</td>
+<td>Khách</td>
+<td>auto</td>
+<td>Mở Customer 360.</td>
+</tr>
+<tr>
+<td><code>event.change</code></td>
+<td>text</td>
+<td>Thay đổi</td>
+<td>auto</td>
+<td>"Sale → CSKH Upsale" hoặc "TT-chờ check → TT-đã check".</td>
+</tr>
+<tr>
+<td><code>event.rule</code></td>
+<td>chip</td>
+<td>Quy tắc</td>
+<td>auto</td>
+<td>TRxx hoặc "Đồng bộ Pancake".</td>
+</tr>
+<tr>
+<td><code>event.actor</code></td>
+<td>text</td>
+<td>Tác nhân</td>
+<td>auto</td>
+<td>Hệ thống / tên NV / "Pancake (NV không rõ)".</td>
+</tr>
+<tr>
+<td><code>event.entry_reason</code></td>
+<td>chip</td>
+<td>Lý do vào</td>
+<td>auto</td>
+<td><code>entry_reason</code>.</td>
+</tr>
+<tr>
+<td><code>event.owner</code></td>
+<td>text</td>
+<td>Phụ trách</td>
+<td>auto</td>
+<td>Cũ → mới.</td>
+</tr>
+<tr>
+<td><code>event.type</code></td>
+<td>chip</td>
+<td>Loại</td>
+<td>auto</td>
+<td>Đã áp dụng · Gợi ý · Bỏ qua · Chặn · Hoàn tác.</td>
+</tr>
+<tr>
+<td><code>event.undo</code></td>
+<td>button</td>
+<td>Hoàn tác</td>
+<td></td>
+<td>Rule E3; mờ kèm lý do khi không hoàn tác được.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="46-màn-23--đồng-bộ-pancake">4.6. Màn 23 — Đồng bộ Pancake</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sync_last</code></td>
+<td>display</td>
+<td>Đồng bộ danh mục lần cuối</td>
+<td>auto</td>
+<td>Giờ + số tag + số page.</td>
+</tr>
+<tr>
+<td>(nút) <code>sync_catalog</code></td>
+<td>button</td>
+<td>Đồng bộ danh mục từ Pancake</td>
+<td>—</td>
+<td>Rule F1.</td>
+</tr>
+<tr>
+<td><code>catalog_issues</code></td>
+<td>list</td>
+<td>Tag lệch / thiếu / chưa ánh xạ</td>
+<td>auto</td>
+<td>Mỗi dòng có thao tác Gán alias · Tạo tag mới · Bỏ qua · (Tạo trên
+Pancake).</td>
+</tr>
+<tr>
+<td><code>group_sync</code></td>
+<td>table</td>
+<td>Hướng đồng bộ theo nhóm</td>
+<td>✔</td>
+<td>Nhóm · tiền tố · hướng (2 chiều / Chỉ J → Pancake / Tắt) · ai đổi
+trong J-Connect · khi đổi từ Pancake (áp + log + cảnh báo + hoàn
+tác).</td>
+</tr>
+<tr>
+<td><code>push_queue</code></td>
+<td>display</td>
+<td>Chờ đồng bộ sang Pancake</td>
+<td>auto</td>
+<td>Số tag chờ + lỗi gần nhất.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="47-màn-24--xuất-bản-cấu-hình">4.7. Màn 24 — Xuất bản cấu
+hình</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diff_list</code></td>
+<td>list</td>
+<td>Thay đổi so với phiên bản đang chạy</td>
+<td>auto</td>
+<td>Theo mục (Tag · Trạng thái · Ma trận · Quy tắc · Đồng bộ), cũ →
+mới.</td>
+</tr>
+<tr>
+<td><code>impact</code></td>
+<td>display</td>
+<td>Khách bị ảnh hưởng</td>
+<td>auto</td>
+<td>Số khách theo từng thay đổi.</td>
+</tr>
+<tr>
+<td><code>checks</code></td>
+<td>list</td>
+<td>Kiểm tra</td>
+<td>auto</td>
+<td>Chặn / cảnh báo (Rule D1).</td>
+</tr>
+<tr>
+<td><code>publish_note</code></td>
+<td>textarea</td>
+<td>Ghi chú thay đổi</td>
+<td>✔</td>
+<td>1–200 ký tự.</td>
+</tr>
+<tr>
+<td>(nút) <code>publish</code></td>
+<td>button</td>
+<td>Xuất bản</td>
+<td>—</td>
+<td>Khóa khi còn mục "Chặn".</td>
+</tr>
+<tr>
+<td><code>version_list</code></td>
+<td>list</td>
+<td>Phiên bản</td>
+<td>auto</td>
+<td>Số · người · giờ · ghi chú · trạng thái · nút <strong>Quay lại phiên
+bản này</strong> (tạo bản nháp).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="48-màn-25--popup-đổi-tag-cho-khách">4.8. Màn 25 — Popup Đổi tag
+cho khách</h3>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Field type</th>
+<th>Field label</th>
+<th>Required</th>
+<th>Properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>current_tag</code></td>
+<td>display</td>
+<td>Tag hiện tại</td>
+<td>auto</td>
+<td>Tag chủ + tiểu loại + người phụ trách.</td>
+</tr>
+<tr>
+<td><code>target_tag</code></td>
+<td>radio list</td>
+<td>Chuyển sang</td>
+<td>✔</td>
+<td>Chỉ tag đích được phép (Rule E1). Mỗi dòng có "Chuyện gì xảy
+ra".</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>select + text</td>
+<td>Lý do</td>
+<td>theo quy tắc</td>
+<td>Bắt buộc với TR16–TR18.</td>
+</tr>
+<tr>
+<td><code>referrer</code></td>
+<td>select / text</td>
+<td>Người giới thiệu</td>
+<td>TR4</td>
+<td>Chọn khách có sẵn hoặc nhập tên.</td>
+</tr>
+<tr>
+<td><code>referral_code</code></td>
+<td>text</td>
+<td>Mã giới thiệu</td>
+<td>TR3</td>
+<td>Kiểm tra hợp lệ ngay.</td>
+</tr>
+<tr>
+<td><code>handover_note</code></td>
+<td>textarea</td>
+<td>Ghi chú bàn giao</td>
+<td>TR9</td>
+<td>Bắt buộc.</td>
+</tr>
+<tr>
+<td><code>when</code></td>
+<td>radio</td>
+<td>Thời điểm</td>
+<td></td>
+<td>Chuyển ngay / Chuyển sau khi hoàn tất trò chuyện (khi I6 áp
+dụng).</td>
+</tr>
+<tr>
+<td>(nút)</td>
+<td>button</td>
+<td>Xác nhận · Hủy</td>
+<td>—</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-acceptance-criteria">5. Acceptance Criteria</h2>
+<p><strong>Danh mục tag (A)</strong></p>
+<h3 id="ac-1-tag-lõi-không-xóa-không-tắt">AC 1: Tag lõi không xóa, không
+tắt</h3>
+<p><strong>Given</strong> tag <code>Sale</code> là tag lõi<br />
+<strong>When</strong> Quản trị mở Màn 18<br />
+<strong>Then</strong> nút Tắt, Gộp, Xóa của <code>Sale</code> mờ kèm lý
+do "Tag lõi dùng trong TR1…"<br />
+<strong>And</strong> Quản trị vẫn sửa được nhãn, màu, alias, thứ tự</p>
+<h3 id="ac-2-đổi-tên-tag-không-làm-hỏng-quy-tắc">AC 2: Đổi tên tag không
+làm hỏng quy tắc</h3>
+<p><strong>Given</strong> tiểu loại <code>CSKH_UPSALE</code> có nhãn
+"Upsale"<br />
+<strong>When</strong> Quản trị đổi nhãn thành "CSKH Upsale" và Xuất
+bản<br />
+<strong>Then</strong> khách đang mang tag giữ nguyên, quy tắc
+TR2/TR3/TR12 vẫn chạy bình thường<br />
+<strong>And</strong> lịch sử cũ hiển thị nhãn hiện tại</p>
+<h3 id="ac-3-alias-trùng-bị-chặn">AC 3: Alias trùng bị chặn</h3>
+<p><strong>Given</strong> alias <code>support</code> đã thuộc
+<code>CSKH_SUPPORT</code><br />
+<strong>When</strong> Quản trị thêm alias <code>support</code> cho tag
+khác<br />
+<strong>Then</strong> hệ thống báo "Alias đã dùng ở tag Support" và
+không cho lưu</p>
+<h3 id="ac-4-tắt-tag-tùy-chọn">AC 4: Tắt tag tùy chọn</h3>
+<p><strong>Given</strong> cờ "Hỏi giá" đang gắn cho 12 khách<br />
+<strong>When</strong> Quản trị chọn Tắt<br />
+<strong>Then</strong> Màn 18b hiện "12 khách đang gắn, 0 quy tắc tham
+chiếu"<br />
+<strong>And</strong> sau Xuất bản, không gắn thêm được tag này; 12 khách
+vẫn hiện tag kèm nhãn "đã tắt"</p>
+<h3 id="ac-5-gộp-tag">AC 5: Gộp tag</h3>
+<p><strong>Given</strong> hai cờ "Khiếu nại" (20 khách) và "Phàn nàn" (5
+khách)<br />
+<strong>When</strong> Quản trị gộp "Phàn nàn" vào "Khiếu nại" và Xuất
+bản<br />
+<strong>Then</strong> 5 khách chuyển sang "Khiếu nại", mỗi khách có một
+dòng lịch sử loại "Gộp tag", không đổi người phụ trách<br />
+<strong>And</strong> "Phàn nàn" trở thành alias của "Khiếu nại"</p>
+<h3 id="ac-6-tag-đã-có-dữ-liệu-không-xóa-được">AC 6: Tag đã có dữ liệu
+không xóa được</h3>
+<p><strong>Given</strong> tag "Hỏi giá" đã từng gắn cho khách<br />
+<strong>When</strong> Quản trị mở thao tác<br />
+<strong>Then</strong> không có nút Xóa, chỉ có Tắt hoặc Gộp</p>
+<p><strong>Trạng thái (B)</strong></p>
+<h3 id="ac-7-giá-trị-lõi-khóa-mã">AC 7: Giá trị lõi khóa mã</h3>
+<p><strong>Given</strong> giá trị "Đã gửi thành công" của nhóm Vận
+chuyển là giá trị lõi<br />
+<strong>When</strong> Quản trị mở Màn 19a<br />
+<strong>Then</strong> sửa được nhãn, màu, thứ tự; <code>code</code> và
+"Ai được đổi" khóa kèm "Dùng trong TR6/TR7"</p>
+<h3 id="ac-8-thêm-giá-trị-mở">AC 8: Thêm giá trị mở</h3>
+<p><strong>Given</strong> nhóm "Lý do không mua" là nhóm mở<br />
+<strong>When</strong> Quản trị thêm giá trị "Hết hàng" và Xuất bản<br />
+<strong>Then</strong> NV thấy "Hết hàng" trong danh sách lý do khi chọn
+Không mua</p>
+<h3 id="ac-9-ma-trận-không-cho-quyền-sai">AC 9: Ma trận không cho quyền
+sai</h3>
+<p><strong>Given</strong> nhóm Check thanh toán chỉ Kế toán được
+đổi<br />
+<strong>When</strong> Quản trị đặt ✎ cho tag Sale ở nhóm này<br />
+<strong>Then</strong> ô báo vàng "Vai trò Sale không được đổi nhóm này"
+và nút Xuất bản bị chặn</p>
+<h3 id="ac-10-ẩn-nhóm-không-xóa-dữ-liệu">AC 10: Ẩn nhóm không xóa dữ
+liệu</h3>
+<p><strong>Given</strong> Màn 20 đặt nhóm Check TT là — (ẩn) cho tag
+Upsale<br />
+<strong>When</strong> khách Upsale mở hồ sơ<br />
+<strong>Then</strong> không thấy Check TT ở khung chat, nhưng Customer
+360 vẫn có lịch sử giá trị đã ghi</p>
+<p><strong>Quy tắc (C)</strong></p>
+<h3 id="ac-11-quy-tắc-cốt-lõi-không-tắt">AC 11: Quy tắc cốt lõi không
+tắt</h3>
+<p><strong>Given</strong> TR1 (lead mới vào Sale)<br />
+<strong>When</strong> Quản trị mở Màn 21<br />
+<strong>Then</strong> chế độ chỉ có Gợi ý và Chạy thật; không có Tắt</p>
+<h3 id="ac-12-chế-độ-gợi-ý-không-đổi-tag-thật">AC 12: Chế độ Gợi ý không
+đổi tag thật</h3>
+<p><strong>Given</strong> TR6 đang ở Gợi ý; đơn của Sale giao thành
+công<br />
+<strong>When</strong> sự kiện đến<br />
+<strong>Then</strong> khách vẫn giữ tag <code>Sale</code><br />
+<strong>And</strong> Màn 22 có dòng loại "Gợi ý": "sẽ chuyển Sale → CSKH
+(TR6)", không có nút Hoàn tác</p>
+<h3 id="ac-13-gợi-ý-toàn-bộ-hết-hạn">AC 13: Gợi ý toàn bộ hết hạn</h3>
+<p><strong>Given</strong> "Gợi ý toàn bộ" đặt đến 13/11<br />
+<strong>When</strong> đến 13/11<br />
+<strong>Then</strong> hệ thống nhắc Quản trị chuyển sang Chạy thật<br />
+<strong>And</strong> các quy tắc vẫn ở Gợi ý cho đến khi Quản trị Xuất
+bản</p>
+<h3 id="ac-14-mô-phỏng-không-ghi-dữ-liệu">AC 14: Mô phỏng không ghi dữ
+liệu</h3>
+<p><strong>Given</strong> khách KH0420 thuộc Sale<br />
+<strong>When</strong> Quản trị mô phỏng sự kiện "Nhập mã giới thiệu
+GT-1234 hợp lệ"<br />
+<strong>Then</strong> kết quả: "TR3 khớp: Sale → CSKH Upsale, người
+nhận: NV Upsale đang Sẵn sàng"<br />
+<strong>And</strong> tag, người phụ trách và lịch sử của KH0420 không
+đổi</p>
+<h3 id="ac-15-hoãn-khi-đang-trò-chuyện">AC 15: Hoãn khi đang trò
+chuyện</h3>
+<p><strong>Given</strong> <code>defer_minutes</code> = 30; Sale vừa nhắn
+khách 5 phút trước; đơn giao thành công<br />
+<strong>When</strong> sự kiện đến<br />
+<strong>Then</strong> TR6 bị hoãn; dòng lịch sử ghi "Hoãn — đang trò
+chuyện"<br />
+<strong>And</strong> khi im lặng đủ 30 phút hoặc Sale bấm Hoàn tất bàn
+giao, tag chuyển sang CSKH</p>
+<h3 id="ac-16-chống-vòng-lặp">AC 16: Chống vòng lặp</h3>
+<p><strong>Given</strong> một khách bị chuyển qua lại giữa hai tag tự
+động 3 lần trong 24 giờ<br />
+<strong>When</strong> quy tắc chạy lần thứ 4<br />
+<strong>Then</strong> hệ thống không chuyển, ghi "Chặn vòng lặp" và báo
+Trưởng nhóm</p>
+<p><strong>Xuất bản (D)</strong></p>
+<h3 id="ac-17-sửa-chỉ-lưu-nháp">AC 17: Sửa chỉ lưu nháp</h3>
+<p><strong>Given</strong> Quản trị đổi <code>defer_minutes</code> từ 30
+sang 10<br />
+<strong>When</strong> chưa Xuất bản<br />
+<strong>Then</strong> khách mới vẫn dùng 30 phút; đầu màn hiện "Bản nháp
+có 1 thay đổi"</p>
+<h3 id="ac-18-xuất-bản-bắt-buộc-ghi-chú-và-chặn-lỗi">AC 18: Xuất bản bắt
+buộc ghi chú và chặn lỗi</h3>
+<p><strong>Given</strong> bản nháp có alias trùng<br />
+<strong>When</strong> Quản trị mở Màn 24<br />
+<strong>Then</strong> nút Xuất bản khóa kèm mục "Chặn: alias
+trùng"<br />
+<strong>And</strong> sau khi sửa, Xuất bản yêu cầu ghi chú rồi tạo phiên
+bản N+1</p>
+<h3 id="ac-19-quay-lại-phiên-bản-cũ">AC 19: Quay lại phiên bản cũ</h3>
+<p><strong>Given</strong> phiên bản 7 đang chạy, phiên bản 6 là bản
+trước<br />
+<strong>When</strong> Quản trị chọn "Quay lại phiên bản 6"<br />
+<strong>Then</strong> hệ thống tạo bản nháp bằng nội dung phiên bản 6 và
+đi qua Xuất bản<br />
+<strong>And</strong> khách đã đổi tag theo phiên bản 7 không tự đổi
+lại</p>
+<p><strong>Vận hành (E)</strong></p>
+<h3 id="ac-20-popup-đổi-tag-chỉ-hiện-lựa-chọn-được-phép">AC 20: Popup
+đổi tag chỉ hiện lựa chọn được phép</h3>
+<p><strong>Given</strong> NV Sale giữ khách A<br />
+<strong>When</strong> NV mở Đổi tag<br />
+<strong>Then</strong> chỉ thấy Upsale (khách giới thiệu), WFCĐ và Không
+mua; không thấy Support hay Thu cước</p>
+<h3 id="ac-21-hiển-thị-hệ-quả-trước-khi-đổi">AC 21: Hiển thị hệ quả
+trước khi đổi</h3>
+<p><strong>Given</strong> NV chọn "CSKH Upsale — khách giới thiệu"<br />
+<strong>When</strong> chưa xác nhận<br />
+<strong>Then</strong> hiện "Bạn mất quyền nhắn; hệ thống chia cho NV
+Upsale đang Sẵn sàng; không tính lỗi quá giờ"</p>
+<h3 id="ac-22-hoàn-tác">AC 22: Hoàn tác</h3>
+<p><strong>Given</strong> Trưởng nhóm Sale thấy lần đổi Sale → CSKH nhầm
+lúc 10:42, chưa có thay đổi nào sau đó<br />
+<strong>When</strong> bấm Hoàn tác và xác nhận<br />
+<strong>Then</strong> tag về Sale, người phụ trách về người trước, SLA
+của người đó bắt đầu lại<br />
+<strong>And</strong> lịch sử có dòng loại "Hoàn tác"; Pancake được đồng
+bộ lại</p>
+<h3 id="ac-23-không-hoàn-tác-khi-đã-có-thay-đổi-sau">AC 23: Không hoàn
+tác khi đã có thay đổi sau</h3>
+<p><strong>Given</strong> khách đã bị đổi tag thêm lần nữa sau dòng cần
+hoàn tác<br />
+<strong>When</strong> Trưởng nhóm xem dòng cũ<br />
+<strong>Then</strong> nút Hoàn tác mờ kèm "Hoàn tác lần đổi mới nhất
+trước"</p>
+<h3 id="ac-24-trưởng-nhóm-chỉ-thấy-bộ-phận-mình">AC 24: Trưởng nhóm chỉ
+thấy bộ phận mình</h3>
+<p><strong>Given</strong> Trưởng nhóm Sale<br />
+<strong>When</strong> mở Màn 22<br />
+<strong>Then</strong> chỉ thấy lịch sử của khách thuộc bộ phận
+Sale<br />
+<strong>And</strong> nhân viên không có lối vào Màn 22</p>
+<p><strong>Đồng bộ Pancake (F)</strong></p>
+<h3 id="ac-25-tag-lệch-tên-giữa-các-page">AC 25: Tag lệch tên giữa các
+page</h3>
+<p><strong>Given</strong> Zalo OA dùng <code>WFCD</code>, Facebook dùng
+<code>WFCĐ</code><br />
+<strong>When</strong> Quản trị đồng bộ danh mục<br />
+<strong>Then</strong> cả hai khớp tag <code>WFCD</code> (WFCĐ) qua
+alias; Màn 23 hiện cảnh báo "lệch tên giữa các page"</p>
+<h3 id="ac-26-tag-chưa-ánh-xạ-không-làm-hỏng-luồng">AC 26: Tag chưa ánh
+xạ không làm hỏng luồng</h3>
+<p><strong>Given</strong> Pancake có tag "Hỏi giá" chưa ánh xạ<br />
+<strong>When</strong> khách mang tag này nhắn tin<br />
+<strong>Then</strong> luồng chia việc chạy bình thường, ghi log "Tag
+chưa ánh xạ"<br />
+<strong>And</strong> Màn 23 hiện tag trong danh sách cần xử lý với 3 lựa
+chọn</p>
+<h3 id="ac-27-hướng-đồng-bộ-chỉ-j--pancake">AC 27: Hướng đồng bộ chỉ J →
+Pancake</h3>
+<p><strong>Given</strong> nhóm Vận chuyển đặt "Chỉ J → Pancake"<br />
+<strong>When</strong> NV đổi tag <code>VC-</code> trên Pancake<br />
+<strong>Then</strong> J-Connect không đổi trạng thái đơn, ghi log "Bỏ
+qua — nhóm chỉ J → Pancake"</p>
+<h3 id="ac-28-hướng-2-chiều-có-cảnh-báo">AC 28: Hướng 2 chiều có cảnh
+báo</h3>
+<p><strong>Given</strong> nhóm Check TT đặt "2 chiều"<br />
+<strong>When</strong> ai đó đổi <code>TT-chờ check</code> →
+<code>TT-đã check</code> trên Pancake<br />
+<strong>Then</strong> J-Connect áp dụng, ghi lịch sử nguồn "Pancake (NV
+không rõ)", cảnh báo Kế toán và có nút Hoàn tác</p>
+<h3 id="ac-29-pancake-lỗi-không-chặn-đổi-tag">AC 29: Pancake lỗi không
+chặn đổi tag</h3>
+<p><strong>Given</strong> Pancake không phản hồi<br />
+<strong>When</strong> tag của khách đổi ở J-Connect<br />
+<strong>Then</strong> việc đổi thành công, Màn 23 tăng "chờ đồng bộ" và
+thử lại tự động</p>
+<hr />
+<h2 id="6-điểm-cần-chốt-liên-quan">6. Điểm cần chốt liên quan</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Mức</th>
+<th>Câu hỏi</th>
+<th>Đề xuất (BA)</th>
+<th>Ai trả lời</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td>🟠</td>
+<td><strong>Ai được sửa catalog và quy tắc?</strong> JCN-116 Rule 19 cho
+<em>Quản trị / Trưởng nhóm</em>; tài liệu này đề xuất chỉ Quản trị sửa,
+Trưởng nhóm xem và vận hành.</td>
+<td>Chỉ Quản trị sửa; Trưởng nhóm đổi tay, hoàn tác, mô phỏng</td>
+<td>Nguyệt + Team</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>🟠</td>
+<td><strong>Hướng đồng bộ mặc định.</strong> Bản webhook 24/10: 2 chiều
+cả 6 nhóm; JCN-116.1 Rule 1: chỉ TV, CĐ 2 chiều.</td>
+<td>TV, CĐ 2 chiều; TN, TT, XH, VC chỉ J → Pancake; bật từng nhóm
+được</td>
+<td>Khách</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>🟠</td>
+<td><strong>Thời điểm gắn tag <code>Sale</code> lên Pancake.</strong>
+Bản webhook: lúc "bắt đầu xử lý" (NV trả lời); JCN-116.2 TR1: ngay khi
+chia.</td>
+<td>Tag <strong>nội bộ</strong> gắn ngay khi chia; tag
+<strong>Pancake</strong> gắn cùng lúc (để người xem Pancake biết khách
+đã có chủ)</td>
+<td>Team</td>
+</tr>
+<tr>
+<td>T4</td>
+<td>🟠</td>
+<td><strong>Có cần Xuất bản (bản nháp) hay lưu là có hiệu lực
+ngay?</strong> Xuất bản an toàn hơn nhưng thêm một bước.</td>
+<td>Giữ Xuất bản (Q4)</td>
+<td>Nguyệt</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>🟡</td>
+<td><strong>Thời hạn Gợi ý toàn bộ</strong></td>
+<td>14 ngày kể từ lần Xuất bản đầu</td>
+<td>Khách</td>
+</tr>
+<tr>
+<td>T6</td>
+<td>🟡</td>
+<td><strong>Pancake API có cho tạo tag trên page không?</strong> Quyết
+định có nút "Tạo trên Pancake" hay chỉ hướng dẫn.</td>
+<td>Dev kiểm tra API</td>
+<td>Dev</td>
+</tr>
+<tr>
+<td>T7</td>
+<td>🟡</td>
+<td><strong>Giữ lịch sử đổi tag bao lâu</strong>, và hạn hoàn tác</td>
+<td>24 tháng; hoàn tác trong 7 ngày</td>
+<td>Team</td>
+</tr>
+<tr>
+<td>T8</td>
+<td>🟡</td>
+<td><strong>Bộ tag Ưu tiên (<code>UT_VIP</code>,
+<code>UT_BLACKLIST</code>)</strong> chưa có trong sheet khách
+(Q-026)</td>
+<td>Chờ khách; tạm không tạo</td>
+<td>Khách</td>
+</tr>
+<tr>
+<td>T9</td>
+<td>🟡</td>
+<td><strong>Cờ "Khiếu nại"</strong> có đưa vào bộ lõi?</td>
+<td>Tùy chọn, không lõi</td>
+<td>Team</td>
+</tr>
+<tr>
+<td>T10</td>
+<td>🟡</td>
+<td>Tag chủ <strong>CSKH (chung)</strong> có phải tag bộ phận nhận riêng
+(hàng chờ chung CSKH — JCN-116.2 Rule C5 dòng 7) hay chỉ là "tag mẹ" của
+tiểu loại?</td>
+<td>Là tag có hàng chờ riêng, vì khách sau bán vào CSKH chung trước khi
+phân loại</td>
+<td>Team</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-phụ-thuộc--ảnh-hưởng">7. Phụ thuộc &amp; ảnh hưởng</h2>
+<ul>
+<li><strong>Phụ thuộc:</strong> JCN-116.1 (nhập/đẩy tag Pancake),
+JCN-116.2 Phần C (bảng TR, <code>entry_reason</code>,
+<code>customer_stage</code>, ma trận C7, hiển thị C8), JCN-116.5 (trạng
+thái đi làm, để chia sau khi đổi tag), JCN-83/84/85/87, M04 (trạng thái
+đơn).</li>
+<li><strong>Ảnh hưởng:</strong>
+<ul>
+<li><strong>JCN-116 Rule 19, 21</strong> — nội dung "Catalog tag", "Tag
+chuẩn là tag của CRM" được chi tiết hóa ở đây; sau khi chốt, rút gọn
+Rule 19 thành tham chiếu sang JCN-116.6.</li>
+<li><strong>JCN-116.3 Màn 8 (Bàn giao bộ phận)</strong> — dùng Màn 25
+thay phần chọn tag.</li>
+<li><strong>JCN-116.2 Màn 11</strong> —
+<code>upsale_days_before_expiry</code> chỉ lưu một nơi; Màn 21 hiển thị
+liên kết.</li>
+<li><strong>Tag.md</strong> — sau khi chốt, đánh dấu "dữ liệu khởi tạo
+nằm ở JCN-116.6 Phần A–B", không sửa tay hai nơi.</li>
+</ul></li>
+<li><strong>Wireframe:</strong> <code>JCN-116.6_Wireframe.html</code>
+(Màn 18–25) và <code>JCN-116.6_Wireframe_GoogleSheet.xlsx</code>.</li>
+</ul>
+<h2 id="8-lịch-sử-cập-nhật">8. Lịch sử cập nhật</h2>
+<table>
+<thead>
+<tr>
+<th>Ngày</th>
+<th>Người</th>
+<th>Nội dung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30/10/2026</td>
+<td>BA</td>
+<td>Tạo mới: tổng hợp Tag.xlsx, bản wireframe webhook 24/10 (màn Quy tắc
+tag) và JCN-116.2 Phần C thành tài liệu quản lý tag; 8 màn quản trị +
+popup đổi tag dùng chung; AC 1–29; điểm cần chốt T1–T10.</td>
+</tr>
+</tbody>
+</table>
+<a href="index.html" style="position:fixed;bottom:18px;left:18px;z-index:99999;background:#10141a;color:#ffffff;padding:8px 14px;border-radius:999px;font:500 13px system-ui,-apple-system,sans-serif;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,0.25);display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);transition:all .15s ease;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 18px rgba(0,0,0,0.35)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 14px rgba(0,0,0,0.25)'">
+  <span style="font-size:14px">←</span> <span>Danh mục tài liệu M06</span>
+</a>
+</body>
+</html>

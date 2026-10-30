@@ -1,0 +1,4 @@
+# Archify sidecar receipts
+docs/**/*.delivery.json
+docs/**/*.finalize*.json
+docs/**/*.browser-check.json
